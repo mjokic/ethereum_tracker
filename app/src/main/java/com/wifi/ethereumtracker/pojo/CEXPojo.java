@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.Pojo;
+package com.wifi.ethereumtracker.pojo;
 
 public class CEXPojo {
 

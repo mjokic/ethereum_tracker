@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.Services;
+package com.wifi.ethereumtracker.services;
 
 /**
  * Created by wifi on 8/9/17.

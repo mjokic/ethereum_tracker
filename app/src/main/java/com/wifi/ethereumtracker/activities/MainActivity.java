@@ -1,20 +1,21 @@
-package com.wifi.ethereumtracker.Activities;
+package com.wifi.ethereumtracker.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.GsonBuilder;
-import com.wifi.ethereumtracker.Pojo.CEXPojo;
+import com.wifi.ethereumtracker.pojo.CEXPojo;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.Services.APICalls.CEXioInterface;
+import com.wifi.ethereumtracker.services.apiCalls.CEXioInterface;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -53,7 +54,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        if(item.getItemId() == R.id.toolbarSettingsBtn){
+            openOptions();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     public void onClickRefresh(View view){
         startRefreshAnimation(view);
@@ -63,7 +72,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onClickCustomAmount(View view){
+        // open dialog to enter custom amount
+    }
 
+
+    private void openOptions(){
+        // open options activity
+        Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
 
 
     private void startRefreshAnimation(View view){
