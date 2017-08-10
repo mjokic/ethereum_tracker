@@ -48,9 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void loadPrefs(){
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ImageView imageViewRefresh = (ImageView) findViewById(R.id.imageViewRefresh);
+        getEtherValue(imageViewRefresh);
     }
 
 
@@ -90,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    private void loadPrefs(){
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+    }
 
     private void startRefreshAnimation(View view){
         Animation myAnimation =  AnimationUtils.loadAnimation(this, R.anim.refresh_animation);
