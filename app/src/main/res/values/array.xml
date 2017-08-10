@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string-array name="test">
+    <string-array name="sources">
         <item>cex.io</item>
-        <item>poloniex</item>
-        <item>kraken</item>
+        <!--<item>poloniex</item>-->
+        <!--<item>kraken</item>-->
     </string-array>
 
-    <string-array name="data">
+    <string-array name="sourcesValue">
         <item>https://cex.io/</item>
-        <item>poloniex</item>
-        <item>kraken</item>
+        <!--<item>poloniex</item>-->
+        <!--<item>kraken</item>-->
     </string-array>
 
 

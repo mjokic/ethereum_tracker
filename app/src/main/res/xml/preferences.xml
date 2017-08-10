@@ -6,8 +6,8 @@
             android:key="sourceSettings"
             android:title="Source"
             android:summary="Select source of data"
-            android:entries="@array/test"
-            android:entryValues="@array/data"
+            android:entries="@array/sources"
+            android:entryValues="@array/sourcesValue"
             android:defaultValue="@string/defaultSource"
             />
 
