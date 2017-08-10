@@ -1,6 +1,8 @@
 package com.wifi.ethereumtracker.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -44,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
 
         getEtherValue(imageViewRefresh);
 
+    }
+
+    private void loadPrefs(){
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
     }
 
 

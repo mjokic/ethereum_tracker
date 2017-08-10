@@ -1,4 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    
+
+    <PreferenceCategory android:title="Options">
+        <ListPreference
+            android:key="sourceSettings"
+            android:title="Source"
+            android:summary="Select source of data"
+            android:entries="@array/test"
+            android:entryValues="@array/data"
+            android:defaultValue="@string/defaultSource"
+            />
+
+        <ListPreference
+            android:key="currencySettings"
+            android:title="Currency"
+            android:summary="Currency to display"
+            android:entries="@array/currency"
+            android:entryValues="@array/currency"
+            android:defaultValue="@string/defaultCurrency"
+            />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="Notifications">
+        <CheckBoxPreference
+            android:key="enableNotificationsSettings"
+            android:title="Enable Notifications"
+            android:defaultValue="false"
+            />
+
+        <EditTextPreference
+            android:key="minimumValueNotify"
+            android:title="Minimum Value"
+            android:summary="Notify when reached this value"
+            android:enabled="false"
+            />
+
+        <EditTextPreference
+            android:key="maximumValueNotify"
+            android:title="Maximum Value"
+            android:summary="Notify when reached this value"
+            android:enabled="false"
+            />
+
+    </PreferenceCategory>
+
+
 </PreferenceScreen>

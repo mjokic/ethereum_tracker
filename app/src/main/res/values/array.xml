@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="test">
+        <item>cex.io</item>
+        <item>poloniex</item>
+        <item>kraken</item>
+    </string-array>
+
+    <string-array name="data">
+        <item>https://cex.io/</item>
+        <item>poloniex</item>
+        <item>kraken</item>
+    </string-array>
+
+
+    <string-array name="currency">
+        <item>USD</item>
+        <item>EUR</item>
+    </string-array>
+
+</resources>
