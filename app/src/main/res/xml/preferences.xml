@@ -23,24 +23,25 @@
 
 
     <PreferenceCategory android:title="Notifications">
-        <CheckBoxPreference
+
+        <SwitchPreference
             android:key="enableNotificationsSettings"
             android:title="Enable Notifications"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
 
         <EditTextPreference
             android:key="minimumValueNotify"
             android:title="Minimum Value"
             android:summary="Notify when reached this value"
-            android:enabled="false"
+            android:dependency="enableNotificationsSettings"
             />
 
         <EditTextPreference
             android:key="maximumValueNotify"
             android:title="Maximum Value"
             android:summary="Notify when reached this value"
-            android:enabled="false"
+            android:dependency="enableNotificationsSettings"
             />
 
     </PreferenceCategory>
