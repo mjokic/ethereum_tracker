@@ -21,6 +21,7 @@ import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
 import com.wifi.ethereumtracker.R;
 
 import java.lang.reflect.Constructor;
+import java.text.DecimalFormat;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +29,10 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView textViewMyValue;
     private TextView textViewEtherValue;
+
+    private double myValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-
+        textViewMyValue = (TextView) findViewById(R.id.textViewMyValue);
         textViewEtherValue = (TextView) findViewById(R.id.textViewEtherValue);
         ImageView imageViewRefresh = (ImageView) findViewById(R.id.imageViewRefresh);
 
@@ -50,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        loadMyValuePrefs();
+
         ImageView imageViewRefresh = (ImageView) findViewById(R.id.imageViewRefresh);
         getEtherValue(imageViewRefresh);
     }
@@ -80,10 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onClickCustomAmount(View view){
-        // open dialog to enter custom amount
-    }
-
 
     private void openOptions(){
         // open options activity
@@ -91,6 +94,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    private void loadMyValuePrefs(){
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        this.myValue = Double.parseDouble(sharedPreferences.getString("myValue", "1"));
+
+        DecimalFormat format = new DecimalFormat("0.######");
+        textViewMyValue.setText(String.valueOf(format.format(myValue)));
+
+    }
 
     private String loadCurrencyPrefs(){
         SharedPreferences sharedPreferences =
@@ -140,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<CEXPojo> call, Response<CEXPojo> response) {
 
                 CEXPojo cexPojo = response.body();
-                textViewEtherValue.setText(String.format("%.2f", cexPojo.getLprice()));
+                textViewEtherValue.setText(String.format("%.2f", cexPojo.getLprice() * myValue));
 
                 stopRefreshAnimation(refreshImageView);
 

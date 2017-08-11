@@ -21,6 +21,16 @@
             />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Personal">
+        <EditTextPreference
+            android:key="myValue"
+            android:title="My ETH Value"
+            android:numeric="decimal"
+            android:defaultValue="1"
+            />
+
+    </PreferenceCategory>
+
 
     <PreferenceCategory android:title="Notifications">
 

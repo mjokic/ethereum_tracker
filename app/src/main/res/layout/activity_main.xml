@@ -12,13 +12,24 @@
         layout="@layout/toolbar"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/textViewMyValue"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 ETH ="
+        android:text="1"
+        android:layout_marginRight="10dp"
         android:textSize="30sp"
         android:textColor="#fff"
         android:layout_above="@+id/textViewEtherValue"
-        android:onClick="onClickCustomAmount"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ETH ="
+        android:textSize="30sp"
+        android:textColor="#fff"
+        android:layout_above="@+id/textViewEtherValue"
+        android:layout_toRightOf="@+id/textViewMyValue"
         />
 
     <TextView
