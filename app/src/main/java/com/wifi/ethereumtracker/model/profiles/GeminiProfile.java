@@ -1,8 +1,6 @@
 package com.wifi.ethereumtracker.model.profiles;
 
-import com.wifi.ethereumtracker.pojo.CEXPojo;
-import com.wifi.ethereumtracker.pojo.GeminiPojo;
-import com.wifi.ethereumtracker.services.apiCalls.CEXioInterface;
+import com.wifi.ethereumtracker.model.pojo.GeminiPojo;
 import com.wifi.ethereumtracker.services.apiCalls.GeminiInterface;
 
 import okhttp3.OkHttpClient;
@@ -14,7 +12,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GeminiProfile {
 
     private GeminiInterface geminiInterface;
-    private String baseUrl = "https://api.gemini.com/";
+    public static String baseUrl = "https://api.gemini.com/";
+
+    public static CharSequence[] currencies = new CharSequence[] {
+            "USD"
+    };
 
     public GeminiProfile(){
 
@@ -26,7 +28,7 @@ public class GeminiProfile {
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(this.baseUrl)
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -46,6 +48,5 @@ public class GeminiProfile {
         return call;
 
     }
-
 
 }

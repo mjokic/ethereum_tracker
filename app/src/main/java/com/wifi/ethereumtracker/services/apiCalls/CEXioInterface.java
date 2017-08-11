@@ -1,6 +1,6 @@
 package com.wifi.ethereumtracker.services.apiCalls;
 
-import com.wifi.ethereumtracker.pojo.CEXPojo;
+import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

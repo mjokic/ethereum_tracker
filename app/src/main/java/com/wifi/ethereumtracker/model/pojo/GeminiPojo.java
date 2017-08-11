@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.pojo;
+package com.wifi.ethereumtracker.model.pojo;
 
 import java.util.HashMap;
 import java.util.Map;

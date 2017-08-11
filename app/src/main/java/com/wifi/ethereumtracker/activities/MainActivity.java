@@ -15,20 +15,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
 import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
-import com.wifi.ethereumtracker.pojo.CEXPojo;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.pojo.GeminiPojo;
-import com.wifi.ethereumtracker.services.apiCalls.CEXioInterface;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
+import java.lang.reflect.Constructor;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -104,6 +100,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private String loadSourceProfile(){
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+
+        String profileBaseUrl = sharedPreferences.getString("sourceSettings", "https://cex.io/");
+
+        Object profile;
+
+        if("https://cex.io".equals(profileBaseUrl)){
+            profile = new CexProfile();
+
+        }else if("https://api.gemini.com/".equals(profileBaseUrl)){
+            profile = new GeminiProfile();
+        }
+
+        return null;
+
+    }
+
     private void startRefreshAnimation(View view){
         Animation myAnimation =  AnimationUtils.loadAnimation(this, R.anim.refresh_animation);
         view.startAnimation(myAnimation);
@@ -114,57 +129,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//
-//    private void getEtherValue(final View refreshImageView){
-//        startRefreshAnimation(refreshImageView);
-//
-//        CexProfile profile = new CexProfile();
-//        Call<CEXPojo> call = profile.initialize(loadCurrencyPrefs());
-//
-//        call.enqueue(new Callback<CEXPojo>() {
-//            @Override
-//            public void onResponse(Call<CEXPojo> call, Response<CEXPojo> response) {
-//
-//                CEXPojo cexPojo = response.body();
-//                textViewEtherValue.setText(String.format("%.2f", cexPojo.getLprice()));
-//
-//                stopRefreshAnimation(refreshImageView);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CEXPojo> call, Throwable t) {
-//                stopRefreshAnimation(refreshImageView);
-//            }
-//        });
-//
-//
-//    }
-
     private void getEtherValue(final View refreshImageView){
         startRefreshAnimation(refreshImageView);
 
-        GeminiProfile profile = new GeminiProfile();
-        Call<GeminiPojo> call = profile.initialize(loadCurrencyPrefs());
+        CexProfile profile = new CexProfile();
+        Call<CEXPojo> call = profile.initialize(loadCurrencyPrefs());
 
-        call.enqueue(new Callback<GeminiPojo>() {
+        call.enqueue(new Callback<CEXPojo>() {
             @Override
-            public void onResponse(Call<GeminiPojo> call, Response<GeminiPojo> response) {
+            public void onResponse(Call<CEXPojo> call, Response<CEXPojo> response) {
 
-                GeminiPojo geminiPojo = response.body();
-                textViewEtherValue.setText(String.format("%.2f", geminiPojo.getLast()));
+                CEXPojo cexPojo = response.body();
+                textViewEtherValue.setText(String.format("%.2f", cexPojo.getLprice()));
 
                 stopRefreshAnimation(refreshImageView);
 
             }
 
             @Override
-            public void onFailure(Call<GeminiPojo> call, Throwable t) {
+            public void onFailure(Call<CEXPojo> call, Throwable t) {
                 stopRefreshAnimation(refreshImageView);
             }
         });
 
 
     }
+
+//    private void getEtherValue(final View refreshImageView){
+//        startRefreshAnimation(refreshImageView);
+//
+//
+//        try {
+//            Class myClass = Class.forName("CexProfile");
+//            Class[] types = {Double.TYPE, this.getClass()};
+//
+//            Constructor constructor = myClass.getConstructor(types);
+//            Object[] parameters = {new Double(0), this};
+//            Object instanceOfMyClass = constructor.newInstance(parameters);
+//
+//            myClass aa = (myClass) instanceOfMyClass;
+//
+//
+//        }catch (Exception ex){
+//            ex.printStackTrace();
+//        }
+//
+//    }
 
 }

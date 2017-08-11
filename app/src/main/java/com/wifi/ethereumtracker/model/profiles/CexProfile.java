@@ -1,20 +1,25 @@
 package com.wifi.ethereumtracker.model.profiles;
 
-import com.wifi.ethereumtracker.pojo.CEXPojo;
+import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.services.apiCalls.CEXioInterface;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CexProfile {
 
     private CEXioInterface ceXioInterface;
-    private String baseUrl = "https://cex.io";
+    public static String baseUrl = "https://cex.io/";
+
+
+    public static CharSequence[] currencies = new CharSequence[] {
+            "USD",
+            "EUR",
+            "GBP"
+    };
 
     public CexProfile(){
 
@@ -26,7 +31,7 @@ public class CexProfile {
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(this.baseUrl)
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -35,8 +40,7 @@ public class CexProfile {
 
     }
 
-
-    public Call initialize(String option){
+    public Call<CEXPojo> initialize(String option) {
 
         Call<CEXPojo> call;
 
@@ -54,6 +58,4 @@ public class CexProfile {
         return call;
 
     }
-
-
 }

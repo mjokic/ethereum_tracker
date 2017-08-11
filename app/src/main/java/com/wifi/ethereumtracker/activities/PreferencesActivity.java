@@ -21,4 +21,7 @@ public class PreferencesActivity extends PreferenceActivity{
                 .replace(android.R.id.content, preferencesFragment)
                 .commit();
     }
+
+
+
 }

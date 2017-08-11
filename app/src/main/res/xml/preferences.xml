@@ -27,7 +27,7 @@
         <SwitchPreference
             android:key="enableNotificationsSettings"
             android:title="Enable Notifications"
-            android:defaultValue="true"
+            android:defaultValue="false"
             />
 
         <EditTextPreference
