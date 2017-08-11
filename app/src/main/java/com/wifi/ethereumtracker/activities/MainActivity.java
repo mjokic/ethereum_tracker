@@ -15,8 +15,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wifi.ethereumtracker.model.profiles.CexProfile;
+import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
 import com.wifi.ethereumtracker.pojo.CEXPojo;
 import com.wifi.ethereumtracker.R;
+import com.wifi.ethereumtracker.pojo.GeminiPojo;
 import com.wifi.ethereumtracker.services.apiCalls.CEXioInterface;
 
 import okhttp3.OkHttpClient;
@@ -93,9 +96,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void loadPrefs(){
+    private String loadCurrencyPrefs(){
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
+
+        return sharedPreferences.getString("currencySettings", "USD");
+
     }
 
     private void startRefreshAnimation(View view){
@@ -108,39 +114,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+//
+//    private void getEtherValue(final View refreshImageView){
+//        startRefreshAnimation(refreshImageView);
+//
+//        CexProfile profile = new CexProfile();
+//        Call<CEXPojo> call = profile.initialize(loadCurrencyPrefs());
+//
+//        call.enqueue(new Callback<CEXPojo>() {
+//            @Override
+//            public void onResponse(Call<CEXPojo> call, Response<CEXPojo> response) {
+//
+//                CEXPojo cexPojo = response.body();
+//                textViewEtherValue.setText(String.format("%.2f", cexPojo.getLprice()));
+//
+//                stopRefreshAnimation(refreshImageView);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<CEXPojo> call, Throwable t) {
+//                stopRefreshAnimation(refreshImageView);
+//            }
+//        });
+//
+//
+//    }
 
     private void getEtherValue(final View refreshImageView){
         startRefreshAnimation(refreshImageView);
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor()
-                .setLevel(HttpLoggingInterceptor.Level.BODY);
+        GeminiProfile profile = new GeminiProfile();
+        Call<GeminiPojo> call = profile.initialize(loadCurrencyPrefs());
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor).build();
-
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://cex.io/")
-                .client(client)
-                .build();
-
-        CEXioInterface cex = retrofit.create(CEXioInterface.class);
-        Call<CEXPojo> call = cex.getLastPriceUSD();
-
-        call.enqueue(new Callback<CEXPojo>() {
+        call.enqueue(new Callback<GeminiPojo>() {
             @Override
-            public void onResponse(Call<CEXPojo> call, Response<CEXPojo> response) {
+            public void onResponse(Call<GeminiPojo> call, Response<GeminiPojo> response) {
 
-                CEXPojo cexPojo = response.body();
-                textViewEtherValue.setText(String.format("%.2f", cexPojo.getLprice()));
+                GeminiPojo geminiPojo = response.body();
+                textViewEtherValue.setText(String.format("%.2f", geminiPojo.getLast()));
 
                 stopRefreshAnimation(refreshImageView);
 
             }
 
             @Override
-            public void onFailure(Call<CEXPojo> call, Throwable t) {
+            public void onFailure(Call<GeminiPojo> call, Throwable t) {
                 stopRefreshAnimation(refreshImageView);
             }
         });

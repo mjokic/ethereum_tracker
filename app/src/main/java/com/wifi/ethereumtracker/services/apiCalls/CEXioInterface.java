@@ -14,4 +14,8 @@ public interface CEXioInterface {
     @GET("/api/last_price/ETH/EUR")
     Call<CEXPojo> getLastPriceEUR();
 
+
+    @GET("/api/last_price/ETH/GBP")
+    Call<CEXPojo> getLastPriceGBP();
+
 }
