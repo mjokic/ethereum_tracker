@@ -39,12 +39,12 @@ public class PreferencesFragment extends PreferenceFragment {
 
 
                 if(s.equals(CexProfile.baseUrl)){
-                    listPreferenceCurrencySettings.setEntries(new CharSequence[] {"USD", "EUR", "GBP"});
-                    listPreferenceCurrencySettings.setEntryValues(new CharSequence[] {"USD", "EUR", "GBP"});
+                    listPreferenceCurrencySettings.setEntries(CexProfile.currencies);
+                    listPreferenceCurrencySettings.setEntryValues(CexProfile.currencies);
 
                 }else if(s.equals(GeminiProfile.baseUrl)){
-                    listPreferenceCurrencySettings.setEntries(new CharSequence[] {"USD"});
-                    listPreferenceCurrencySettings.setEntryValues(new CharSequence[] {"USD"});
+                    listPreferenceCurrencySettings.setEntries(GeminiProfile.currencies);
+                    listPreferenceCurrencySettings.setEntryValues(GeminiProfile.currencies);
                 }
 
                 listPreferenceCurrencySettings.setValue("USD");
