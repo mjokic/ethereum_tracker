@@ -19,6 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.PreferencesActivity"></activity>
+
+        <service android:name=".services.BackgroundCheckService"/>
+
     </application>
 
 </manifest>
