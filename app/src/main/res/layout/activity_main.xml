@@ -36,10 +36,22 @@
         android:id="@+id/textViewEtherValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/positive"
+        android:textColor="#fff"
         android:textSize="90sp"
-        android:textAlignment="center"
         android:layout_centerInParent="true"
+        android:text=""
+        android:layout_toRightOf="@+id/textViewCurrencySign"
+        android:layout_toEndOf="@+id/textViewCurrencySign"
+    />
+
+    <TextView
+        android:id="@+id/textViewCurrencySign"
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:layout_centerVertical="true"
+        android:gravity="bottom"
+        android:textSize="40sp"
+        android:textColor="#fff"
         />
 
 

@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
 import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
@@ -22,6 +23,7 @@ import com.wifi.ethereumtracker.R;
 
 import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
+import java.util.Currency;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         textViewMyValue = (TextView) findViewById(R.id.textViewMyValue);
         textViewEtherValue = (TextView) findViewById(R.id.textViewEtherValue);
-        ImageView imageViewRefresh = (ImageView) findViewById(R.id.imageViewRefresh);
-
-        getEtherValue(imageViewRefresh);
 
     }
 
@@ -109,7 +108,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
 
-        return sharedPreferences.getString("currencySettings", "USD");
+        String currency = sharedPreferences.getString("currencySettings", "USD");
+
+        TextView textView = (TextView) findViewById(R.id.textViewCurrencySign);
+        textView.setText(CurrencyEnum.getSign(currency));
+
+        return currency;
 
     }
 
@@ -154,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
                 CEXPojo cexPojo = response.body();
                 textViewEtherValue.setText(String.format("%.2f", cexPojo.getLprice() * myValue));
+
 
                 stopRefreshAnimation(refreshImageView);
 
