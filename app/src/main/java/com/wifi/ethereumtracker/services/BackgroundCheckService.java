@@ -1,12 +1,14 @@
 package com.wifi.ethereumtracker.services;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import com.wifi.ethereumtracker.broadcastReceivers.NotificationReceiver;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
 
@@ -17,7 +19,7 @@ import retrofit2.Response;
 public class BackgroundCheckService extends Service {
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, int flags, int startId) {
 
         Thread thread = new Thread(){
             public void run(){
@@ -25,7 +27,9 @@ public class BackgroundCheckService extends Service {
                 try {
                     while(true) {
                         // every few seconds check value
-                        Thread.sleep(5000);
+                        Thread.sleep(60000);
+
+                        test();
 
                         System.out.println("HEY!");
 
@@ -62,6 +66,20 @@ public class BackgroundCheckService extends Service {
             public void onResponse(Call<CEXPojo> call, Response<CEXPojo> response) {
 
                 CEXPojo cexPojo = response.body();
+
+                Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
+
+                double price = cexPojo.getLprice();
+
+                if(price < 316){
+                    i.putExtra("message", "HEY, price is " + price);
+
+                }else{
+                    i.putExtra("message", "HEY RICH " + price);
+
+                }
+
+                sendBroadcast(i);
 
             }
 

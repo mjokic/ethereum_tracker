@@ -22,6 +22,8 @@
 
         <service android:name=".services.BackgroundCheckService"/>
 
+        <receiver android:name=".broadcastReceivers.NotificationReceiver"/>
+
     </application>
 
 </manifest>

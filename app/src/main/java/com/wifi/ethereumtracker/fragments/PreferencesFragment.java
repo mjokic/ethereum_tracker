@@ -73,7 +73,6 @@ public class PreferencesFragment extends PreferenceFragment {
                 }else{
                     // stop service
                     getActivity().stopService(intent);
-                    return false;
                 }
 
                 return true;
