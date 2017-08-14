@@ -1,11 +1,14 @@
 package com.wifi.ethereumtracker.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +18,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.security.ProviderInstaller;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
@@ -31,6 +38,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SharedPreferences sharedPreferences;
+
     private TextView textViewMyValue;
     private TextView textViewEtherValue;
 
@@ -41,9 +50,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        updateAndroidSecurityProvider(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         textViewMyValue = (TextView) findViewById(R.id.textViewMyValue);
         textViewEtherValue = (TextView) findViewById(R.id.textViewEtherValue);
@@ -95,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void loadMyValuePrefs(){
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
         this.myValue = Double.parseDouble(sharedPreferences.getString("myValue", "1"));
 
         DecimalFormat format = new DecimalFormat("0.######");
@@ -105,9 +116,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String loadCurrencyPrefs(){
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
-
         String currency = sharedPreferences.getString("currencySettings", "USD");
 
         TextView textView = (TextView) findViewById(R.id.textViewCurrencySign);
@@ -118,9 +126,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String loadSourceProfile(){
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
-
         String profileBaseUrl = sharedPreferences.getString("sourceSettings", "https://cex.io/");
 
         Object profile;
@@ -157,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<CEXPojo> call, Response<CEXPojo> response) {
 
                 CEXPojo cexPojo = response.body();
+
                 textViewEtherValue.setText(String.format("%.2f", cexPojo.getLprice() * myValue));
 
 
@@ -173,25 +179,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private void getEtherValue(final View refreshImageView){
-//        startRefreshAnimation(refreshImageView);
-//
-//
-//        try {
-//            Class myClass = Class.forName("CexProfile");
-//            Class[] types = {Double.TYPE, this.getClass()};
-//
-//            Constructor constructor = myClass.getConstructor(types);
-//            Object[] parameters = {new Double(0), this};
-//            Object instanceOfMyClass = constructor.newInstance(parameters);
-//
-//            myClass aa = (myClass) instanceOfMyClass;
-//
-//
-//        }catch (Exception ex){
-//            ex.printStackTrace();
-//        }
-//
-//    }
+
+    // Fixing SSL issue on Android version < 5.0
+    // https://stackoverflow.com/a/36892715
+    private void updateAndroidSecurityProvider(Activity callingActivity) {
+        try {
+            ProviderInstaller.installIfNeeded(this);
+        } catch (GooglePlayServicesRepairableException e) {
+            // Thrown when Google Play Services is not installed, up-to-date, or enabled
+            // Show dialog to allow users to install, update, or otherwise enable Google Play services.
+            GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), callingActivity, 0);
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Log.e("SecurityException", "Google Play Services not available.");
+        }
+    }
 
 }

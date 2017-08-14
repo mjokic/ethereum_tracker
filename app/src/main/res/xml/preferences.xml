@@ -25,7 +25,7 @@
         <EditTextPreference
             android:key="myValue"
             android:title="My ETH Value"
-            android:numeric="decimal"
+            android:inputType="numberDecimal"
             android:defaultValue="1"
             />
 
@@ -40,19 +40,32 @@
             android:defaultValue="false"
             />
 
-        <EditTextPreference
-            android:key="minimumValueNotify"
-            android:title="Minimum Value"
-            android:summary="Notify when reached this value"
+        <ListPreference
+            android:key="checkInterval"
+            android:title="Check Interval"
+            android:summary="How often app do a check in background"
+            android:entries="@array/timeInterval"
+            android:entryValues="@array/timeIntervalValues"
+            android:defaultValue="1800000"
             android:dependency="enableNotificationsSettings"
             />
 
         <EditTextPreference
-            android:key="maximumValueNotify"
-            android:title="Maximum Value"
-            android:summary="Notify when reached this value"
+            android:key="valueMinNotify"
+            android:title="Min Notify Value"
+            android:summary="Notify when price drop bellow this value"
+            android:inputType="numberDecimal"
             android:dependency="enableNotificationsSettings"
             />
+
+        <EditTextPreference
+            android:key="valueMaxNotify"
+            android:title="Max Notify Value"
+            android:summary="Notify when price pass this value"
+            android:inputType="numberDecimal"
+            android:dependency="enableNotificationsSettings"
+            />
+
 
     </PreferenceCategory>
 

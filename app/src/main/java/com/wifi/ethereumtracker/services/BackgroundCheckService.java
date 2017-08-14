@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import com.wifi.ethereumtracker.activities.MainActivity;
 import com.wifi.ethereumtracker.broadcastReceivers.NotificationReceiver;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
@@ -24,10 +25,16 @@ public class BackgroundCheckService extends Service {
         Thread thread = new Thread(){
             public void run(){
 
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+
                 try {
                     while(true) {
                         // every few seconds check value
-                        Thread.sleep(60000);
+                        int waitInterval = Integer.parseInt(sharedPreferences.getString("checkInterval", "1800000"));
+                        System.out.println(waitInterval);
+                        Thread.sleep(waitInterval);
 
                         test();
 
@@ -57,6 +64,8 @@ public class BackgroundCheckService extends Service {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String currency = sharedPreferences.getString("currencySettings", "USD");
+        final double minValue = Double.parseDouble(sharedPreferences.getString("valueMinNotify", "0"));
+        final double maxValue = Double.parseDouble(sharedPreferences.getString("valueMaxNotify", "0"));
 
         CexProfile profile = new CexProfile();
         Call<CEXPojo> call = profile.initialize(currency);
@@ -71,10 +80,10 @@ public class BackgroundCheckService extends Service {
 
                 double price = cexPojo.getLprice();
 
-                if(price < 316){
+                if(price <= minValue){
                     i.putExtra("message", "HEY, price is " + price);
 
-                }else{
+                }else if(price >= maxValue){
                     i.putExtra("message", "HEY RICH " + price);
 
                 }
