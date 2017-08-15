@@ -12,6 +12,9 @@ import com.wifi.ethereumtracker.activities.MainActivity;
 import com.wifi.ethereumtracker.broadcastReceivers.NotificationReceiver;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
+import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
+import com.wifi.ethereumtracker.model.profiles.Profile;
+import com.wifi.ethereumtracker.model.profiles.TestProfile;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +31,6 @@ public class BackgroundCheckService extends Service {
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-
                 try {
                     while(true) {
                         // every few seconds check value
@@ -36,7 +38,13 @@ public class BackgroundCheckService extends Service {
                         System.out.println(waitInterval);
                         Thread.sleep(waitInterval);
 
-                        test();
+                        String currency = sharedPreferences.getString("currencySettings", "USD");
+
+                        Profile profile = loadSourceProfile();
+                        Call call = profile.initialize(currency);
+                        double value = profile.runInBack(call, getApplicationContext());
+
+                        sendNotificationBroadcast("Hey value is " + value);
 
                         System.out.println("HEY!");
 
@@ -96,6 +104,31 @@ public class BackgroundCheckService extends Service {
             public void onFailure(Call<CEXPojo> call, Throwable t) {
             }
         });
+    }
+
+
+    private void sendNotificationBroadcast(String messsage){
+        Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
+        i.putExtra("message", messsage);
+        sendBroadcast(i);
+    }
+
+
+    private Profile loadSourceProfile(){
+        String profileBaseUrl = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString("sourceSettings", "https://cex.io/");
+
+        Profile profile = null;
+
+        if("https://cex.io/".equals(profileBaseUrl)){
+            profile = new TestProfile();
+
+        }else if("https://api.gemini.com/".equals(profileBaseUrl)){
+            profile = new GeminiProfile();
+        }
+
+        return profile;
+
     }
 
 }

@@ -27,6 +27,8 @@ import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
 import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
 import com.wifi.ethereumtracker.R;
+import com.wifi.ethereumtracker.model.profiles.Profile;
+import com.wifi.ethereumtracker.model.profiles.TestProfile;
 
 import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
@@ -92,10 +94,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickRefresh(View view){
-        startRefreshAnimation(view);
+//        startRefreshAnimation(view);
 
         // refresh ether value bellow..
-        getEtherValue(view);
+        getEtherValue((ImageView) view);
 
     }
 
@@ -125,19 +127,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private String loadSourceProfile(){
+    private Profile loadSourceProfile(){
         String profileBaseUrl = sharedPreferences.getString("sourceSettings", "https://cex.io/");
 
-        Object profile;
+        Profile profile = null;
 
-        if("https://cex.io".equals(profileBaseUrl)){
-            profile = new CexProfile();
+        if("https://cex.io/".equals(profileBaseUrl)){
+            profile = new TestProfile();
 
         }else if("https://api.gemini.com/".equals(profileBaseUrl)){
             profile = new GeminiProfile();
         }
 
-        return null;
+        return profile;
 
     }
 
@@ -151,31 +153,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void getEtherValue(final View refreshImageView){
-        startRefreshAnimation(refreshImageView);
+    private void getEtherValue(final ImageView refreshImageView){
 
-        CexProfile profile = new CexProfile();
-        Call<CEXPojo> call = profile.initialize(loadCurrencyPrefs());
+        Profile t = loadSourceProfile();
 
-        call.enqueue(new Callback<CEXPojo>() {
-            @Override
-            public void onResponse(Call<CEXPojo> call, Response<CEXPojo> response) {
-
-                CEXPojo cexPojo = response.body();
-
-                textViewEtherValue.setText(String.format("%.2f", cexPojo.getLprice() * myValue));
-
-
-                stopRefreshAnimation(refreshImageView);
-
-            }
-
-            @Override
-            public void onFailure(Call<CEXPojo> call, Throwable t) {
-                stopRefreshAnimation(refreshImageView);
-            }
-        });
-
+        Call c = t.initialize(loadCurrencyPrefs());
+        t.runInFront(c, myValue, textViewEtherValue, refreshImageView, getApplicationContext());
 
     }
 

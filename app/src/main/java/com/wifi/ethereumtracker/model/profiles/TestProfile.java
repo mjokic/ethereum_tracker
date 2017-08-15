@@ -1,39 +1,34 @@
 package com.wifi.ethereumtracker.model.profiles;
 
+
 import android.content.Context;
+import android.content.Intent;
+import android.gesture.GestureUtils;
+import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.wifi.ethereumtracker.broadcastReceivers.NotificationReceiver;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.services.apiCalls.CEXioInterface;
 
 import java.io.IOException;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CexProfile extends Profile{
+public class TestProfile extends Profile {
 
-    public static String baseUrl = "https://cex.io/";
 
-    public static CharSequence[] currencies = new CharSequence[] {
-            "USD",
-            "EUR",
-            "GBP"
-    };
-
-    public CexProfile(){
+    public TestProfile(){
         super("https://cex.io/");
     }
 
     @Override
-    public Call<CEXPojo> initialize(String option) {
-
+    public Call initialize(String option) {
+        // example
         CEXioInterface ceXioInterface = super.retrofit.create(CEXioInterface.class);
 
         Call call;
@@ -52,9 +47,14 @@ public class CexProfile extends Profile{
         return call;
     }
 
+
     @Override
-    public void runInFront(Call call, final double myValue, final TextView etherValue, final ImageView refreshImageView, Context context) {
-        super.startRefreshAnimation(refreshImageView, context);
+    public void runInFront(Call call, final double myValue, final TextView etherValue , final ImageView refreshImageView, Context context) {
+
+        if(refreshImageView != null && context != null){
+            super.startRefreshAnimation(refreshImageView, context);
+        }
+
 
         call.enqueue(new Callback() {
             @Override
@@ -63,21 +63,24 @@ public class CexProfile extends Profile{
                 CEXPojo cexPojo = (CEXPojo) response.body();
 
                 etherValue.setText(String.format("%.2f", cexPojo.getLprice() * myValue));
-                CexProfile.super.stopRefreshAnimation(refreshImageView);
+                TestProfile.super.stopRefreshAnimation(refreshImageView);
 
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
 
-                CexProfile.super.stopRefreshAnimation(refreshImageView);
+                TestProfile.super.stopRefreshAnimation(refreshImageView);
 
             }
         });
+
+
     }
 
     @Override
-    public Double runInBack(Call call, Context context) {
+    public Double runInBack(Call call, final Context context) {
+
         double value = 0;
 
         try {
@@ -96,7 +99,6 @@ public class CexProfile extends Profile{
 
 
         return value;
-
 
     }
 }
