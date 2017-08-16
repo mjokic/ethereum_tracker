@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v4.app.SharedElementCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,20 +22,14 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.security.ProviderInstaller;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
-import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
 import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.model.profiles.Profile;
-import com.wifi.ethereumtracker.model.profiles.TestProfile;
 
-import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
-import java.util.Currency;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -94,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickRefresh(View view){
-//        startRefreshAnimation(view);
-
         // refresh ether value bellow..
         getEtherValue((ImageView) view);
 
@@ -133,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         Profile profile = null;
 
         if("https://cex.io/".equals(profileBaseUrl)){
-            profile = new TestProfile();
+            profile = new CexProfile();
 
         }else if("https://api.gemini.com/".equals(profileBaseUrl)){
             profile = new GeminiProfile();
@@ -142,16 +133,6 @@ public class MainActivity extends AppCompatActivity {
         return profile;
 
     }
-
-    private void startRefreshAnimation(View view){
-        Animation myAnimation =  AnimationUtils.loadAnimation(this, R.anim.refresh_animation);
-        view.startAnimation(myAnimation);
-    }
-
-    private void stopRefreshAnimation(View view){
-        view.clearAnimation();
-    }
-
 
     private void getEtherValue(final ImageView refreshImageView){
 

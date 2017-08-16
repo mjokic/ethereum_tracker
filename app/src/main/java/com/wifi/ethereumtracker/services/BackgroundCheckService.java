@@ -1,20 +1,17 @@
 package com.wifi.ethereumtracker.services;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
-import com.wifi.ethereumtracker.activities.MainActivity;
 import com.wifi.ethereumtracker.broadcastReceivers.NotificationReceiver;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
 import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
 import com.wifi.ethereumtracker.model.profiles.Profile;
-import com.wifi.ethereumtracker.model.profiles.TestProfile;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -121,7 +118,7 @@ public class BackgroundCheckService extends Service {
         Profile profile = null;
 
         if("https://cex.io/".equals(profileBaseUrl)){
-            profile = new TestProfile();
+            profile = new CexProfile();
 
         }else if("https://api.gemini.com/".equals(profileBaseUrl)){
             profile = new GeminiProfile();
