@@ -9,6 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wifi.ethereumtracker.R;
+import com.wifi.ethereumtracker.model.other.TLSSocketFactory;
+
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -24,9 +30,40 @@ public class Profile {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor).build();
 
+        // Fixing SSL issue on Android version < 5.0
+        // https://stackoverflow.com/q/43949160
+
+        //region TrustManager array:
+        final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(
+                    java.security.cert.X509Certificate[] chain,
+                    String authType) throws CertificateException {
+            }
+
+            @Override
+            public void checkServerTrusted(
+                    java.security.cert.X509Certificate[] chain,
+                    String authType) throws CertificateException {
+            }
+
+            @Override
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                return new java.security.cert.X509Certificate[0];
+            }
+        } };
+        //endregion:
+
+        OkHttpClient client;
+        try {
+            client = new OkHttpClient.Builder()
+                    .sslSocketFactory(new TLSSocketFactory(), (X509TrustManager) trustAllCerts[0])
+                    .addInterceptor(interceptor).build();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return;
+        }
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
