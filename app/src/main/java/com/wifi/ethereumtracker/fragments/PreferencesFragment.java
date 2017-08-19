@@ -1,6 +1,9 @@
 package com.wifi.ethereumtracker.fragments;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,10 +22,12 @@ import android.widget.TextView;
 
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.activities.MainActivity;
+import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
 import com.wifi.ethereumtracker.model.profiles.CexProfile;
 import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
 import com.wifi.ethereumtracker.services.BackgroundCheckService;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class PreferencesFragment extends PreferenceFragment {
@@ -38,7 +43,7 @@ public class PreferencesFragment extends PreferenceFragment {
         SwitchPreference switchPreferenceEnableNotifications = (SwitchPreference)
                 findPreference("enableNotificationsSettings");
 
-        ListPreference listPreferenceCheckInterval = (ListPreference) findPreference("checkInterval");
+        final ListPreference listPreferenceCheckInterval = (ListPreference) findPreference("checkInterval");
         final EditTextPreference editTextValueMinNotify = (EditTextPreference) findPreference("valueMinNotify");
 
 
@@ -46,8 +51,6 @@ public class PreferencesFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 String s = (String) o;
-                System.out.println(s + "<--- YOOO");
-
 
                 if(s.equals(CexProfile.baseUrl)){
                     listPreferenceCurrencySettings.setEntries(CexProfile.currencies);
@@ -68,19 +71,25 @@ public class PreferencesFragment extends PreferenceFragment {
         switchPreferenceEnableNotifications.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                editTextValueMinNotify.setText("0");
 
                 boolean status = (boolean) o;
 
-                Intent intent = new Intent(getActivity(), BackgroundCheckService.class);
+                Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0,
+                        intent, 0);
+
+                AlarmManager alarmManager = (AlarmManager)
+                        getActivity().getSystemService(Context.ALARM_SERVICE);
+
+                int waitInterval = Integer.parseInt(listPreferenceCheckInterval.getValue());
 
                 if(status){
-                    // start service
-                    getActivity().startService(intent);
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                            Calendar.getInstance().getTimeInMillis()+waitInterval,
+                            waitInterval, pendingIntent);
 
                 }else{
-                    // stop service
-                    getActivity().stopService(intent);
+                    alarmManager.cancel(pendingIntent);
                 }
 
                 return true;
@@ -92,12 +101,23 @@ public class PreferencesFragment extends PreferenceFragment {
         listPreferenceCheckInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                // when interval changes stop service and start it again
+                // when interval changes cancel alarm manger and start new one,
                 // so new interval gets applied
 
-                Intent intent = new Intent(getActivity(), BackgroundCheckService.class);
-                getActivity().stopService(intent);
-                getActivity().startService(intent);
+                int waitInterval = Integer.parseInt((String) o);
+
+                Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0,
+                        intent, 0);
+
+                AlarmManager alarmManager = (AlarmManager)
+                        getActivity().getSystemService(Context.ALARM_SERVICE);
+
+                alarmManager.cancel(pendingIntent);
+
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                        Calendar.getInstance().getTimeInMillis()+waitInterval,
+                        waitInterval, pendingIntent);
 
                 return true;
             }

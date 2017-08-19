@@ -23,6 +23,7 @@
         <service android:name=".services.BackgroundCheckService"/>
 
         <receiver android:name=".broadcastReceivers.NotificationReceiver"/>
+        <receiver android:name=".broadcastReceivers.AlarmReceiver"/>
 
     </application>
 

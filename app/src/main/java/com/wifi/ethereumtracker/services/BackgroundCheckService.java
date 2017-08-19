@@ -28,31 +28,19 @@ public class BackgroundCheckService extends Service {
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-                try {
-                    while(true) {
-                        // every few seconds check value
-                        int waitInterval = Integer.parseInt(sharedPreferences.getString("checkInterval", "1800000"));
-                        System.out.println(waitInterval);
-                        Thread.sleep(waitInterval);
+                String currency = sharedPreferences.getString("currencySettings", "USD");
 
-                        String currency = sharedPreferences.getString("currencySettings", "USD");
+                Profile profile = loadSourceProfile();
+                Call call = profile.initialize(currency);
+                double value = profile.runInBack(call, getApplicationContext());
 
-                        Profile profile = loadSourceProfile();
-                        Call call = profile.initialize(currency);
-                        double value = profile.runInBack(call, getApplicationContext());
+                sendNotificationBroadcast("Hey value is " + value);
 
-                        sendNotificationBroadcast("Hey value is " + value);
-
-                        System.out.println("HEY!");
-
-                    }
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
             }
         };
         thread.start();
 
+        stopSelf();
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -61,46 +49,6 @@ public class BackgroundCheckService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-
-
-    private void test(){
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String currency = sharedPreferences.getString("currencySettings", "USD");
-        final double minValue = Double.parseDouble(sharedPreferences.getString("valueMinNotify", "0"));
-        final double maxValue = Double.parseDouble(sharedPreferences.getString("valueMaxNotify", "0"));
-
-        CexProfile profile = new CexProfile();
-        Call<CEXPojo> call = profile.initialize(currency);
-
-        call.enqueue(new Callback<CEXPojo>() {
-            @Override
-            public void onResponse(Call<CEXPojo> call, Response<CEXPojo> response) {
-
-                CEXPojo cexPojo = response.body();
-
-                Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
-
-                double price = cexPojo.getLprice();
-
-                if(price <= minValue){
-                    i.putExtra("message", "HEY, price is " + price);
-
-                }else if(price >= maxValue){
-                    i.putExtra("message", "HEY RICH " + price);
-
-                }
-
-                sendBroadcast(i);
-
-            }
-
-            @Override
-            public void onFailure(Call<CEXPojo> call, Throwable t) {
-            }
-        });
     }
 
 
