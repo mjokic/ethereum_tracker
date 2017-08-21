@@ -44,7 +44,6 @@ public class PreferencesFragment extends PreferenceFragment {
                 findPreference("enableNotificationsSettings");
 
         final ListPreference listPreferenceCheckInterval = (ListPreference) findPreference("checkInterval");
-        final EditTextPreference editTextValueMinNotify = (EditTextPreference) findPreference("valueMinNotify");
 
 
         listPreferenceSourceSettings.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
