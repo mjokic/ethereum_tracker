@@ -37,8 +37,8 @@ public class BackgroundCheckService extends Service {
                 double value = profile.runInBack(call, getApplicationContext());
 
 
-                String title = "";
-                String message = "";
+                String title;
+                String message;
 
                 if(value <= valueMin){
                     title = "Price dropped bellow " + valueMin;

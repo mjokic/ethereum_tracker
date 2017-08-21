@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.wifi.ethereumtracker.activities.MainActivity;
@@ -18,6 +19,11 @@ public class NotificationReceiver extends BroadcastReceiver {
         String title = intent.getStringExtra("title");
         String message = intent.getStringExtra("message");
 
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock =
+                powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "myTag");
+        wakeLock.acquire();
+
         Notification.Builder nBuilder = new Notification.Builder(context)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -29,6 +35,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 
         manager.notify(0, nBuilder.build());
+
+        wakeLock.release();
 
     }
 }
