@@ -21,7 +21,8 @@ public class NotificationReceiver extends BroadcastReceiver {
         Notification.Builder nBuilder = new Notification.Builder(context)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setSmallIcon(android.R.mipmap.sym_def_app_icon);
+                .setSmallIcon(android.R.mipmap.sym_def_app_icon)
+                .setVibrate(new long[] {100, 500, 300, 500, 800, 500, 300, 500});
 
         NotificationManager manager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
