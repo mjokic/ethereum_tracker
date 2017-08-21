@@ -15,10 +15,11 @@ public class NotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        String title = intent.getStringExtra("title");
         String message = intent.getStringExtra("message");
 
         Notification.Builder nBuilder = new Notification.Builder(context)
-                .setContentTitle("Title")
+                .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(android.R.mipmap.sym_def_app_icon);
 

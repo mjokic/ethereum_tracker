@@ -29,12 +29,29 @@ public class BackgroundCheckService extends Service {
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                 String currency = sharedPreferences.getString("currencySettings", "USD");
+                double valueMin = Double.parseDouble(sharedPreferences.getString("valueMinNotify", "0"));
+                double valueMax = Double.parseDouble(sharedPreferences.getString("valueMaxNotify", "0"));
 
                 Profile profile = loadSourceProfile();
                 Call call = profile.initialize(currency);
                 double value = profile.runInBack(call, getApplicationContext());
 
-                sendNotificationBroadcast("Hey value is " + value);
+
+                String title = "";
+                String message = "";
+
+                if(value <= valueMin){
+                    title = "Price dropped bellow " + valueMin;
+                    message = "Current value is " + value;
+
+                }else if(value >= valueMax){
+                    title = "Price went above " + valueMax;
+                    message = "Current value is " + value;
+                }else {
+                    return;
+                }
+
+                sendNotificationBroadcast(title, message);
 
             }
         };
@@ -52,9 +69,10 @@ public class BackgroundCheckService extends Service {
     }
 
 
-    private void sendNotificationBroadcast(String messsage){
+    private void sendNotificationBroadcast(String title, String message){
         Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
-        i.putExtra("message", messsage);
+        i.putExtra("title", title);
+        i.putExtra("message", message);
         sendBroadcast(i);
     }
 
