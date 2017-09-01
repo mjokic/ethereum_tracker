@@ -8,10 +8,9 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import com.wifi.ethereumtracker.broadcastReceivers.NotificationReceiver;
+import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
-import com.wifi.ethereumtracker.model.profiles.CexProfile;
-import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
-import com.wifi.ethereumtracker.model.profiles.Profile;
+import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,10 +31,13 @@ public class BackgroundCheckService extends Service {
                 double valueMin = Double.parseDouble(sharedPreferences.getString("valueMinNotify", "0"));
                 double valueMax = Double.parseDouble(sharedPreferences.getString("valueMaxNotify", "0"));
 
-                Profile profile = loadSourceProfile();
-                Call call = profile.initialize(currency);
-                double value = profile.runInBack(call, getApplicationContext());
+//                Profile profile = loadSourceProfile();
+//                Call call = profile.initialize(currency);
+//                double value = profile.runInBack(call, getApplicationContext());
 
+                RetrofitTask retrofitTask = new RetrofitTask("cex", "usd");
+                ResponsePojo responsePojo = retrofitTask.runSync();
+                double value = responsePojo.getCurrentPrice();
 
                 String title;
                 String message;
@@ -76,22 +78,22 @@ public class BackgroundCheckService extends Service {
         sendBroadcast(i);
     }
 
-
-    private Profile loadSourceProfile(){
-        String profileBaseUrl = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString("sourceSettings", "https://cex.io/");
-
-        Profile profile = null;
-
-        if("https://cex.io/".equals(profileBaseUrl)){
-            profile = new CexProfile();
-
-        }else if("https://api.gemini.com/".equals(profileBaseUrl)){
-            profile = new GeminiProfile();
-        }
-
-        return profile;
-
-    }
+//
+//    private Profile loadSourceProfile(){
+//        String profileBaseUrl = PreferenceManager.getDefaultSharedPreferences(this)
+//                .getString("sourceSettings", "https://cex.io/");
+//
+//        Profile profile = null;
+//
+//        if("https://cex.io/".equals(profileBaseUrl)){
+//            profile = new CexProfile();
+//
+//        }else if("https://api.gemini.com/".equals(profileBaseUrl)){
+//            profile = new GeminiProfile();
+//        }
+//
+//        return profile;
+//
+//    }
 
 }

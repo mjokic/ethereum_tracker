@@ -23,8 +23,6 @@ import android.widget.TextView;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.activities.MainActivity;
 import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
-import com.wifi.ethereumtracker.model.profiles.CexProfile;
-import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
 import com.wifi.ethereumtracker.services.BackgroundCheckService;
 
 import java.util.Calendar;
@@ -51,14 +49,14 @@ public class PreferencesFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 String s = (String) o;
 
-                if(s.equals(CexProfile.baseUrl)){
-                    listPreferenceCurrencySettings.setEntries(CexProfile.currencies);
-                    listPreferenceCurrencySettings.setEntryValues(CexProfile.currencies);
-
-                }else if(s.equals(GeminiProfile.baseUrl)){
-                    listPreferenceCurrencySettings.setEntries(GeminiProfile.currencies);
-                    listPreferenceCurrencySettings.setEntryValues(GeminiProfile.currencies);
-                }
+//                if(s.equals(CexProfile.baseUrl)){
+//                    listPreferenceCurrencySettings.setEntries(CexProfile.currencies);
+//                    listPreferenceCurrencySettings.setEntryValues(CexProfile.currencies);
+//
+//                }else if(s.equals(GeminiProfile.baseUrl)){
+//                    listPreferenceCurrencySettings.setEntries(GeminiProfile.currencies);
+//                    listPreferenceCurrencySettings.setEntryValues(GeminiProfile.currencies);
+//                }
 
                 listPreferenceCurrencySettings.setValue("USD");
 

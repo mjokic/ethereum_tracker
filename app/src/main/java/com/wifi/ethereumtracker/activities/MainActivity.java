@@ -21,15 +21,25 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.security.ProviderInstaller;
+import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
-import com.wifi.ethereumtracker.model.profiles.CexProfile;
-import com.wifi.ethereumtracker.model.profiles.GeminiProfile;
+import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.model.profiles.Profile;
+import com.wifi.ethereumtracker.services.apiCalls.ApiService;
 
+import java.security.cert.CertificateException;
 import java.text.DecimalFormat;
 
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -116,28 +126,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private Profile loadSourceProfile(){
-        String profileBaseUrl = sharedPreferences.getString("sourceSettings", "https://cex.io/");
-
-        Profile profile = null;
-
-        if("https://cex.io/".equals(profileBaseUrl)){
-            profile = new CexProfile();
-
-        }else if("https://api.gemini.com/".equals(profileBaseUrl)){
-            profile = new GeminiProfile();
-        }
-
-        return profile;
-
-    }
 
     private void getEtherValue(final ImageView refreshImageView){
 
-        Profile t = loadSourceProfile();
+//        Profile t = loadSourceProfile();
+//
+//        Call c = t.initialize(loadCurrencyPrefs());
+//        t.runInFront(c, myValue, textViewEtherValue, refreshImageView, getApplicationContext());
 
-        Call c = t.initialize(loadCurrencyPrefs());
-        t.runInFront(c, myValue, textViewEtherValue, refreshImageView, getApplicationContext());
+        RetrofitTask retrofitTask = new RetrofitTask("cex", "usd");
+        retrofitTask.runAsync(myValue, textViewEtherValue, refreshImageView, getApplicationContext());
 
     }
 
