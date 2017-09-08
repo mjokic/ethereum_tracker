@@ -129,4 +129,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        // preventing to go back to splash screen
+        finishAffinity();
+    }
 }
