@@ -1,16 +1,20 @@
 package com.wifi.ethereumtracker.activities;
 
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.wifi.ethereumtracker.R;
+import com.wifi.ethereumtracker.db.DbHelper;
 import com.wifi.ethereumtracker.fragments.PreferencesFragment;
+import com.wifi.ethereumtracker.model.Profile;
+
+import java.util.List;
 
 public class PreferencesActivity extends AppCompatActivity{
 
@@ -20,7 +24,6 @@ public class PreferencesActivity extends AppCompatActivity{
 
         setContentView(R.layout.activity_preferences);
 
-        PreferencesFragment preferencesFragment = new PreferencesFragment();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.removeAllViews(); // removing refresh button imageView
@@ -29,12 +32,13 @@ public class PreferencesActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+
+        PreferencesFragment preferencesFragment = new PreferencesFragment();
+
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.preferencesFragment, preferencesFragment)
                 .commit();
     }
-
-
 
 }

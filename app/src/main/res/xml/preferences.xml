@@ -6,18 +6,12 @@
             android:key="sourceSettings"
             android:title="Source"
             android:summary="Select source of data"
-            android:entries="@array/sources"
-            android:entryValues="@array/sourcesValue"
-            android:defaultValue="@string/defaultSource"
             />
 
         <ListPreference
             android:key="currencySettings"
             android:title="Currency"
             android:summary="Currency to display"
-            android:entries="@array/currency"
-            android:entryValues="@array/currency"
-            android:defaultValue="@string/defaultCurrency"
             />
     </PreferenceCategory>
 

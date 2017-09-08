@@ -7,7 +7,9 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
+import com.google.gson.Gson;
 import com.wifi.ethereumtracker.broadcastReceivers.NotificationReceiver;
+import com.wifi.ethereumtracker.model.Profile;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
@@ -27,7 +29,8 @@ public class BackgroundCheckService extends Service {
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-                String currency = sharedPreferences.getString("currencySettings", "USD");
+                String p = sharedPreferences.getString("sourceSettings", "cex");
+                String currency = sharedPreferences.getString("currencySettings", "usd");
                 double valueMin = Double.parseDouble(sharedPreferences.getString("valueMinNotify", "0"));
                 double valueMax = Double.parseDouble(sharedPreferences.getString("valueMaxNotify", "0"));
 
@@ -35,7 +38,10 @@ public class BackgroundCheckService extends Service {
 //                Call call = profile.initialize(currency);
 //                double value = profile.runInBack(call, getApplicationContext());
 
-                RetrofitTask retrofitTask = new RetrofitTask("cex", "usd");
+                Profile profile = new Gson().fromJson(p, Profile.class);
+                String source = profile.getSite();
+
+                RetrofitTask retrofitTask = new RetrofitTask(source, currency);
                 ResponsePojo responsePojo = retrofitTask.runSync();
                 double value = responsePojo.getCurrentPrice();
 
@@ -77,23 +83,5 @@ public class BackgroundCheckService extends Service {
         i.putExtra("message", message);
         sendBroadcast(i);
     }
-
-//
-//    private Profile loadSourceProfile(){
-//        String profileBaseUrl = PreferenceManager.getDefaultSharedPreferences(this)
-//                .getString("sourceSettings", "https://cex.io/");
-//
-//        Profile profile = null;
-//
-//        if("https://cex.io/".equals(profileBaseUrl)){
-//            profile = new CexProfile();
-//
-//        }else if("https://api.gemini.com/".equals(profileBaseUrl)){
-//            profile = new GeminiProfile();
-//        }
-//
-//        return profile;
-//
-//    }
 
 }

@@ -5,65 +5,73 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.activities.MainActivity;
 import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
-import com.wifi.ethereumtracker.services.BackgroundCheckService;
+import com.wifi.ethereumtracker.db.DbHelper;
+import com.wifi.ethereumtracker.model.Profile;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class PreferencesFragment extends PreferenceFragment {
+
+    public ListPreference listPreferenceCurrencySettings;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        ListPreference listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
-        final ListPreference listPreferenceCurrencySettings = (ListPreference) findPreference("currencySettings");
+        // here
+        DbHelper dbHelper = new DbHelper(getActivity().getApplicationContext());
+        List<Profile> profiles = dbHelper.getProfiles();
+
+
+        final ListPreference listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
+        listPreferenceCurrencySettings = (ListPreference) findPreference("currencySettings");
 
         SwitchPreference switchPreferenceEnableNotifications = (SwitchPreference)
                 findPreference("enableNotificationsSettings");
 
         final ListPreference listPreferenceCheckInterval = (ListPreference) findPreference("checkInterval");
 
+        // load profiles list from database and send them under as parameter
+        setListPrefSourceEntries(listPreferenceSourceSettings, profiles);
+
 
         listPreferenceSourceSettings.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 String s = (String) o;
+                System.out.println(s + "<-- CHOSEN!");
 
-//                if(s.equals(CexProfile.baseUrl)){
-//                    listPreferenceCurrencySettings.setEntries(CexProfile.currencies);
-//                    listPreferenceCurrencySettings.setEntryValues(CexProfile.currencies);
-//
-//                }else if(s.equals(GeminiProfile.baseUrl)){
-//                    listPreferenceCurrencySettings.setEntries(GeminiProfile.currencies);
-//                    listPreferenceCurrencySettings.setEntryValues(GeminiProfile.currencies);
-//                }
+                Profile profile = new Gson().fromJson(s, Profile.class);
 
-                listPreferenceCurrencySettings.setValue("USD");
+                setListPrefCurrencyEntries(listPreferenceCurrencySettings, profile.getCurrencies());
 
                 return true;
             }
         });
 
+        listPreferenceCurrencySettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                String hey = preference.getSharedPreferences().getString("currencySettings", null);
+                System.out.println(hey + "<-- DOES IT WORK?!");
+
+                return true;
+            }
+        });
 
         switchPreferenceEnableNotifications.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -121,5 +129,45 @@ public class PreferencesFragment extends PreferenceFragment {
         });
 
     }
+
+
+    private void setListPrefSourceEntries(ListPreference lp, List<Profile> profiles){
+
+        List<String> tmp = new ArrayList<>();
+        List<String> tmp2 = new ArrayList<>();
+
+        for(Profile p : profiles){
+            tmp.add(p.getSite());
+            tmp2.add(new Gson().toJson(p));
+        }
+
+        CharSequence[] csEntries = tmp.toArray(new CharSequence[tmp.size()]);
+        CharSequence[] csEntryVals = tmp2.toArray(new CharSequence[tmp2.size()]);
+
+        lp.setEntries(csEntries);
+        lp.setEntryValues(csEntryVals);
+
+
+        if(lp.getValue() == null){
+            lp.setValue(tmp2.get(0));
+        }
+
+        setListPrefCurrencyEntries(listPreferenceCurrencySettings, new Gson().fromJson(lp.getValue(), Profile.class).getCurrencies());
+
+    }
+
+
+
+    private void setListPrefCurrencyEntries(ListPreference lp, List<String> values){
+        CharSequence[] cs = values.toArray(new CharSequence[values.size()]);
+        lp.setEntries(cs);
+        lp.setEntryValues(cs);
+
+        if(lp.getValue() == null || !values.contains(lp.getValue())) {
+            lp.setValue(values.get(0));
+        }
+    }
+
+
 
 }
