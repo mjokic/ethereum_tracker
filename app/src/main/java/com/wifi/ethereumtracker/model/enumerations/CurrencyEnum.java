@@ -5,10 +5,12 @@ public class CurrencyEnum {
     public static String getSign(String currency){
 
         switch (currency){
-            case "EUR":
+            case "eur":
                 return "€";
-            case "GBP":
+            case "gbp":
                 return "£";
+            case "btc":
+                return "฿";
             default:
                 return "$";
         }
