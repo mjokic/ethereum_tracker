@@ -2,6 +2,7 @@ package com.wifi.ethereumtracker.model;
 
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -60,8 +61,10 @@ public class RetrofitTask {
     }
 
 
-    public void runAsync(final double myValue, final TextView textViewEtherValue,
-                         final ImageView refreshImage, Context context){
+    public void runAsync(final double myValue,
+                         final TextView textViewEtherValue,
+                         final TextView textView24HrChange,
+                         final ImageView refreshImage, final Context context){
 
         startRefreshAnimation(refreshImage, context);
 
@@ -72,7 +75,17 @@ public class RetrofitTask {
                 if(response.code() == 200) {
                     ResponsePojo responsePojo = response.body();
 
+                    double _24HrChange = responsePojo.getChange24hour();
+
+                    if(_24HrChange >= 0){
+                        textView24HrChange.setTextColor(ContextCompat.getColor(context, R.color.positive));
+                    }else{
+                        textView24HrChange.setTextColor(ContextCompat.getColor(context, R.color.negative));
+                        _24HrChange = _24HrChange * (-1);
+                    }
+
                     textViewEtherValue.setText(String.format("%.2f", responsePojo.getCurrentPrice() * myValue));
+                    textView24HrChange.setText(String.valueOf(_24HrChange) + "%");
                 }
 
                 stopRefreshAnimation(refreshImage);

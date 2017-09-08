@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textViewMyValue;
     private TextView textViewEtherValue;
+    private TextView textView24HrChange;
 
     private double myValue;
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         textViewMyValue = (TextView) findViewById(R.id.textViewMyValue);
         textViewEtherValue = (TextView) findViewById(R.id.textViewEtherValue);
-
+        textView24HrChange = (TextView) findViewById(R.id.textView24HrChange);
     }
 
     @Override
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         String currency = loadCurrencyPrefs();
 
         RetrofitTask retrofitTask = new RetrofitTask(source, currency);
-        retrofitTask.runAsync(myValue, textViewEtherValue, refreshImageView, getApplicationContext());
+        retrofitTask.runAsync(myValue, textViewEtherValue, textView24HrChange, refreshImageView, getApplicationContext());
 
     }
 
