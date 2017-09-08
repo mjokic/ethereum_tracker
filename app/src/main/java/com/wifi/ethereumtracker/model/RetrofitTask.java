@@ -16,6 +16,7 @@ import com.wifi.ethereumtracker.services.apiCalls.ApiService;
 
 import java.io.IOException;
 
+import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -33,9 +34,16 @@ public class RetrofitTask {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
 
+        CertificatePinner certificatePinner = new CertificatePinner.Builder()
+                .add("coinvalue.live", "sha256/OhfxxAo+3duMtfTAMgnPhh5N42+aoPAU9+mwTZQfdTc=")
+                .add("coinvalue.live", "sha256/x9SZw6TwIqfmvrLZ/kz1o0Ossjmn728BnBKpUFqGNVM=")
+                .add("coinvalue.live", "sha256/58qRu/uxh4gFezqAcERupSkRYBlBAvfcw7mEjGPLnNU=")
+                .build();
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor).build();
+                .addInterceptor(interceptor)
+                .certificatePinner(certificatePinner)
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
