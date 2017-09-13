@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.lb.auto_fit_textview.AutoResizeTextView;
 import com.wifi.ethereumtracker.model.Profile;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
@@ -27,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private TextView textViewMyValue;
-    private TextView textViewEtherValue;
+//    private TextView textViewEtherValue;
     private TextView textView24HrChange;
+    private AutoResizeTextView textViewEtherValue;
 
     private double myValue;
 
@@ -44,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         textViewMyValue = (TextView) findViewById(R.id.textViewMyValue);
-        textViewEtherValue = (TextView) findViewById(R.id.textViewEtherValue);
+//        textViewEtherValue = (TextView) findViewById(R.id.textViewEtherValue);
+        textViewEtherValue = (AutoResizeTextView) findViewById(R.id.textViewEtherValue);
         textView24HrChange = (TextView) findViewById(R.id.textView24HrChange);
     }
 
@@ -126,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         String currency = loadCurrencyPrefs();
 
         RetrofitTask retrofitTask = new RetrofitTask(source, currency);
-        retrofitTask.runAsync(myValue, textViewEtherValue, textView24HrChange, refreshImageView, getApplicationContext());
+        retrofitTask.runAsync(myValue, currency, textViewEtherValue, textView24HrChange, refreshImageView, getApplicationContext());
 
     }
 

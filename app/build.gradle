@@ -35,5 +35,6 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.google.android.gms:play-services-auth:11.0.4'
+    compile 'com.github.AndroidDeveloperLB:AutoFitTextView:4'
     testCompile 'junit:junit:4.12'
 }

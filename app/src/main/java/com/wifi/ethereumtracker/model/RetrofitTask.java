@@ -3,12 +3,14 @@ package com.wifi.ethereumtracker.model;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lb.auto_fit_textview.AutoResizeTextView;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
@@ -70,9 +72,12 @@ public class RetrofitTask {
 
 
     public void runAsync(final double myValue,
-                         final TextView textViewEtherValue,
+                         final String currency,
+//                         final TextView textViewEtherValue,
+                         final AutoResizeTextView textViewEtherValue,
                          final TextView textView24HrChange,
-                         final ImageView refreshImage, final Context context){
+                         final ImageView refreshImage,
+                         final Context context){
 
         startRefreshAnimation(refreshImage, context);
 
@@ -92,7 +97,12 @@ public class RetrofitTask {
                         _24HrChange = _24HrChange * (-1);
                     }
 
-                    textViewEtherValue.setText(String.format("%.2f", responsePojo.getCurrentPrice() * myValue));
+                    if(currency.equals("btc")){
+                        textViewEtherValue.setText(String.format("%.5f", responsePojo.getCurrentPrice() * myValue));
+                    }else{
+                        textViewEtherValue.setText(String.format("%.2f", responsePojo.getCurrentPrice() * myValue));
+                    }
+
                     textView24HrChange.setText(String.valueOf(_24HrChange) + "%");
                 }
 

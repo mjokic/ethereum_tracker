@@ -32,7 +32,19 @@
         android:layout_toRightOf="@+id/textViewMyValue"
         />
 
-    <TextView
+    <!--<TextView-->
+        <!--android:id="@+id/textViewEtherValue"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="#fff"-->
+        <!--android:textSize="90sp"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:text=""-->
+        <!--android:layout_toRightOf="@+id/textViewCurrencySign"-->
+        <!--android:layout_toEndOf="@+id/textViewCurrencySign"-->
+    <!--/>-->
+
+    <com.lb.auto_fit_textview.AutoResizeTextView
         android:id="@+id/textViewEtherValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +54,7 @@
         android:text=""
         android:layout_toRightOf="@+id/textViewCurrencySign"
         android:layout_toEndOf="@+id/textViewCurrencySign"
-    />
+        />
 
     <TextView
         android:id="@+id/textViewCurrencySign"
