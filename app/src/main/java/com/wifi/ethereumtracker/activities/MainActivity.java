@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         textViewMyValue = (TextView) findViewById(R.id.textViewMyValue);
-//        textViewEtherValue = (TextView) findViewById(R.id.textViewEtherValue);
         textViewEtherValue = (AutoResizeTextView) findViewById(R.id.textViewEtherValue);
         textView24HrChange = (TextView) findViewById(R.id.textView24HrChange);
     }

@@ -3,7 +3,6 @@ package com.wifi.ethereumtracker.model;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -12,11 +11,12 @@ import android.widget.TextView;
 
 import com.lb.auto_fit_textview.AutoResizeTextView;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.model.pojo.CEXPojo;
+import com.wifi.ethereumtracker.db.DbHelper;
 import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
 import com.wifi.ethereumtracker.services.apiCalls.ApiService;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
@@ -30,6 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitTask {
 
     private String baseUrl = "https://coinvalue.live/";
+    private ApiService apiService;
     private Call<ResponsePojo> call;
 
     public RetrofitTask(String source, String currency){
@@ -54,7 +55,7 @@ public class RetrofitTask {
                 .build();
 
 
-        ApiService apiService = retrofit.create(ApiService.class);
+        this.apiService = retrofit.create(ApiService.class);
         this.call = apiService.getPrice(source, currency);
     }
 
@@ -73,7 +74,6 @@ public class RetrofitTask {
 
     public void runAsync(final double myValue,
                          final String currency,
-//                         final TextView textViewEtherValue,
                          final AutoResizeTextView textViewEtherValue,
                          final TextView textView24HrChange,
                          final ImageView refreshImage,
@@ -137,6 +137,32 @@ public class RetrofitTask {
 
         return responsePojo;
 
+    }
+
+
+    public boolean getSources(Context context){
+        boolean status = false;
+
+        Call call = this.apiService.getSources();
+        Response response;
+        try {
+            response = call.execute();
+        }catch (IOException ex){
+            ex.printStackTrace();
+            return status;
+        }
+
+        if(response.code() == 200){
+            List<Profile> lista = (List<Profile>) response.body();
+
+            DbHelper dbHelper = new DbHelper(context);
+            dbHelper.saveProfiles(lista);
+
+            status = true;
+        }
+
+
+        return status;
     }
 
 }

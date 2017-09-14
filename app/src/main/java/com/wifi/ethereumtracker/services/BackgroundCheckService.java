@@ -11,12 +11,7 @@ import com.google.gson.Gson;
 import com.wifi.ethereumtracker.broadcastReceivers.NotificationReceiver;
 import com.wifi.ethereumtracker.model.Profile;
 import com.wifi.ethereumtracker.model.RetrofitTask;
-import com.wifi.ethereumtracker.model.pojo.CEXPojo;
 import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class BackgroundCheckService extends Service {
 
@@ -33,10 +28,6 @@ public class BackgroundCheckService extends Service {
                 String currency = sharedPreferences.getString("currencySettings", "usd");
                 double valueMin = Double.parseDouble(sharedPreferences.getString("valueMinNotify", "0"));
                 double valueMax = Double.parseDouble(sharedPreferences.getString("valueMaxNotify", "0"));
-
-//                Profile profile = loadSourceProfile();
-//                Call call = profile.initialize(currency);
-//                double value = profile.runInBack(call, getApplicationContext());
 
                 Profile profile = new Gson().fromJson(p, Profile.class);
                 String source = profile.getSite();
