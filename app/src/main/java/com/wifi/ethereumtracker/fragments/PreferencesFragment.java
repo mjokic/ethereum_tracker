@@ -5,7 +5,9 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -18,6 +20,7 @@ import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
 import com.wifi.ethereumtracker.db.DbHelper;
 import com.wifi.ethereumtracker.model.Profile;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,13 +28,15 @@ import java.util.List;
 public class PreferencesFragment extends PreferenceFragment {
 
     public ListPreference listPreferenceCurrencySettings;
+    public EditTextPreference minNotifyValueEditTextPref;
+    public EditTextPreference maxNotifyValueEditTextPref;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        // here
         DbHelper dbHelper = new DbHelper(getActivity().getApplicationContext());
         List<Profile> profiles = dbHelper.getProfiles();
 
@@ -39,10 +44,57 @@ public class PreferencesFragment extends PreferenceFragment {
         final ListPreference listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
         listPreferenceCurrencySettings = (ListPreference) findPreference("currencySettings");
 
+
+        // checking if myValue is valid
+        EditTextPreference myValueEditTextPref = (EditTextPreference) findPreference("myValue");
+        myValueEditTextPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                try {
+                    Double.parseDouble((String) o);
+                }catch (Exception ex){
+                    return false;
+                }
+
+                return true;
+            }
+        });
+
+
         SwitchPreference switchPreferenceEnableNotifications = (SwitchPreference)
                 findPreference("enableNotificationsSettings");
 
         final ListPreference listPreferenceCheckInterval = (ListPreference) findPreference("checkInterval");
+
+        minNotifyValueEditTextPref = (EditTextPreference) findPreference("valueMinNotify");
+        maxNotifyValueEditTextPref = (EditTextPreference) findPreference("valueMaxNotify");
+
+        minNotifyValueEditTextPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                try{
+                    Double.parseDouble((String) o);
+                }catch (Exception ex){
+                    return false;
+                }
+
+                return true;
+            }
+        });
+
+        maxNotifyValueEditTextPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                try{
+                    Double.parseDouble((String) o);
+                }catch (Exception ex){
+                    return false;
+                }
+
+                return true;
+            }
+        });
+
 
         // load profiles list from database and send them under as parameter
         setListPrefSourceEntries(listPreferenceSourceSettings, profiles);
@@ -76,6 +128,14 @@ public class PreferencesFragment extends PreferenceFragment {
         switchPreferenceEnableNotifications.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
+
+                int currentPrice = getPreferenceManager()
+                        .getSharedPreferences().getInt("currentPrice", 0);
+                int tenPercent = calculate10Percent(currentPrice);
+
+                // set default values
+                minNotifyValueEditTextPref.setText(String.valueOf(currentPrice - tenPercent));
+                maxNotifyValueEditTextPref.setText(String.valueOf(currentPrice + tenPercent));
 
                 boolean status = (boolean) o;
 
@@ -170,4 +230,7 @@ public class PreferencesFragment extends PreferenceFragment {
 
 
 
+    private int calculate10Percent(int value){
+        return value * 10 / 100;
+    }
 }

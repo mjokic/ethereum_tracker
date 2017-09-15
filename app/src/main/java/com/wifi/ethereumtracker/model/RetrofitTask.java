@@ -2,6 +2,8 @@ package com.wifi.ethereumtracker.model;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.Animation;
@@ -97,13 +99,21 @@ public class RetrofitTask {
                         _24HrChange = _24HrChange * (-1);
                     }
 
+                    double currentPrice = responsePojo.getCurrentPrice();
+
                     if(currency.equals("btc")){
-                        textViewEtherValue.setText(String.format("%.5f", responsePojo.getCurrentPrice() * myValue));
+                        textViewEtherValue.setText(String.format("%.5f", currentPrice * myValue));
                     }else{
-                        textViewEtherValue.setText(String.format("%.2f", responsePojo.getCurrentPrice() * myValue));
+                        textViewEtherValue.setText(String.format("%.2f", currentPrice * myValue));
                     }
 
                     textView24HrChange.setText(String.valueOf(_24HrChange) + "%");
+
+
+
+                    SharedPreferences sharedPreferences =
+                            PreferenceManager.getDefaultSharedPreferences(context);
+                    sharedPreferences.edit().putInt("currentPrice", (int)currentPrice).apply();
                 }
 
                 stopRefreshAnimation(refreshImage);
