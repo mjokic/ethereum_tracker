@@ -34,6 +34,9 @@ public class BackgroundCheckService extends Service {
 
                 RetrofitTask retrofitTask = new RetrofitTask(source, currency);
                 ResponsePojo responsePojo = retrofitTask.runSync();
+
+                if(responsePojo == null) return;
+
                 double value = responsePojo.getCurrentPrice();
 
                 String title;
