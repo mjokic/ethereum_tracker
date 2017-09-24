@@ -8,4 +8,5 @@
     <color name="background">#000d1a</color>
     <color name="positive">#0ADC00</color>
     <color name="negative">#f00000</color>
+    <color name="colorWidgetBackground">#01161616</color>
 </resources>

@@ -3,6 +3,8 @@ package com.wifi.ethereumtracker.fragments;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,14 +13,17 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
+import android.widget.RemoteViews;
 
 import com.google.gson.Gson;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
 import com.wifi.ethereumtracker.db.DbHelper;
 import com.wifi.ethereumtracker.model.Profile;
+import com.wifi.ethereumtracker.widgets.AppWidget;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -46,6 +51,7 @@ public class PreferencesFragment extends PreferenceFragment
         ListPreference listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
 
         listPreferenceCurrencySettings = (ListPreference) findPreference("currencySettings");
+        listPreferenceCurrencySettings.setOnPreferenceChangeListener(this);
 
 
         // checking if myValue is valid
@@ -81,8 +87,13 @@ public class PreferencesFragment extends PreferenceFragment
 
         switch (preference.getKey()){
             case "sourceSettings":
+                updateWidget();
                 return sourceSettingsOnChange(o);
+            case "currencySettings":
+                updateWidget();
+                return true;
             case "myValue":
+                updateWidget();
                 return myValueSettingsOnChange(o);
             case "enableNotificationsSettings":
                 return enableNotfOnChange(o);
@@ -216,10 +227,28 @@ public class PreferencesFragment extends PreferenceFragment
         if(lp.getValue() == null || !values.contains(lp.getValue())) {
             lp.setValue(values.get(0));
         }
+
     }
 
     private int calculate10Percent(int value){
         return value * 10 / 100;
+    }
+
+
+    private void updateWidget(){
+        Intent intent = new Intent(getActivity().getApplicationContext(), AppWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+
+        // have no idea what this does, i've just c+p from SO
+        int ids[] =
+                AppWidgetManager
+                        .getInstance(getActivity().getApplication()).getAppWidgetIds(new ComponentName(getActivity().getApplication(), AppWidget.class));
+
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        getActivity().sendBroadcast(intent);
+
     }
 
 }
