@@ -4,24 +4,21 @@
     <PreferenceCategory android:title="Options">
         <ListPreference
             android:key="sourceSettings"
-            android:title="Source"
             android:summary="Select source of data"
-            />
+            android:title="Source" />
 
         <ListPreference
             android:key="currencySettings"
-            android:title="Currency"
             android:summary="Currency to display"
-            />
+            android:title="Currency" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Personal">
         <EditTextPreference
-            android:key="myValue"
-            android:title="My ETH Value"
-            android:inputType="numberDecimal"
             android:defaultValue="1"
-            />
+            android:inputType="numberDecimal"
+            android:key="myValue"
+            android:title="My ETH Value" />
 
     </PreferenceCategory>
 
@@ -29,36 +26,32 @@
     <PreferenceCategory android:title="Notifications">
 
         <SwitchPreference
-            android:key="enableNotificationsSettings"
-            android:title="Enable Notifications"
             android:defaultValue="false"
-            />
+            android:key="enableNotificationsSettings"
+            android:title="Enable Notifications" />
 
         <ListPreference
-            android:key="checkInterval"
-            android:title="Check Interval"
-            android:summary="How often app do a check in background"
-            android:entries="@array/timeInterval"
-            android:entryValues="@array/timeIntervalValues"
             android:defaultValue="1800000"
             android:dependency="enableNotificationsSettings"
-            />
+            android:entries="@array/timeInterval"
+            android:entryValues="@array/timeIntervalValues"
+            android:key="checkInterval"
+            android:summary="How often app do a check in background"
+            android:title="Check Interval" />
 
         <EditTextPreference
+            android:dependency="enableNotificationsSettings"
+            android:inputType="numberDecimal"
             android:key="valueMinNotify"
-            android:title="Min Notify Value"
             android:summary="Notify when price drop bellow this value"
-            android:inputType="numberDecimal"
-            android:dependency="enableNotificationsSettings"
-            />
+            android:title="Min Notify Value" />
 
         <EditTextPreference
-            android:key="valueMaxNotify"
-            android:title="Max Notify Value"
-            android:summary="Notify when price pass this value"
-            android:inputType="numberDecimal"
             android:dependency="enableNotificationsSettings"
-            />
+            android:inputType="numberDecimal"
+            android:key="valueMaxNotify"
+            android:summary="Notify when price pass this value"
+            android:title="Max Notify Value" />
 
 
     </PreferenceCategory>

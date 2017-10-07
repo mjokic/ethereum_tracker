@@ -4,15 +4,11 @@
     <string-array name="sources">
         <item>CEX.io</item>
         <item>Gemini</item>
-        <!--<item>poloniex</item>-->
-        <!--<item>kraken</item>-->
     </string-array>
 
     <string-array name="sourcesValue">
         <item>https://cex.io/</item>
         <item>https://api.gemini.com/</item>
-        <!--<item>poloniex</item>-->
-        <!--<item>kraken</item>-->
     </string-array>
 
 

@@ -4,9 +4,8 @@
 
     <item
         android:id="@+id/toolbarSettingsBtn"
-        android:title="Settings"
         android:icon="@drawable/ic_settings_white"
-        app:showAsAction="always"
-        />
+        android:title="@string/settings"
+        app:showAsAction="always" />
 
 </menu>
