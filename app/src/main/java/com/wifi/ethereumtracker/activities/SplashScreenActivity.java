@@ -1,7 +1,8 @@
 package com.wifi.ethereumtracker.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.services.asyncTasks.SplashAsyncTask;
 

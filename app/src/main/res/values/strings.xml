@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Ethereum Tracker</string>
 
+    <string name="base_url">https://coinvalue.live/</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="defaultSource">https://cex.io/</string>
     <string name="defaultCurrency">USD</string>

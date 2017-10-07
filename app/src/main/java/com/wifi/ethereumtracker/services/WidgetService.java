@@ -3,9 +3,7 @@ package com.wifi.ethereumtracker.services;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 
@@ -30,7 +28,7 @@ public class WidgetService extends Service {
                 String currency = intent.getStringExtra("currency");
                 String myValue = intent.getStringExtra("myValue");
 
-                RetrofitTask rt = new RetrofitTask(source, currency);
+                RetrofitTask rt = new RetrofitTask(source, currency, getApplicationContext());
                 ResponsePojo rp = rt.runSync();
 
                 String price = Double.toString(rp.getCurrentPrice() * Double.parseDouble(myValue));

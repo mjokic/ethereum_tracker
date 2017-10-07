@@ -2,9 +2,9 @@ package com.wifi.ethereumtracker.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.lb.auto_fit_textview.AutoResizeTextView;
+import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.model.Profile;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
-import com.wifi.ethereumtracker.R;
 
 import java.text.DecimalFormat;
 
@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private TextView textViewMyValue;
-//    private TextView textViewEtherValue;
     private TextView textView24HrChange;
     private AutoResizeTextView textViewEtherValue;
 
@@ -71,28 +70,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == R.id.toolbarSettingsBtn){
+        if (item.getItemId() == R.id.toolbarSettingsBtn) {
             openOptions();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickRefresh(View view){
+    public void onClickRefresh(View view) {
         // refresh ether value bellow..
         getEtherValue((ImageView) view);
 
     }
 
 
-    private void openOptions(){
+    private void openOptions() {
         // open options activity
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);
     }
 
 
-    private void loadMyValuePrefs(){
+    private void loadMyValuePrefs() {
         this.myValue = Double.parseDouble(sharedPreferences.getString("myValue", "1"));
 
         DecimalFormat format = new DecimalFormat("0.######");
@@ -100,18 +99,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private String loadSourcePrefs(){
+    private String loadSourcePrefs() {
         String p = sharedPreferences.getString("sourceSettings", "null");
         Profile profile = new Gson().fromJson(p, Profile.class);
 
-        if(p.equals("null")){
+        if (p.equals("null")) {
             return "cex";
         }
 
         return profile.getSite();
     }
 
-    private String loadCurrencyPrefs(){
+    private String loadCurrencyPrefs() {
         String currency = sharedPreferences.getString("currencySettings", "usd");
 
         TextView textView = (TextView) findViewById(R.id.textViewCurrencySign);
@@ -122,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void getEtherValue(final ImageView refreshImageView){
+    private void getEtherValue(final ImageView refreshImageView) {
 
         String source = loadSourcePrefs();
         String currency = loadCurrencyPrefs();
 
-        RetrofitTask retrofitTask = new RetrofitTask(source, currency);
-        retrofitTask.runAsync(myValue, currency, textViewEtherValue, textView24HrChange, refreshImageView, getApplicationContext());
+        RetrofitTask retrofitTask = new RetrofitTask(source, currency, this);
+        retrofitTask.runAsync(myValue, currency, textViewEtherValue, textView24HrChange, refreshImageView);
 
     }
 

@@ -9,19 +9,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.renderscript.Double2;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.model.Profile;
-import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
-import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
 import com.wifi.ethereumtracker.services.WidgetService;
-
-import org.w3c.dom.Text;
 
 /**
  * Implementation of App Widget functionality.
@@ -43,9 +37,9 @@ public class AppWidget extends AppWidgetProvider {
         Profile profile = new Gson().fromJson(p, Profile.class);
 
         String source;
-        if(profile == null){
+        if (profile == null) {
             source = "cex";
-        }else {
+        } else {
             source = profile.getSite();
         }
 
@@ -84,14 +78,12 @@ public class AppWidget extends AppWidgetProvider {
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
         // maybe start a service
-        System.out.println("Hellofromtheotherside");
     }
 
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
         // maybe stop a service
-        System.out.println("DISABLED!?");
     }
 
 
@@ -99,7 +91,6 @@ public class AppWidget extends AppWidgetProvider {
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
         // called on resize
-        System.out.println("RESIZED? YES");
     }
 
 
@@ -108,14 +99,14 @@ public class AppWidget extends AppWidgetProvider {
         super.onReceive(context, intent);
 
         // not sure if this is correct way to update widget on click
-        if(WIDGET_CLICKED.equals(intent.getAction())){
+        if (WIDGET_CLICKED.equals(intent.getAction())) {
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
 
             int ids[] =
                     AppWidgetManager
                             .getInstance(context).getAppWidgetIds(new ComponentName(context, AppWidget.class));
 
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
             context.sendBroadcast(intent);
 
         }

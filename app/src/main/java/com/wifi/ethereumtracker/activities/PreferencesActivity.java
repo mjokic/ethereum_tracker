@@ -8,16 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.db.DbHelper;
 import com.wifi.ethereumtracker.fragments.PreferencesFragment;
-import com.wifi.ethereumtracker.model.Profile;
 
-import java.util.List;
-
-public class PreferencesActivity extends AppCompatActivity{
+public class PreferencesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

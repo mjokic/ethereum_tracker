@@ -10,7 +10,7 @@ import android.os.AsyncTask;
 import com.wifi.ethereumtracker.activities.MainActivity;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 
-public class SplashAsyncTask extends AsyncTask<Context, Void, Boolean>{
+public class SplashAsyncTask extends AsyncTask<Context, Void, Boolean> {
 
     private Context context;
 
@@ -18,21 +18,17 @@ public class SplashAsyncTask extends AsyncTask<Context, Void, Boolean>{
     protected Boolean doInBackground(Context... contexts) {
         // Get sources from info endpoint
         this.context = contexts[0];
-        boolean stat = new RetrofitTask("doesn't", "matter")
-                .getSources(context);
-        System.out.println(stat + "<-- status");
-
-        return stat;
+        return new RetrofitTask("doesn't", "matter", context).getSources();
     }
 
     @Override
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
 
-        if(result) {
+        if (result) {
             Intent intent = new Intent(context, MainActivity.class);
             this.context.startActivity(intent);
-        }else {
+        } else {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
             alertDialog.setTitle("Error!");
             alertDialog.setMessage("There's an error while loading sources!\n" +

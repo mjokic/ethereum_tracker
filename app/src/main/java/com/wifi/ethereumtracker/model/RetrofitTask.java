@@ -4,6 +4,7 @@ package com.wifi.ethereumtracker.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,6 +20,7 @@ import com.wifi.ethereumtracker.services.apiCalls.ApiService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
@@ -29,13 +31,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@SuppressWarnings("unchecked")
 public class RetrofitTask {
 
-    private String baseUrl = "https://coinvalue.live/";
     private ApiService apiService;
     private Call<ResponsePojo> call;
 
-    public RetrofitTask(String source, String currency){
+    private Context context;
+
+    public RetrofitTask(String source, String currency, Context context) {
+        this.context = context;
+
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -51,7 +57,7 @@ public class RetrofitTask {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(context.getResources().getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -62,14 +68,12 @@ public class RetrofitTask {
     }
 
 
-
-
-    void startRefreshAnimation(View view, Context context){
-        Animation myAnimation =  AnimationUtils.loadAnimation(context, R.anim.refresh_animation);
+    private void startRefreshAnimation(View view) {
+        Animation myAnimation = AnimationUtils.loadAnimation(context, R.anim.refresh_animation);
         view.startAnimation(myAnimation);
     }
 
-    void stopRefreshAnimation(View view){
+    private void stopRefreshAnimation(View view) {
         view.clearAnimation();
     }
 
@@ -78,49 +82,49 @@ public class RetrofitTask {
                          final String currency,
                          final AutoResizeTextView textViewEtherValue,
                          final TextView textView24HrChange,
-                         final ImageView refreshImage,
-                         final Context context){
+                         final ImageView refreshImage) {
 
-        startRefreshAnimation(refreshImage, context);
+        startRefreshAnimation(refreshImage);
 
         this.call.enqueue(new Callback<ResponsePojo>() {
             @Override
-            public void onResponse(Call<ResponsePojo> call, Response<ResponsePojo> response) {
+            public void onResponse(@NonNull Call<ResponsePojo> call, @NonNull Response<ResponsePojo> response) {
 
-                if(response.code() == 200) {
+                if (response.code() == 200) {
                     ResponsePojo responsePojo = response.body();
 
+                    if (responsePojo == null) return;
                     double _24HrChange = responsePojo.getChange24hour();
 
-                    if(_24HrChange >= 0){
+                    if (_24HrChange >= 0) {
                         textView24HrChange.setTextColor(ContextCompat.getColor(context, R.color.positive));
-                    }else{
+                    } else {
                         textView24HrChange.setTextColor(ContextCompat.getColor(context, R.color.negative));
                         _24HrChange = _24HrChange * (-1);
                     }
 
                     double currentPrice = responsePojo.getCurrentPrice();
 
-                    if(currency.equals("btc")){
-                        textViewEtherValue.setText(String.format("%.5f", currentPrice * myValue));
-                    }else{
-                        textViewEtherValue.setText(String.format("%.2f", currentPrice * myValue));
+                    if (currency.equals("btc")) {
+                        textViewEtherValue.setText(String.format(Locale.getDefault(), "%.5f", currentPrice * myValue));
+                    } else {
+                        textViewEtherValue.setText(String.format(Locale.getDefault(), "%.2f", currentPrice * myValue));
                     }
 
-                    textView24HrChange.setText(String.valueOf(_24HrChange) + "%");
-
+                    String result = String.valueOf(_24HrChange) + "%";
+                    textView24HrChange.setText(result);
 
 
                     SharedPreferences sharedPreferences =
                             PreferenceManager.getDefaultSharedPreferences(context);
-                    sharedPreferences.edit().putInt("currentPrice", (int)currentPrice).apply();
+                    sharedPreferences.edit().putInt("currentPrice", (int) currentPrice).apply();
                 }
 
                 stopRefreshAnimation(refreshImage);
             }
 
             @Override
-            public void onFailure(Call<ResponsePojo> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponsePojo> call, @NonNull Throwable t) {
                 t.printStackTrace();
                 stopRefreshAnimation(refreshImage);
             }
@@ -129,17 +133,17 @@ public class RetrofitTask {
     }
 
 
-    public ResponsePojo runSync(){
+    public ResponsePojo runSync() {
         ResponsePojo responsePojo = null;
 
         try {
             Response response = this.call.execute();
 
-            if(response.code() == 200){
+            if (response.code() == 200) {
                 responsePojo = (ResponsePojo) response.body();
             }
 
-        }catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
             return null;
         }
@@ -150,19 +154,19 @@ public class RetrofitTask {
     }
 
 
-    public boolean getSources(Context context){
+    public boolean getSources() {
         boolean status = false;
 
         Call call = this.apiService.getSources();
         Response response;
         try {
             response = call.execute();
-        }catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
-            return status;
+            return false;
         }
 
-        if(response.code() == 200){
+        if (response.code() == 200) {
             List<Profile> lista = (List<Profile>) response.body();
 
             DbHelper dbHelper = new DbHelper(context);
@@ -170,7 +174,6 @@ public class RetrofitTask {
 
             status = true;
         }
-
 
         return status;
     }

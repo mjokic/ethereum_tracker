@@ -18,8 +18,8 @@ public class BackgroundCheckService extends Service {
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
 
-        Thread thread = new Thread(){
-            public void run(){
+        Thread thread = new Thread() {
+            public void run() {
 
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -32,24 +32,24 @@ public class BackgroundCheckService extends Service {
                 Profile profile = new Gson().fromJson(p, Profile.class);
                 String source = profile.getSite();
 
-                RetrofitTask retrofitTask = new RetrofitTask(source, currency);
+                RetrofitTask retrofitTask = new RetrofitTask(source, currency, getApplicationContext());
                 ResponsePojo responsePojo = retrofitTask.runSync();
 
-                if(responsePojo == null) return;
+                if (responsePojo == null) return;
 
                 double value = responsePojo.getCurrentPrice();
 
                 String title;
                 String message;
 
-                if(value <= valueMin){
+                if (value <= valueMin) {
                     title = "Price dropped bellow " + valueMin;
                     message = "Current value is " + value;
 
-                }else if(value >= valueMax){
+                } else if (value >= valueMax) {
                     title = "Price went above " + valueMax;
                     message = "Current value is " + value;
-                }else {
+                } else {
                     return;
                 }
 
@@ -71,7 +71,7 @@ public class BackgroundCheckService extends Service {
     }
 
 
-    private void sendNotificationBroadcast(String title, String message){
+    private void sendNotificationBroadcast(String title, String message) {
         Intent i = new Intent(getApplicationContext(), NotificationReceiver.class);
         i.putExtra("title", title);
         i.putExtra("message", message);

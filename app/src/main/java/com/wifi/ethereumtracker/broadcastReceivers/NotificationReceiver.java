@@ -7,10 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
-import android.support.v4.app.NotificationManagerCompat;
 
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.activities.MainActivity;
 
 public class NotificationReceiver extends BroadcastReceiver {
 
@@ -29,7 +27,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(R.drawable.app_icon)
-                .setVibrate(new long[] {100, 500, 300, 500, 800, 500, 300, 500});
+                .setVibrate(new long[]{100, 500, 300, 500, 800, 500, 300, 500});
 
         NotificationManager manager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);

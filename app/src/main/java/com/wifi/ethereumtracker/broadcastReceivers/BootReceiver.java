@@ -11,7 +11,7 @@ import android.preference.PreferenceManager;
 
 import java.util.Calendar;
 
-public class BootReceiver extends BroadcastReceiver{
+public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -19,10 +19,7 @@ public class BootReceiver extends BroadcastReceiver{
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         boolean b = sharedPreferences.getBoolean("enableNotificationsSettings", false);
-        System.out.println(b + " <-- HERRO!");
-
-        if(!b) return;
-
+        if (!b) return;
 
         String tmp = sharedPreferences.getString("checkInterval", "1800000");
         System.out.println(tmp);

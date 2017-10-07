@@ -13,9 +13,10 @@ public class Profile {
     private String site;
     private List<String> currencies;
 
-    public Profile(){}
+    public Profile() {
+    }
 
-    public Profile(String site, List<String> currencies){
+    public Profile(String site, List<String> currencies) {
         this.site = site;
         this.currencies = currencies;
     }
