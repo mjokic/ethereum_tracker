@@ -33,7 +33,7 @@ public class WidgetService extends Service {
 
                 String price = Double.toString(rp.getCurrentPrice() * Double.parseDouble(myValue));
 
-                RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.app_widget);
+                RemoteViews remoteViews = new RemoteViews("com.wifi.ethereumtracker", R.layout.app_widget);
                 remoteViews.setTextViewText(R.id.textViewEthPrice, price);
 
                 appWidgetManager.updateAppWidget(widgetId, remoteViews);

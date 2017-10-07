@@ -42,9 +42,6 @@ public class RetrofitTask {
     public RetrofitTask(String source, String currency, Context context) {
         this.context = context;
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor()
-                .setLevel(HttpLoggingInterceptor.Level.BODY);
-
         CertificatePinner certificatePinner = new CertificatePinner.Builder()
                 .add("coinvalue.live", "sha256/OhfxxAo+3duMtfTAMgnPhh5N42+aoPAU9+mwTZQfdTc=")
                 .add("coinvalue.live", "sha256/x9SZw6TwIqfmvrLZ/kz1o0Ossjmn728BnBKpUFqGNVM=")
@@ -52,7 +49,6 @@ public class RetrofitTask {
                 .build();
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
                 .certificatePinner(certificatePinner)
                 .build();
 
@@ -83,6 +79,8 @@ public class RetrofitTask {
                          final AutoResizeTextView textViewEtherValue,
                          final TextView textView24HrChange,
                          final ImageView refreshImage) {
+
+        HttpLoggingInterceptor.Logger.DEFAULT.log("Run async");
 
         startRefreshAnimation(refreshImage);
 
@@ -134,6 +132,8 @@ public class RetrofitTask {
 
 
     public ResponsePojo runSync() {
+        HttpLoggingInterceptor.Logger.DEFAULT.log("Run sync");
+
         ResponsePojo responsePojo = null;
 
         try {
@@ -155,6 +155,8 @@ public class RetrofitTask {
 
 
     public boolean getSources() {
+        HttpLoggingInterceptor.Logger.DEFAULT.log("Getting sources");
+
         boolean status = false;
 
         Call call = this.apiService.getSources();
