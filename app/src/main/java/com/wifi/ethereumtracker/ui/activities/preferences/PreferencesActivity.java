@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.activities;
+package com.wifi.ethereumtracker.ui.activities;
 
 
 import android.app.FragmentManager;
@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.fragments.PreferencesFragment;
+import com.wifi.ethereumtracker.ui.fragments.PreferencesFragment;
 
 public class PreferencesActivity extends AppCompatActivity {
 

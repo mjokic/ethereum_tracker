@@ -44,6 +44,10 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.12'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.12'
 
+    // butterknife
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     compile 'com.google.android.gms:play-services-auth:11.6.0'
     compile 'com.github.AndroidDeveloperLB:AutoFitTextView:4'
     testCompile 'junit:junit:4.12'
