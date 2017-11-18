@@ -52,6 +52,17 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.12'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.12'
 
+    // auto-value
+    provided "com.google.auto.value:auto-value:1.4.1"
+    annotationProcessor "com.google.auto.value:auto-value:1.4.1"
+
+    // auto-value-gson
+    provided 'com.ryanharter.auto.value:auto-value-gson-annotations:0.6.0'
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.6.0'
+
+    // gson
+    compile 'com.google.code.gson:gson:2.8.2'
+
     // butterknife
     compile 'com.jakewharton:butterknife:8.8.1'
     compile 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -72,6 +83,8 @@ dependencies {
     // timber
     implementation 'com.jakewharton.timber:timber:4.6.0'
 
+    // db inspector
+    debugCompile 'im.dino:dbinspector:3.4.1@aar'
 
     compile 'com.google.android.gms:play-services-auth:11.6.0'
     compile 'com.github.AndroidDeveloperLB:AutoFitTextView:4'

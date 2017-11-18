@@ -13,7 +13,7 @@ import android.widget.RemoteViews;
 
 import com.google.gson.Gson;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.model.Profile;
+import com.wifi.ethereumtracker.model.ProfileOld;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.services.WidgetService;
 
@@ -34,13 +34,13 @@ public class AppWidget extends AppWidgetProvider {
         String myValue = sharedPreferences.getString("myValue", "1");
 
         String p = sharedPreferences.getString("sourceSettings", null);
-        Profile profile = new Gson().fromJson(p, Profile.class);
+        ProfileOld profileOld = new Gson().fromJson(p, ProfileOld.class);
 
         String source;
-        if (profile == null) {
+        if (profileOld == null) {
             source = "cex";
         } else {
-            source = profile.getSite();
+            source = profileOld.getSite();
         }
 
         String currency = sharedPreferences.getString("currencySettings", "usd");

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.wifi.ethereumtracker.model.Profile;
+import com.wifi.ethereumtracker.model.ProfileOld;
 
 import java.util.List;
 
@@ -25,16 +25,16 @@ public class DbHelper {
         this.db.execSQL("CREATE TABLE IF NOT EXISTS info(data BLOB);");
     }
 
-    public void saveProfiles(List<Profile> profiles){
+    public void saveProfiles(List<ProfileOld> profileOlds){
         ContentValues contentValues = new ContentValues();
-        contentValues.put("data", new Gson().toJson(profiles).getBytes());
+        contentValues.put("data", new Gson().toJson(profileOlds).getBytes());
 
         this.db.insert("info", "data", contentValues);
 
         closeDbConn();
     }
 
-    public List<Profile> getProfiles(){
+    public List<ProfileOld> getProfiles(){
         Cursor cursor = db.rawQuery("SELECT * FROM info", null);
         cursor.moveToLast();
 
@@ -43,11 +43,11 @@ public class DbHelper {
 
         String json = new String(blob);
 
-        List<Profile> profiles = new Gson().fromJson(json, new TypeToken<List<Profile>>(){}.getType());
+        List<ProfileOld> profileOlds = new Gson().fromJson(json, new TypeToken<List<ProfileOld>>(){}.getType());
 
         closeDbConn();
 
-        return profiles;
+        return profileOlds;
     }
 
     private void closeDbConn(){

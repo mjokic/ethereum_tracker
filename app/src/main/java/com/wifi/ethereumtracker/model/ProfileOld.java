@@ -3,20 +3,20 @@ package com.wifi.ethereumtracker.model;
 
 import java.util.List;
 
-public class Profile {
+public class ProfileOld {
     /**
-        This contains name of 'source' site
-        and list of available currencies
+     * This contains name of 'source' site
+     * and list of available currencies
      */
 
 
     private String site;
     private List<String> currencies;
 
-    public Profile() {
+    public ProfileOld() {
     }
 
-    public Profile(String site, List<String> currencies) {
+    public ProfileOld(String site, List<String> currencies) {
         this.site = site;
         this.currencies = currencies;
     }
@@ -39,7 +39,7 @@ public class Profile {
 
     @Override
     public String toString() {
-        return "Profile{" +
+        return "ProfileOld{" +
                 "site='" + site + '\'' +
                 ", currencies=" + currencies +
                 '}';

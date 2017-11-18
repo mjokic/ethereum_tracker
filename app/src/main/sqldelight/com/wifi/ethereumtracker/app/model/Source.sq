@@ -1,6 +1,6 @@
 import java.util.List;
 
-CREATE TABLE profiles (
+CREATE TABLE sources (
     site TEXT,
     currencies BLOB AS List<String>
 );
@@ -8,8 +8,8 @@ CREATE TABLE profiles (
 
 selectAll:
 SELECT *
-FROM profiles;
+FROM sources;
 
 insertProfile:
-INSERT INTO profiles (site, currencies)
+INSERT INTO sources (site, currencies)
 VALUES (?, ?);

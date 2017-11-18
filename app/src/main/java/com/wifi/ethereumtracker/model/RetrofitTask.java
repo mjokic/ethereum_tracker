@@ -171,7 +171,7 @@ public class RetrofitTask {
         }
 
         if (response.code() == 200) {
-            List<Profile> lista = (List<Profile>) response.body();
+            List<ProfileOld> lista = (List<ProfileOld>) response.body();
 
             DbHelper dbHelper = new DbHelper(context);
             dbHelper.saveProfiles(lista);

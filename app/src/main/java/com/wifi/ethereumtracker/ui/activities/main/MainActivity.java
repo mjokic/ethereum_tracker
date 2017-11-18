@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.lb.auto_fit_textview.AutoResizeTextView;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.model.Profile;
+import com.wifi.ethereumtracker.model.ProfileOld;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
@@ -102,13 +102,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String loadSourcePrefs() {
         String p = sharedPreferences.getString("sourceSettings", "null");
-        Profile profile = new Gson().fromJson(p, Profile.class);
+        ProfileOld profileOld = new Gson().fromJson(p, ProfileOld.class);
 
         if (p.equals("null")) {
             return "cex";
         }
 
-        return profile.getSite();
+        return profileOld.getSite();
     }
 
     private String loadCurrencyPrefs() {

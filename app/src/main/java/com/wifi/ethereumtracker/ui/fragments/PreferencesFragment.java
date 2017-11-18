@@ -19,7 +19,7 @@ import com.google.gson.Gson;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
 import com.wifi.ethereumtracker.db.DbHelper;
-import com.wifi.ethereumtracker.model.Profile;
+import com.wifi.ethereumtracker.model.ProfileOld;
 import com.wifi.ethereumtracker.widgets.AppWidget;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class PreferencesFragment extends PreferenceFragment
         addPreferencesFromResource(R.xml.preferences);
 
         DbHelper dbHelper = new DbHelper(getActivity().getApplicationContext());
-        List<Profile> profiles = dbHelper.getProfiles();
+        List<ProfileOld> profileOlds = dbHelper.getProfiles();
 
 
         ListPreference listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
@@ -71,8 +71,8 @@ public class PreferencesFragment extends PreferenceFragment
         maxNotifyValueEditTextPref.setOnPreferenceChangeListener(this);
 
 
-        // load profiles list from database and send them under as parameter
-        setListPrefSourceEntries(listPreferenceSourceSettings, profiles);
+        // load profileOlds list from database and send them under as parameter
+        setListPrefSourceEntries(listPreferenceSourceSettings, profileOlds);
         listPreferenceSourceSettings.setOnPreferenceChangeListener(this);
 
     }
@@ -108,8 +108,8 @@ public class PreferencesFragment extends PreferenceFragment
     // onPreferenceChange methods
     private boolean sourceSettingsOnChange(Object object) {
         String s = (String) object;
-        Profile profile = new Gson().fromJson(s, Profile.class);
-        setListPrefCurrencyEntries(listPreferenceCurrencySettings, profile.getCurrencies());
+        ProfileOld profileOld = new Gson().fromJson(s, ProfileOld.class);
+        setListPrefCurrencyEntries(listPreferenceCurrencySettings, profileOld.getCurrencies());
 
         return true;
     }
@@ -189,12 +189,12 @@ public class PreferencesFragment extends PreferenceFragment
     }
 
 
-    private void setListPrefSourceEntries(ListPreference lp, List<Profile> profiles) {
+    private void setListPrefSourceEntries(ListPreference lp, List<ProfileOld> profileOlds) {
 
         List<String> tmp = new ArrayList<>();
         List<String> tmp2 = new ArrayList<>();
 
-        for (Profile p : profiles) {
+        for (ProfileOld p : profileOlds) {
             tmp.add(p.getSite());
             tmp2.add(new Gson().toJson(p));
         }
@@ -210,7 +210,7 @@ public class PreferencesFragment extends PreferenceFragment
             lp.setValue(tmp2.get(0));
         }
 
-        setListPrefCurrencyEntries(listPreferenceCurrencySettings, new Gson().fromJson(lp.getValue(), Profile.class).getCurrencies());
+        setListPrefCurrencyEntries(listPreferenceCurrencySettings, new Gson().fromJson(lp.getValue(), ProfileOld.class).getCurrencies());
 
     }
 

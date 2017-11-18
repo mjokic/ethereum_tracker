@@ -2,9 +2,12 @@ package com.wifi.ethereumtracker.app.di.modules;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.di.AppScope;
 import com.wifi.ethereumtracker.app.network.ApiService;
+import com.wifi.ethereumtracker.app.network.RetrofitGsonTypeAdapterFactory;
 
 import butterknife.BindArray;
 import butterknife.BindString;
@@ -37,13 +40,21 @@ public class NetworkModule {
 
     @AppScope
     @Provides
-    Retrofit providesRetrofit(OkHttpClient client) {
+    Retrofit providesRetrofit(Gson gson, OkHttpClient client) {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build();
+    }
+
+    @AppScope
+    @Provides
+    Gson providesGson(){
+        return new GsonBuilder()
+                .registerTypeAdapterFactory(RetrofitGsonTypeAdapterFactory.create())
+                .create();
     }
 
     @AppScope

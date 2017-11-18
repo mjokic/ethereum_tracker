@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.wifi.ethereumtracker.broadcastReceivers.NotificationReceiver;
-import com.wifi.ethereumtracker.model.Profile;
+import com.wifi.ethereumtracker.model.ProfileOld;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
 
@@ -29,8 +29,8 @@ public class BackgroundCheckService extends Service {
                 double valueMin = Double.parseDouble(sharedPreferences.getString("valueMinNotify", "0"));
                 double valueMax = Double.parseDouble(sharedPreferences.getString("valueMaxNotify", "0"));
 
-                Profile profile = new Gson().fromJson(p, Profile.class);
-                String source = profile.getSite();
+                ProfileOld profileOld = new Gson().fromJson(p, ProfileOld.class);
+                String source = profileOld.getSite();
 
                 RetrofitTask retrofitTask = new RetrofitTask(source, currency, getApplicationContext());
                 ResponsePojo responsePojo = retrofitTask.runSync();
