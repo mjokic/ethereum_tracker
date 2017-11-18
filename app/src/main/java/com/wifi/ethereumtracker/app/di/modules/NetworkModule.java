@@ -1,7 +1,5 @@
 package com.wifi.ethereumtracker.app.di.modules;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 
 import com.wifi.ethereumtracker.R;
@@ -10,7 +8,6 @@ import com.wifi.ethereumtracker.services.apiCalls.ApiService;
 
 import butterknife.BindArray;
 import butterknife.BindString;
-import butterknife.ButterKnife;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.CertificatePinner;
@@ -21,16 +18,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
 
-    private final Context context;
-
     @BindString(R.string.base_url)
     String baseUrl;
 
     @BindArray(R.array.cert_pinner_keys)
     String[] cert_pinner_keys;
 
-    public NetworkModule(Context context){
-        this.context = context;
+    public NetworkModule(Context context) {
+        new NetworkModule_ViewBinding(this, context);
     }
 
     @AppScope
