@@ -16,7 +16,7 @@ import com.lb.auto_fit_textview.AutoResizeTextView;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.db.DbHelper;
 import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
-import com.wifi.ethereumtracker.services.apiCalls.ApiService;
+import com.wifi.ethereumtracker.app.network.ApiService;
 
 import java.io.IOException;
 import java.util.List;
@@ -60,7 +60,8 @@ public class RetrofitTask {
 
 
         this.apiService = retrofit.create(ApiService.class);
-        this.call = apiService.getPrice(source, currency);
+//        this.call = apiService.getPrice(source, currency);
+        this.call = null;
     }
 
 
@@ -159,7 +160,8 @@ public class RetrofitTask {
 
         boolean status = false;
 
-        Call call = this.apiService.getSources();
+//        Call call = this.apiService.getSources();
+        Call call = null;
         Response response;
         try {
             response = call.execute();

@@ -4,10 +4,10 @@ package com.wifi.ethereumtracker.model;
 import java.util.List;
 
 public class Profile {
-/*
-    This contains name of 'source' site
-    and list of available currencies
- */
+    /**
+        This contains name of 'source' site
+        and list of available currencies
+     */
 
 
     private String site;

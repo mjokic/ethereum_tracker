@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.wifi.ethereumtracker.app.di.modules.AppModule;
 import com.wifi.ethereumtracker.app.di.modules.NetworkModule;
-import com.wifi.ethereumtracker.services.apiCalls.ApiService;
+import com.wifi.ethereumtracker.app.network.ApiService;
 
 import dagger.Component;
 

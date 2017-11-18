@@ -3,7 +3,7 @@ package com.wifi.ethereumtracker.ui.activities.splash.di;
 
 import android.content.Context;
 
-import com.wifi.ethereumtracker.services.apiCalls.ApiService;
+import com.wifi.ethereumtracker.app.network.ApiService;
 import com.wifi.ethereumtracker.ui.activities.splash.mvp.SplashModel;
 import com.wifi.ethereumtracker.ui.activities.splash.mvp.SplashPresenter;
 import com.wifi.ethereumtracker.ui.activities.splash.mvp.SplashView;
@@ -23,7 +23,7 @@ public class SplashModule {
     @Provides
     @SplashScope
     SplashModel providesSplashModel(ApiService apiService) {
-        return new SplashModel(apiService);
+        return new SplashModel(context, apiService);
     }
 
     @Provides

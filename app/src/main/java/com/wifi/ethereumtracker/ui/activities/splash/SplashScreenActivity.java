@@ -11,8 +11,6 @@ import com.wifi.ethereumtracker.ui.activities.splash.mvp.SplashView;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-
 
 public class SplashScreenActivity extends AppCompatActivity {
     /**

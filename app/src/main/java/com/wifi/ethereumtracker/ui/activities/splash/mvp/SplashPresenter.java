@@ -13,7 +13,7 @@ public class SplashPresenter {
 
 
     public void onCreate() {
-        model.test();
+        model.loadSourcesFromNet();
     }
 
     public void onDestroy() {

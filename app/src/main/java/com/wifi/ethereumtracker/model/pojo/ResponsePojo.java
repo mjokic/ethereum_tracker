@@ -2,9 +2,9 @@ package com.wifi.ethereumtracker.model.pojo;
 
 
 public class ResponsePojo {
-/*
-    This class represents price response on API
- */
+    /**
+        This class represents price response on API
+     */
 
     private double currentPrice;
     private double change24hour;

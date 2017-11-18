@@ -1,0 +1,15 @@
+import java.util.List;
+
+CREATE TABLE profiles (
+    site TEXT,
+    currencies BLOB AS List<String>
+);
+
+
+selectAll:
+SELECT *
+FROM profiles;
+
+insertProfile:
+INSERT INTO profiles (site, currencies)
+VALUES (?, ?);

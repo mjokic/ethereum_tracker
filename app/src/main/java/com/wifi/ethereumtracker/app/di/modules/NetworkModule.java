@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.di.AppScope;
-import com.wifi.ethereumtracker.services.apiCalls.ApiService;
+import com.wifi.ethereumtracker.app.network.ApiService;
 
 import butterknife.BindArray;
 import butterknife.BindString;
@@ -13,6 +13,7 @@ import dagger.Provides;
 import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
@@ -40,6 +41,7 @@ public class NetworkModule {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build();
     }
