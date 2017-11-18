@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.wifi.ethereumtracker.activities.MainActivity;
+import com.wifi.ethereumtracker.ui.activities.main.MainActivity;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 
 public class SplashAsyncTask extends AsyncTask<Context, Void, Boolean> {

@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.activities;
+package com.wifi.ethereumtracker.ui.activities.main;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +19,7 @@ import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.model.Profile;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
+import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
 
 import java.text.DecimalFormat;
 

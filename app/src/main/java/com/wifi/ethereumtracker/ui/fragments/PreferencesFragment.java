@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.fragments;
+package com.wifi.ethereumtracker.ui.fragments;
 
 
 import android.app.AlarmManager;

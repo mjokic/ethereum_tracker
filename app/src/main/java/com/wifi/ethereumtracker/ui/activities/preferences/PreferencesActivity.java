@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ui.activities;
+package com.wifi.ethereumtracker.ui.activities.preferences;
 
 
 import android.app.FragmentManager;
