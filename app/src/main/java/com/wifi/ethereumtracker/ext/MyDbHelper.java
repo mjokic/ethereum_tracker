@@ -15,7 +15,6 @@ public class MyDbHelper extends SQLiteOpenHelper {
 
     public MyDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-        Timber.d("CALLED?!");
     }
 
     @Override

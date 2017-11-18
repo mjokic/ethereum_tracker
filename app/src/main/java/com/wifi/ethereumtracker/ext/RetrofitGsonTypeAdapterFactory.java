@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.app.network;
+package com.wifi.ethereumtracker.ext;
 
 import com.google.gson.TypeAdapterFactory;
 import com.ryanharter.auto.value.gson.GsonTypeAdapterFactory;

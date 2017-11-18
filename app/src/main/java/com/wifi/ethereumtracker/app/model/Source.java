@@ -1,7 +1,6 @@
 package com.wifi.ethereumtracker.app.model;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
@@ -21,7 +20,8 @@ public abstract class Source implements SourceModel {
                 @Override
                 public List<String> decode(byte[] databaseValue) {
                     return new Gson().fromJson(new String(databaseValue),
-                            new TypeToken<ArrayList<String>>(){}.getType());
+                            new TypeToken<ArrayList<String>>() {
+                            }.getType());
                 }
 
                 @Override
@@ -30,13 +30,8 @@ public abstract class Source implements SourceModel {
                 }
             };
 
-    public static final Creator<Source> CREATOR =
-            new Creator<Source>() {
-                @Override
-                public Source create(@Nullable String site, @Nullable List<String> currencies) {
-                    return new AutoValue_Source(site, currencies);
-                }
-            };
+    private static final Creator<Source> CREATOR =
+            (site, currencies) -> new AutoValue_Source(site, currencies);
 
     public static final Factory<Source> FACTORY =
             new Factory<>(CREATOR, COLUMN_ADAPTER);
