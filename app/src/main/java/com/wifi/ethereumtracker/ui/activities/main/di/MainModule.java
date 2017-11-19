@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
+import com.wifi.ethereumtracker.app.di.modules.NetworkModule;
+import com.wifi.ethereumtracker.app.network.ApiService;
 import com.wifi.ethereumtracker.ui.activities.main.mvp.MainModel;
 import com.wifi.ethereumtracker.ui.activities.main.mvp.MainPresenter;
 import com.wifi.ethereumtracker.ui.activities.main.mvp.MainView;
@@ -28,8 +30,8 @@ public class MainModule {
 
     @MainScope
     @Provides
-    MainModel providesMainModel(){
-        return new MainModel();
+    MainModel providesMainModel(ApiService apiService){
+        return new MainModel(apiService);
     }
 
     @MainScope

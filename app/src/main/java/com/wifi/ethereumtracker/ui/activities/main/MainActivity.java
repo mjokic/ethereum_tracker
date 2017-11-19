@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.lb.auto_fit_textview.AutoResizeTextView;
 import com.wifi.ethereumtracker.R;
+import com.wifi.ethereumtracker.app.App;
 import com.wifi.ethereumtracker.model.ProfileOld;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
@@ -52,11 +53,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         DaggerMainComponent.builder()
+                .appComponent(((App) getApplication()).getComponent())
                 .mainModule(new MainModule(this))
                 .build()
                 .inject(this);
 
         setContentView(view);
+        presenter.onCreate();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        presenter.onResume();
 
         loadMyValuePrefs();
 
@@ -78,18 +82,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.toolbar_items, menu);
+        view.onCreateOptionsMenu(menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.toolbarSettingsBtn) {
-            openOptions();
-        }
-
+        view.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
 
@@ -98,14 +97,6 @@ public class MainActivity extends AppCompatActivity {
         getEtherValue((ImageView) view);
 
     }
-
-
-    private void openOptions() {
-        // open options activity
-        Intent intent = new Intent(this, PreferencesActivity.class);
-        startActivity(intent);
-    }
-
 
     private void loadMyValuePrefs() {
         this.myValue = Double.parseDouble(sharedPreferences.getString("myValue", "1"));
@@ -152,5 +143,11 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         // preventing to go back to splash screen
         finishAffinity();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
     }
 }

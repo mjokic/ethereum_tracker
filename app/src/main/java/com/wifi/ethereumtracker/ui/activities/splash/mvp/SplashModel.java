@@ -32,6 +32,7 @@ public class SplashModel {
 
 
     Observable<List<Source>> loadSourcesFromNet() {
+        Timber.d("Loading sources from internet");
         return apiService.getSources()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());

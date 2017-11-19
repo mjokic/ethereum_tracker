@@ -57,7 +57,7 @@ public class SplashPresenter {
     }
 
     public void onDestroy() {
-        compositeDisposable.dispose();
+        compositeDisposable.clear();
     }
 
 }

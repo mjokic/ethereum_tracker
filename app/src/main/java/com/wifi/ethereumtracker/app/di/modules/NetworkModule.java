@@ -9,6 +9,8 @@ import com.wifi.ethereumtracker.app.di.AppScope;
 import com.wifi.ethereumtracker.app.network.ApiService;
 import com.wifi.ethereumtracker.ext.RetrofitGsonTypeAdapterFactory;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindArray;
 import butterknife.BindString;
 import dagger.Module;
@@ -61,6 +63,9 @@ public class NetworkModule {
     @Provides
     OkHttpClient providesOkHttpClient(CertificatePinner certificatePinner) {
         return new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
                 .certificatePinner(certificatePinner)
                 .build();
     }
