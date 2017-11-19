@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         String currency = loadCurrencyPrefs();
 
         RetrofitTask retrofitTask = new RetrofitTask(source, currency, this);
-        retrofitTask.runAsync(myValue, currency, textViewEtherValue, textView24HrChange, refreshImageView);
+//        retrofitTask.runAsync(myValue, currency, textViewEtherValue, textView24HrChange, refreshImageView);
 
     }
 

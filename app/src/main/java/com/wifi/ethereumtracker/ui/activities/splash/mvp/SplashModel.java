@@ -15,6 +15,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class SplashModel {
 
@@ -36,7 +37,6 @@ public class SplashModel {
         return apiService.getSources()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
-//                .subscribe(this::insertSourcesToDb); // when loaded insert to db
     }
 
     Observable<List<Source>> loadSourcesFromDb(){
@@ -47,7 +47,12 @@ public class SplashModel {
                 .subscribeOn(Schedulers.io());
     }
 
-    public void insertSourcesToDb(List<Source> sources) {
+    void deleteAllFromSourcesTable(){
+        briteDatabase.delete(Source.TABLE_NAME, null);
+        Timber.d("All sources has been deleted from table [%s]", Source.TABLE_NAME);
+    }
+
+    void insertSourcesToDb(List<Source> sources) {
         Source.InsertProfile insertProfile =
                 new SourceModel.InsertProfile(briteDatabase.getWritableDatabase(), Source.FACTORY);
 
@@ -55,6 +60,8 @@ public class SplashModel {
             insertProfile.bind(source.site(), source.currencies());
             insertProfile.program.execute();
         }
+
+        Timber.d("Sources inserted into table [%s]", Source.TABLE_NAME);
     }
 
 }

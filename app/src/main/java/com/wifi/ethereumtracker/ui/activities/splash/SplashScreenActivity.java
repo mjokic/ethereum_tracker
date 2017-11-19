@@ -40,4 +40,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         presenter.onCreate();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onDestroy();
+    }
 }

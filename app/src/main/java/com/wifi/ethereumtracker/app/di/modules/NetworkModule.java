@@ -22,8 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
 
-//    @BindString(R.string.base_url)
-    String baseUrl = "http://192.168.0.14:8080";
+    @BindString(R.string.base_url)
+    String baseUrl;
 
     @BindArray(R.array.cert_pinner_keys)
     String[] cert_pinner_keys;
@@ -51,7 +51,7 @@ public class NetworkModule {
 
     @AppScope
     @Provides
-    Gson providesGson(){
+    Gson providesGson() {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(RetrofitGsonTypeAdapterFactory.create())
                 .create();
@@ -61,7 +61,7 @@ public class NetworkModule {
     @Provides
     OkHttpClient providesOkHttpClient(CertificatePinner certificatePinner) {
         return new OkHttpClient.Builder()
-//                .certificatePinner(certificatePinner)
+                .certificatePinner(certificatePinner)
                 .build();
     }
 
