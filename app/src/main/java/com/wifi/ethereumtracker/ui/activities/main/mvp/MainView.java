@@ -46,6 +46,9 @@ public class MainView extends FrameLayout {
     @BindColor(R.color.positive)
     int positiveColor;
 
+    @BindColor(R.color.negative)
+    int negativeColor;
+
 
     public MainView(AppCompatActivity activity) {
         super(activity);
@@ -70,11 +73,6 @@ public class MainView extends FrameLayout {
         }
     }
 
-    private void openSettingsActivity() {
-        Intent intent = new Intent(getContext(), PreferencesActivity.class);
-        getContext().startActivity(intent);
-    }
-
 
     public Observable<Object> onRefreshButtonClick() {
         return RxView.clicks(imageViewRefresh);
@@ -92,6 +90,7 @@ public class MainView extends FrameLayout {
         textView24HrChange.setTextColor(positiveColor);
     }
 
+
     public void startAnimation() {
         Animation myAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.refresh_animation);
         imageViewRefresh.startAnimation(myAnimation);
@@ -101,4 +100,10 @@ public class MainView extends FrameLayout {
         imageViewRefresh.clearAnimation();
     }
 
+
+
+    private void openSettingsActivity() {
+        Intent intent = new Intent(getContext(), PreferencesActivity.class);
+        getContext().startActivity(intent);
+    }
 }

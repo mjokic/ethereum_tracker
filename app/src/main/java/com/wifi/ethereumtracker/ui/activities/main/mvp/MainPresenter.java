@@ -33,6 +33,7 @@ public class MainPresenter {
         compositeDisposable.clear();
     }
 
+    
     private Disposable refreshButtonClick(){
         Observable<ResponsePojo> o = getPriceObservable();
         return view.onRefreshButtonClick()
@@ -46,7 +47,6 @@ public class MainPresenter {
                         },
                         Timber::d);
     }
-
 
     private Observable<ResponsePojo> getPriceObservable(){
         return model.getPrice("cex", "usd") // load these values from shared preferences
