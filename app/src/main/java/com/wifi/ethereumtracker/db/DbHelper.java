@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DbHelper {
 
-    SQLiteDatabase db;
+    final SQLiteDatabase db;
 
     public DbHelper(Context context){
         this.db = context.openOrCreateDatabase("db_ether", context.MODE_PRIVATE, null);

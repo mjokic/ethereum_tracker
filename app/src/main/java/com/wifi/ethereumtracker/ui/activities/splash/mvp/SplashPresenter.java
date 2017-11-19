@@ -1,11 +1,8 @@
 package com.wifi.ethereumtracker.ui.activities.splash.mvp;
 
 
-import android.text.TextUtils;
-
 import com.wifi.ethereumtracker.app.model.Source;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +15,9 @@ import timber.log.Timber;
 
 public class SplashPresenter {
 
-    private SplashView view;
-    private SplashModel model;
     private final CompositeDisposable compositeDisposable;
+    private final SplashView view;
+    private final SplashModel model;
 
     public SplashPresenter(SplashView view, SplashModel model) {
         this.view = view;
@@ -43,19 +40,19 @@ public class SplashPresenter {
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(val -> {
-                            if (val) {
-                                // lists are the same, there's no new update
-                                // just open main activity
-                                view.startMainActivity();
-                            } else {
-                                // there's new update
-                                // drop old tables and insert new data
-                                // then open new activity
-                                model.deleteAllFromSourcesTable();
-                                model.insertSourcesToDb(updateList);
-                                view.startMainActivity();
-                            }
-                        }, throwable -> Timber.d(throwable.getMessage()));
+                    if (val) {
+                        // lists are the same, there's no new update
+                        // just open main activity
+                        view.startMainActivity();
+                    } else {
+                        // there's new update
+                        // drop old tables and insert new data
+                        // then open new activity
+                        model.deleteAllFromSourcesTable();
+                        model.insertSourcesToDb(updateList);
+                        view.startMainActivity();
+                    }
+                }, throwable -> Timber.d(throwable.getMessage()));
         compositeDisposable.add(s);
     }
 
@@ -63,14 +60,4 @@ public class SplashPresenter {
         compositeDisposable.dispose();
     }
 
-
-
-    private boolean isNewUpdate(List<Source> sourcesNet, List<Source> sourcesDb){
-        for (Source source : sourcesDb){
-            if (!sourcesNet.contains(source)){
-                return true;
-            }
-        }
-        return false;
-    }
 }

@@ -19,15 +19,13 @@ import timber.log.Timber;
 
 public class SplashModel {
 
-    private final Context context;
     private final BriteDatabase briteDatabase;
-    private ApiService apiService;
+    private final ApiService apiService;
 
     public SplashModel(Context context, ApiService apiService) {
         this.apiService = apiService;
-        this.context = context;
 
-        MyDbHelper myDbHelper = new MyDbHelper(this.context);
+        MyDbHelper myDbHelper = new MyDbHelper(context);
         SqlBrite sqlBrite = new SqlBrite.Builder().build();
         briteDatabase = sqlBrite.wrapDatabaseHelper(myDbHelper, Schedulers.io());
     }
@@ -39,7 +37,7 @@ public class SplashModel {
                 .subscribeOn(Schedulers.io());
     }
 
-    Observable<List<Source>> loadSourcesFromDb(){
+    Observable<List<Source>> loadSourcesFromDb() {
         QueryObservable query = briteDatabase.createQuery(Source.TABLE_NAME,
                 Source.FACTORY.selectAll().statement);
         return query.mapToList(Source.MAPPER::map)
@@ -47,7 +45,7 @@ public class SplashModel {
                 .subscribeOn(Schedulers.io());
     }
 
-    void deleteAllFromSourcesTable(){
+    void deleteAllFromSourcesTable() {
         briteDatabase.delete(Source.TABLE_NAME, null);
         Timber.d("All sources has been deleted from table [%s]", Source.TABLE_NAME);
     }

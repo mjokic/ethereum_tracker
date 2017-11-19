@@ -10,8 +10,8 @@ import timber.log.Timber;
 
 public class MyDbHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "ether.db";
-    public static final int DB_VERSION = 1;
+    private static final String DB_NAME = "ether.db";
+    private static final int DB_VERSION = 1;
 
     public MyDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

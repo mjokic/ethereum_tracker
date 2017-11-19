@@ -34,10 +34,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @SuppressWarnings("unchecked")
 public class RetrofitTask {
 
-    private ApiService apiService;
-    private Call<ResponsePojo> call;
+    private final ApiService apiService;
+    private final Call<ResponsePojo> call;
 
-    private Context context;
+    private final Context context;
 
     public RetrofitTask(String source, String currency, Context context) {
         this.context = context;

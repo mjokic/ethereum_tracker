@@ -14,7 +14,7 @@ import dagger.Provides;
 @Module
 public class SplashModule {
 
-    private Context context;
+    private final Context context;
 
     public SplashModule(Context context) {
         this.context = context;

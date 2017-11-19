@@ -30,14 +30,11 @@ public abstract class Source implements SourceModel {
                 }
             };
 
-    private static final Creator<Source> CREATOR =
-            (site, currencies) -> new AutoValue_Source(site, currencies);
+    private static final Creator<Source> CREATOR = AutoValue_Source::new;
 
-    public static final Factory<Source> FACTORY =
-            new Factory<>(CREATOR, COLUMN_ADAPTER);
+    public static final Factory<Source> FACTORY = new Factory<>(CREATOR, COLUMN_ADAPTER);
 
-    public static final Mapper<Source> MAPPER =
-            new Mapper<>(FACTORY);
+    public static final Mapper<Source> MAPPER = new Mapper<>(FACTORY);
 
 
     public static TypeAdapter<Source> typeAdapter(Gson gson) {
