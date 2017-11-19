@@ -8,14 +8,14 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
+import android.support.v7.preference.EditTextPreference;
+import android.support.v7.preference.ListPreference;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.SwitchPreferenceCompat;
 
 import com.google.gson.Gson;
+import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
 import com.wifi.ethereumtracker.db.DbHelper;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class PreferencesFragment extends PreferenceFragment
+public class PreferencesFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceChangeListener {
 
     private ListPreference listPreferenceCurrencySettings;
@@ -36,13 +36,11 @@ public class PreferencesFragment extends PreferenceFragment
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences);
+    public void onCreatePreferencesFix(@Nullable Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.preferences, rootKey);
 
         DbHelper dbHelper = new DbHelper(getActivity().getApplicationContext());
         List<ProfileOld> profileOlds = dbHelper.getProfiles();
-
 
         ListPreference listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
 
@@ -55,7 +53,7 @@ public class PreferencesFragment extends PreferenceFragment
         myValueEditTextPref.setOnPreferenceChangeListener(this);
 
 
-        SwitchPreference switchPreferenceEnableNotifications = (SwitchPreference)
+        SwitchPreferenceCompat switchPreferenceEnableNotifications = (SwitchPreferenceCompat)
                 findPreference("enableNotificationsSettings");
         switchPreferenceEnableNotifications.setOnPreferenceChangeListener(this);
 
