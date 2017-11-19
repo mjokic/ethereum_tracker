@@ -19,12 +19,25 @@ import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.model.ProfileOld;
 import com.wifi.ethereumtracker.model.RetrofitTask;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
+import com.wifi.ethereumtracker.ui.activities.main.di.DaggerMainComponent;
+import com.wifi.ethereumtracker.ui.activities.main.di.MainModule;
+import com.wifi.ethereumtracker.ui.activities.main.mvp.MainPresenter;
+import com.wifi.ethereumtracker.ui.activities.main.mvp.MainView;
 import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
 
 import java.text.DecimalFormat;
 
+import javax.inject.Inject;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    @Inject
+    MainPresenter presenter;
+
+    @Inject
+    MainView view;
+
 
     private SharedPreferences sharedPreferences;
 
@@ -37,11 +50,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
+        DaggerMainComponent.builder()
+                .mainModule(new MainModule(this))
+                .build()
+                .inject(this);
+
+        setContentView(view);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
