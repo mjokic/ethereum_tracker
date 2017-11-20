@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ui.fragments;
+package com.wifi.ethereumtracker.ui.fragments.preferencesF;
 
 
 import android.app.AlarmManager;
@@ -17,14 +17,23 @@ import android.support.v7.preference.SwitchPreferenceCompat;
 import com.google.gson.Gson;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.wifi.ethereumtracker.R;
+import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
+import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
 import com.wifi.ethereumtracker.db.DbHelper;
 import com.wifi.ethereumtracker.model.ProfileOld;
+import com.wifi.ethereumtracker.ui.fragments.preferencesF.di.DaggerPreferencesComponent;
+import com.wifi.ethereumtracker.ui.fragments.preferencesF.di.PreferencesModule;
+import com.wifi.ethereumtracker.ui.fragments.preferencesF.mvp.PreferencesPresenter;
 import com.wifi.ethereumtracker.widgets.AppWidget;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import timber.log.Timber;
 
 public class PreferencesFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceChangeListener {
@@ -34,13 +43,31 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     private EditTextPreference maxNotifyValueEditTextPref;
     private ListPreference listPreferenceCheckInterval;
 
+    @Inject
+    PreferencesPresenter presenter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        DaggerPreferencesComponent.builder()
+                .preferencesModule(new PreferencesModule())
+                .databaseModule(new DatabaseModule(getContext()))
+                .build()
+                .inject(this);
+    }
 
     @Override
     public void onCreatePreferencesFix(@Nullable Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
+        List<Source> sources = presenter.test(); // this is null, i bet it's fucking stupid mistake
+        Timber.d("Size of sources is: %s", sources.size());
+
+
         DbHelper dbHelper = new DbHelper(getActivity().getApplicationContext());
         List<ProfileOld> profileOlds = dbHelper.getProfiles();
+
 
         ListPreference listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
 

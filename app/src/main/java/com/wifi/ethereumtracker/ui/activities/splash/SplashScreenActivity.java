@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.wifi.ethereumtracker.app.App;
+import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
 import com.wifi.ethereumtracker.ui.activities.splash.di.DaggerSplashComponent;
 import com.wifi.ethereumtracker.ui.activities.splash.di.SplashModule;
 import com.wifi.ethereumtracker.ui.activities.splash.mvp.SplashPresenter;
@@ -32,6 +33,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         DaggerSplashComponent.builder()
                 .appComponent(((App) getApplication()).getComponent())
                 .splashModule(new SplashModule(this))
+                .databaseModule(new DatabaseModule(this))
                 .build()
                 .inject(this);
 

@@ -3,7 +3,9 @@ package com.wifi.ethereumtracker.app.di;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.squareup.sqlbrite2.BriteDatabase;
 import com.wifi.ethereumtracker.app.di.modules.AppModule;
+import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
 import com.wifi.ethereumtracker.app.di.modules.NetworkModule;
 import com.wifi.ethereumtracker.app.network.ApiService;
 
@@ -16,5 +18,4 @@ public interface AppComponent {
     void inject(Application application);
     ApiService providesApiService();
     SharedPreferences providesDefaultSharedPreferences();
-
 }

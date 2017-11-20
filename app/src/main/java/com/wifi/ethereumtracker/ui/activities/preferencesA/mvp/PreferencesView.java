@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ui.activities.preferences.mvp;
+package com.wifi.ethereumtracker.ui.activities.preferencesA.mvp;
 
 import android.annotation.SuppressLint;
 import android.support.v4.app.FragmentManager;

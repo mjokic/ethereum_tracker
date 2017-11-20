@@ -1,14 +1,10 @@
 package com.wifi.ethereumtracker.ui.activities.splash.mvp;
 
-import android.content.Context;
-
 import com.squareup.sqlbrite2.BriteDatabase;
 import com.squareup.sqlbrite2.QueryObservable;
-import com.squareup.sqlbrite2.SqlBrite;
 import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.app.model.SourceModel;
 import com.wifi.ethereumtracker.app.network.ApiService;
-import com.wifi.ethereumtracker.ext.MyDbHelper;
 
 import java.util.List;
 
@@ -22,12 +18,9 @@ public class SplashModel {
     private final BriteDatabase briteDatabase;
     private final ApiService apiService;
 
-    public SplashModel(Context context, ApiService apiService) {
+    public SplashModel(ApiService apiService, BriteDatabase briteDatabase) {
         this.apiService = apiService;
-
-        MyDbHelper myDbHelper = new MyDbHelper(context);
-        SqlBrite sqlBrite = new SqlBrite.Builder().build();
-        briteDatabase = sqlBrite.wrapDatabaseHelper(myDbHelper, Schedulers.io());
+        this.briteDatabase = briteDatabase;
     }
 
 

@@ -1,6 +1,6 @@
-package com.wifi.ethereumtracker.ui.activities.preferences.di;
+package com.wifi.ethereumtracker.ui.activities.preferencesA.di;
 
-import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
+import com.wifi.ethereumtracker.ui.activities.preferencesA.PreferencesActivity;
 
 import dagger.Component;
 

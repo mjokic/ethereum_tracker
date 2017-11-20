@@ -6,6 +6,7 @@ import com.wifi.ethereumtracker.BuildConfig;
 import com.wifi.ethereumtracker.app.di.AppComponent;
 import com.wifi.ethereumtracker.app.di.DaggerAppComponent;
 import com.wifi.ethereumtracker.app.di.modules.AppModule;
+import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
 import com.wifi.ethereumtracker.app.di.modules.NetworkModule;
 
 import timber.log.Timber;
@@ -24,7 +25,7 @@ public class App extends Application {
         }
 
         component = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
+                .appModule(new AppModule(getApplicationContext()))
                 .networkModule(new NetworkModule(getApplicationContext()))
                 .build();
 

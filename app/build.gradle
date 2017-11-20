@@ -84,6 +84,8 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     // rxbinding
     compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    // rx-preferences
+    compile 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC3'
 
     // sqlbrite
     compile 'com.squareup.sqlbrite2:sqlbrite:2.0.0'

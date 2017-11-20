@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ui.activities.preferences;
+package com.wifi.ethereumtracker.ui.activities.preferencesA;
 
 
 import android.os.Bundle;
@@ -6,10 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.wifi.ethereumtracker.ui.activities.preferences.di.DaggerPreferencesComponent;
-import com.wifi.ethereumtracker.ui.activities.preferences.di.PreferencesModule;
-import com.wifi.ethereumtracker.ui.activities.preferences.mvp.PreferencesPresenter;
-import com.wifi.ethereumtracker.ui.activities.preferences.mvp.PreferencesView;
+import com.wifi.ethereumtracker.ui.activities.preferencesA.di.DaggerPreferencesComponent;
+import com.wifi.ethereumtracker.ui.activities.preferencesA.di.PreferencesModule;
+import com.wifi.ethereumtracker.ui.activities.preferencesA.mvp.PreferencesPresenter;
+import com.wifi.ethereumtracker.ui.activities.preferencesA.mvp.PreferencesView;
 
 import javax.inject.Inject;
 

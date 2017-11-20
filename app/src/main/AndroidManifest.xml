@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities.main.MainActivity" />
-        <activity android:name=".ui.activities.preferences.PreferencesActivity"
+        <activity android:name=".ui.activities.preferencesA.PreferencesActivity"
             android:theme="@style/PreferencesFragmentStyle"/>
 
         <service android:name=".services.BackgroundCheckService" />

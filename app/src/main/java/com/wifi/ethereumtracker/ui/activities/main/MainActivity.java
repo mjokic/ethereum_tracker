@@ -1,13 +1,10 @@
 package com.wifi.ethereumtracker.ui.activities.main;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,7 +21,6 @@ import com.wifi.ethereumtracker.ui.activities.main.di.DaggerMainComponent;
 import com.wifi.ethereumtracker.ui.activities.main.di.MainModule;
 import com.wifi.ethereumtracker.ui.activities.main.mvp.MainPresenter;
 import com.wifi.ethereumtracker.ui.activities.main.mvp.MainView;
-import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
 
 import java.text.DecimalFormat;
 

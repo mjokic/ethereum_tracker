@@ -1,9 +1,9 @@
-package com.wifi.ethereumtracker.ui.activities.preferences.mvp;
+package com.wifi.ethereumtracker.ui.activities.preferencesA.mvp;
 
 import android.support.v4.app.FragmentManager;
 
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.ui.fragments.PreferencesFragment;
+import com.wifi.ethereumtracker.ui.fragments.preferencesF.PreferencesFragment;
 
 public class PreferencesPresenter {
 

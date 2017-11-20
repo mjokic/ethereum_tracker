@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ui.activities.preferences.di;
+package com.wifi.ethereumtracker.ui.activities.preferencesA.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

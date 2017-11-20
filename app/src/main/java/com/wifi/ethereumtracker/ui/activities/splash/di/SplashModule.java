@@ -3,6 +3,8 @@ package com.wifi.ethereumtracker.ui.activities.splash.di;
 
 import android.content.Context;
 
+import com.squareup.sqlbrite2.BriteDatabase;
+import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
 import com.wifi.ethereumtracker.app.network.ApiService;
 import com.wifi.ethereumtracker.ui.activities.splash.mvp.SplashModel;
 import com.wifi.ethereumtracker.ui.activities.splash.mvp.SplashPresenter;
@@ -11,7 +13,7 @@ import com.wifi.ethereumtracker.ui.activities.splash.mvp.SplashView;
 import dagger.Module;
 import dagger.Provides;
 
-@Module
+@Module(includes = DatabaseModule.class)
 public class SplashModule {
 
     private final Context context;
@@ -22,8 +24,8 @@ public class SplashModule {
 
     @Provides
     @SplashScope
-    SplashModel providesSplashModel(ApiService apiService) {
-        return new SplashModel(context, apiService);
+    SplashModel providesSplashModel(ApiService apiService, BriteDatabase briteDatabase) {
+        return new SplashModel(apiService, briteDatabase);
     }
 
     @Provides

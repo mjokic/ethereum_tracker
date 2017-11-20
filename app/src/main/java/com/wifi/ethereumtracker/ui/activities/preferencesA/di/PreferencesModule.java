@@ -1,10 +1,9 @@
-package com.wifi.ethereumtracker.ui.activities.preferences.di;
+package com.wifi.ethereumtracker.ui.activities.preferencesA.di;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 
-import com.wifi.ethereumtracker.ui.activities.preferences.mvp.PreferencesPresenter;
-import com.wifi.ethereumtracker.ui.activities.preferences.mvp.PreferencesView;
+import com.wifi.ethereumtracker.ui.activities.preferencesA.mvp.PreferencesPresenter;
+import com.wifi.ethereumtracker.ui.activities.preferencesA.mvp.PreferencesView;
 
 import dagger.Module;
 import dagger.Provides;
