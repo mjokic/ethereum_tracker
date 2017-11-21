@@ -7,11 +7,12 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.sqldelight.ColumnAdapter;
+import com.wifi.ethereumtracker.ext.AutoGson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@AutoValue
+@AutoValue @AutoGson
 public abstract class Source implements SourceModel {
 
     private static final ColumnAdapter<List<String>, byte[]> COLUMN_ADAPTER =

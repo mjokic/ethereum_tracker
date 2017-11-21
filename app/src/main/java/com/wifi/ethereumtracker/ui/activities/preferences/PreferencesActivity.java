@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ui.activities.preferencesA;
+package com.wifi.ethereumtracker.ui.activities.preferences;
 
 
 import android.os.Bundle;
@@ -6,27 +6,27 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.wifi.ethereumtracker.ui.activities.preferencesA.di.DaggerPreferencesComponent;
-import com.wifi.ethereumtracker.ui.activities.preferencesA.di.PreferencesModule;
-import com.wifi.ethereumtracker.ui.activities.preferencesA.mvp.PreferencesPresenter;
-import com.wifi.ethereumtracker.ui.activities.preferencesA.mvp.PreferencesView;
+import com.wifi.ethereumtracker.ui.activities.preferences.di.DaggerPreferencesActivityComponent;
+import com.wifi.ethereumtracker.ui.activities.preferences.di.PreferencesActivityModule;
+import com.wifi.ethereumtracker.ui.activities.preferences.mvp.PreferencesActivityPresenter;
+import com.wifi.ethereumtracker.ui.activities.preferences.mvp.PreferencesActivityView;
 
 import javax.inject.Inject;
 
 public class PreferencesActivity extends AppCompatActivity {
 
     @Inject
-    PreferencesView view;
+    PreferencesActivityView view;
 
     @Inject
-    PreferencesPresenter presenter;
+    PreferencesActivityPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DaggerPreferencesComponent.builder()
-                .preferencesModule(new PreferencesModule(this))
+        DaggerPreferencesActivityComponent.builder()
+                .preferencesActivityModule(new PreferencesActivityModule(this))
                 .build()
                 .inject(this);
 

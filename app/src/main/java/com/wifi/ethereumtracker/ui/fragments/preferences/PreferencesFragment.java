@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ui.fragments.preferencesF;
+package com.wifi.ethereumtracker.ui.fragments.preferences;
 
 
 import android.app.AlarmManager;
@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.EditTextPreference;
@@ -15,16 +16,16 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.SwitchPreferenceCompat;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.wifi.ethereumtracker.R;
+import com.wifi.ethereumtracker.app.App;
 import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
 import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
-import com.wifi.ethereumtracker.db.DbHelper;
-import com.wifi.ethereumtracker.model.ProfileOld;
-import com.wifi.ethereumtracker.ui.fragments.preferencesF.di.DaggerPreferencesComponent;
-import com.wifi.ethereumtracker.ui.fragments.preferencesF.di.PreferencesModule;
-import com.wifi.ethereumtracker.ui.fragments.preferencesF.mvp.PreferencesPresenter;
+import com.wifi.ethereumtracker.ext.AutoValueAdapterFactory;
+import com.wifi.ethereumtracker.ui.fragments.preferences.di.DaggerPreferencesFragmentComponent;
+import com.wifi.ethereumtracker.ui.fragments.preferences.mvp.PreferencesFragmentPresenter;
 import com.wifi.ethereumtracker.widgets.AppWidget;
 
 import java.util.ArrayList;
@@ -33,43 +34,33 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import timber.log.Timber;
-
 public class PreferencesFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceChangeListener {
+
+    @Inject
+    PreferencesFragmentPresenter presenter;
+    @Inject
+    SharedPreferences sharedPreferences;
 
     private ListPreference listPreferenceCurrencySettings;
     private EditTextPreference minNotifyValueEditTextPref;
     private EditTextPreference maxNotifyValueEditTextPref;
     private ListPreference listPreferenceCheckInterval;
-
-    @Inject
-    PreferencesPresenter presenter;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        DaggerPreferencesComponent.builder()
-                .preferencesModule(new PreferencesModule())
-                .databaseModule(new DatabaseModule(getContext()))
-                .build()
-                .inject(this);
-    }
+    private ListPreference listPreferenceSourceSettings;
 
     @Override
     public void onCreatePreferencesFix(@Nullable Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        List<Source> sources = presenter.test(); // this is null, i bet it's fucking stupid mistake
-        Timber.d("Size of sources is: %s", sources.size());
+        DaggerPreferencesFragmentComponent.builder()
+                .appComponent(((App) getActivity().getApplication()).getComponent())
+                .databaseModule(new DatabaseModule(getContext()))
+                .build()
+                .inject(this);
 
 
-        DbHelper dbHelper = new DbHelper(getActivity().getApplicationContext());
-        List<ProfileOld> profileOlds = dbHelper.getProfiles();
-
-
-        ListPreference listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
+        listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
+        setListPrefSourceEntries(presenter.getSources());
 
         listPreferenceCurrencySettings = (ListPreference) findPreference("currencySettings");
         listPreferenceCurrencySettings.setOnPreferenceChangeListener(this);
@@ -97,7 +88,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
 
 
         // load profileOlds list from database and send them under as parameter
-        setListPrefSourceEntries(listPreferenceSourceSettings, profileOlds);
+//        setListPrefSourceEntries(listPreferenceSourceSettings, sources);
         listPreferenceSourceSettings.setOnPreferenceChangeListener(this);
 
     }
@@ -133,8 +124,11 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     // onPreferenceChange methods
     private boolean sourceSettingsOnChange(Object object) {
         String s = (String) object;
-        ProfileOld profileOld = new Gson().fromJson(s, ProfileOld.class);
-        setListPrefCurrencyEntries(listPreferenceCurrencySettings, profileOld.getCurrencies());
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new AutoValueAdapterFactory())
+                .create();
+        Source source = gson.fromJson(s, Source.class);
+        setListPrefCurrencyEntries(listPreferenceCurrencySettings, source.currencies());
 
         return true;
     }
@@ -214,29 +208,32 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     }
 
 
-    private void setListPrefSourceEntries(ListPreference lp, List<ProfileOld> profileOlds) {
+    public void setListPrefSourceEntries(List<Source> sources) {
 
         List<String> tmp = new ArrayList<>();
         List<String> tmp2 = new ArrayList<>();
 
-        for (ProfileOld p : profileOlds) {
-            tmp.add(p.getSite());
-            tmp2.add(new Gson().toJson(p));
+        for (Source source : sources) {
+            tmp.add(source.site());
+            tmp2.add(new GsonBuilder()
+                    .registerTypeAdapterFactory(new AutoValueAdapterFactory())
+                    .create()
+                    .toJson(source));
         }
 
         CharSequence[] csEntries = tmp.toArray(new CharSequence[tmp.size()]);
         CharSequence[] csEntryVals = tmp2.toArray(new CharSequence[tmp2.size()]);
 
-        lp.setEntries(csEntries);
-        lp.setEntryValues(csEntryVals);
+        listPreferenceSourceSettings.setEntries(csEntries);
+        listPreferenceSourceSettings.setEntryValues(csEntryVals);
 
 
-        if (lp.getValue() == null) {
-            lp.setValue(tmp2.get(0));
+        if (listPreferenceSourceSettings.getValue() == null) {
+            listPreferenceSourceSettings.setValue(tmp2.get(0));
         }
 
-        setListPrefCurrencyEntries(listPreferenceCurrencySettings, new Gson().fromJson(lp.getValue(), ProfileOld.class).getCurrencies());
-
+//        setListPrefCurrencyEntries(listPreferenceCurrencySettings,
+//                new Gson().fromJson(listPreferenceSourceSettings.getValue(), ProfileOld.class).getCurrencies());
     }
 
     private void setListPrefCurrencyEntries(ListPreference lp, List<String> values) {

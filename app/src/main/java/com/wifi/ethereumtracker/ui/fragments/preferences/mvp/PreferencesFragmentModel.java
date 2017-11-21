@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ui.fragments.preferencesF.mvp;
+package com.wifi.ethereumtracker.ui.fragments.preferences.mvp;
 
 import com.squareup.sqlbrite2.BriteDatabase;
 import com.wifi.ethereumtracker.app.model.Source;
@@ -7,11 +7,11 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-public class PreferencesModel {
+public class PreferencesFragmentModel {
 
     private final BriteDatabase briteDatabase;
 
-    public PreferencesModel(BriteDatabase briteDatabase){
+    public PreferencesFragmentModel(BriteDatabase briteDatabase){
         this.briteDatabase = briteDatabase;
     }
 

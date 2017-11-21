@@ -23,6 +23,7 @@ public class MainPresenter {
 
     public void onCreate() {
         compositeDisposable.add(refreshButtonClick());
+        Timber.d("Sharedprefs in MainActivity == null? %s", model.sharedPrefsNull());
     }
 
     public void onResume(){

@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ui.activities.preferencesA.mvp;
+package com.wifi.ethereumtracker.ui.activities.preferences.mvp;
 
 import android.annotation.SuppressLint;
 import android.support.v4.app.FragmentManager;
@@ -12,25 +12,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @SuppressLint("ViewConstructor")
-public class PreferencesView extends FrameLayout {
+public class PreferencesActivityView extends FrameLayout {
 
     private final AppCompatActivity activity;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    public PreferencesView(AppCompatActivity activity) {
+    public PreferencesActivityView(AppCompatActivity activity) {
         super(activity);
         this.activity = activity;
         inflate(getContext(), R.layout.activity_preferences, this);
         ButterKnife.bind(this);
 
-        toolbar.setTitle("Settings");
         toolbar.removeAllViews(); // removing refresh button imageView
 
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.getSupportActionBar().setHomeButtonEnabled(true);
+        activity.getSupportActionBar().setTitle("Settings");
     }
 
     public FragmentManager getFragmentManager(){

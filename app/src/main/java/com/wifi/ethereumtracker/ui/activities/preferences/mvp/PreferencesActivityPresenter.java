@@ -1,15 +1,15 @@
-package com.wifi.ethereumtracker.ui.activities.preferencesA.mvp;
+package com.wifi.ethereumtracker.ui.activities.preferences.mvp;
 
 import android.support.v4.app.FragmentManager;
 
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.ui.fragments.preferencesF.PreferencesFragment;
+import com.wifi.ethereumtracker.ui.fragments.preferences.PreferencesFragment;
 
-public class PreferencesPresenter {
+public class PreferencesActivityPresenter {
 
-    private final PreferencesView view;
+    private final PreferencesActivityView view;
 
-    public PreferencesPresenter(PreferencesView view) {
+    public PreferencesActivityPresenter(PreferencesActivityView view) {
         this.view = view;
     }
 

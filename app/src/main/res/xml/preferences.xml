@@ -25,7 +25,8 @@
 
     <PreferenceCategory android:title="Notifications">
 
-        <SwitchPreference
+        <!--suppress AndroidElementNotAllowed -->
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="enableNotificationsSettings"
             android:title="Enable Notifications" />
