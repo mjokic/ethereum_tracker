@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.services;
+package com.wifi.ethereumtracker.ext.services;
 
 import android.app.Service;
 import android.appwidget.AppWidgetManager;

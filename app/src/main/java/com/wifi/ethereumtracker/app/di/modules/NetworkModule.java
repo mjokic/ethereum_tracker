@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.di.AppScope;
 import com.wifi.ethereumtracker.app.network.ApiService;
-import com.wifi.ethereumtracker.ext.RetrofitGsonTypeAdapterFactory;
+import com.wifi.ethereumtracker.ext.adapterFactories.RetrofitGsonTypeAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
 

@@ -26,9 +26,9 @@
         <activity android:name=".ui.activities.preferences.PreferencesActivity"
             android:theme="@style/PreferencesFragmentStyle"/>
 
-        <service android:name=".services.jobService.BackgroundCheckService"
+        <service android:name=".ext.services.BackgroundCheckJobService.BackgroundCheckService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
-        <service android:name=".services.WidgetService"/>
+        <service android:name=".ext.services.WidgetService"/>
 
         <receiver android:name=".ext.broadcastReceivers.BootCompleted">
             <intent-filter>

@@ -1,9 +1,10 @@
-package com.wifi.ethereumtracker.ext;
+package com.wifi.ethereumtracker.ext.adapterFactories;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.wifi.ethereumtracker.ext.AutoGson;
 
 public class AutoValueAdapterFactory implements TypeAdapterFactory {
 

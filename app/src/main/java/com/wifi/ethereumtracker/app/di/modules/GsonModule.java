@@ -2,7 +2,7 @@ package com.wifi.ethereumtracker.app.di.modules;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.wifi.ethereumtracker.ext.AutoValueAdapterFactory;
+import com.wifi.ethereumtracker.ext.adapterFactories.AutoValueAdapterFactory;
 
 import dagger.Module;
 import dagger.Provides;

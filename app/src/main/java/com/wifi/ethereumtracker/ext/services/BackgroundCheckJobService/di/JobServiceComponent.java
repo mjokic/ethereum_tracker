@@ -1,7 +1,8 @@
-package com.wifi.ethereumtracker.services.jobService;
+package com.wifi.ethereumtracker.ext.services.BackgroundCheckJobService.di;
 
 import com.wifi.ethereumtracker.app.di.AppComponent;
 import com.wifi.ethereumtracker.app.di.modules.GsonModule;
+import com.wifi.ethereumtracker.ext.services.BackgroundCheckJobService.BackgroundCheckService;
 
 import dagger.Component;
 

@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
-import com.wifi.ethereumtracker.services.WidgetService;
+import com.wifi.ethereumtracker.ext.services.WidgetService;
 
 /**
  * Implementation of App Widget functionality.

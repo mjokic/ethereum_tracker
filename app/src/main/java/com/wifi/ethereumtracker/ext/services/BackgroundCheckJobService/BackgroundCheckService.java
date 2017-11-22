@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.services.jobService;
+package com.wifi.ethereumtracker.ext.services.BackgroundCheckJobService;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
@@ -11,6 +11,7 @@ import com.wifi.ethereumtracker.app.App;
 import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.app.network.ApiService;
 import com.wifi.ethereumtracker.ext.broadcastReceivers.NotificationReceiver;
+import com.wifi.ethereumtracker.ext.services.BackgroundCheckJobService.di.DaggerJobServiceComponent;
 
 import javax.inject.Inject;
 

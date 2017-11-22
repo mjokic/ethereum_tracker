@@ -5,7 +5,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 
-import com.wifi.ethereumtracker.services.jobService.BackgroundCheckService;
+import com.wifi.ethereumtracker.ext.services.BackgroundCheckJobService.BackgroundCheckService;
 
 import timber.log.Timber;
 
