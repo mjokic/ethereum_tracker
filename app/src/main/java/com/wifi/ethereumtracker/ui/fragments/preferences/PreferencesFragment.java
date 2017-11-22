@@ -7,7 +7,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.EditTextPreference;
@@ -16,14 +15,11 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.SwitchPreferenceCompat;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.app.App;
 import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
 import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
-import com.wifi.ethereumtracker.ext.AutoValueAdapterFactory;
 import com.wifi.ethereumtracker.ui.fragments.preferences.di.DaggerPreferencesFragmentComponent;
 import com.wifi.ethereumtracker.ui.fragments.preferences.mvp.PreferencesFragmentPresenter;
 import com.wifi.ethereumtracker.widgets.AppWidget;
@@ -40,33 +36,29 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     @Inject
     PreferencesFragmentPresenter presenter;
     @Inject
-    SharedPreferences sharedPreferences;
+    Gson gson;
 
+    private ListPreference listPreferenceSourceSettings;
     private ListPreference listPreferenceCurrencySettings;
     private EditTextPreference minNotifyValueEditTextPref;
     private EditTextPreference maxNotifyValueEditTextPref;
     private ListPreference listPreferenceCheckInterval;
-    private ListPreference listPreferenceSourceSettings;
 
     @Override
     public void onCreatePreferencesFix(@Nullable Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
         DaggerPreferencesFragmentComponent.builder()
-                .appComponent(((App) getActivity().getApplication()).getComponent())
                 .databaseModule(new DatabaseModule(getContext()))
                 .build()
                 .inject(this);
 
 
-        listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
-        setListPrefSourceEntries(presenter.getSources());
-
         listPreferenceCurrencySettings = (ListPreference) findPreference("currencySettings");
         listPreferenceCurrencySettings.setOnPreferenceChangeListener(this);
 
 
-        // checking if myValue is valid
+        // checking if 'myValue' is valid
         EditTextPreference myValueEditTextPref = (EditTextPreference) findPreference("myValue");
         myValueEditTextPref.setOnPreferenceChangeListener(this);
 
@@ -87,10 +79,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         maxNotifyValueEditTextPref.setOnPreferenceChangeListener(this);
 
 
-        // load profileOlds list from database and send them under as parameter
-//        setListPrefSourceEntries(listPreferenceSourceSettings, sources);
+        listPreferenceSourceSettings = (ListPreference) findPreference("sourceSettings");
         listPreferenceSourceSettings.setOnPreferenceChangeListener(this);
-
+        setListPrefSourceEntries(presenter.getSources()); // setting source entries
     }
 
 
@@ -100,20 +91,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         switch (preference.getKey()) {
             case "sourceSettings":
                 updateWidget();
-                return sourceSettingsOnChange(o);
+                Source source = gson.fromJson((String) o, Source.class);
+                setListPrefCurrencyEntries(source.currencies());
+                return true;
             case "currencySettings":
                 updateWidget();
                 return true;
             case "myValue":
                 updateWidget();
-                return myValueSettingsOnChange(o);
+                return numberInputIsValid(o);
             case "enableNotificationsSettings":
                 return enableNotfOnChange(o);
             case "checkInterval":
                 return intervalSettOnChange(o);
             case "valueMinNotify":
             case "valueMaxNotify":
-                return minmaxValueOnChange(o);
+                return numberInputIsValid(o);
 
         }
 
@@ -121,21 +114,17 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     }
 
 
-    // onPreferenceChange methods
-    private boolean sourceSettingsOnChange(Object object) {
-        String s = (String) object;
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new AutoValueAdapterFactory())
-                .create();
-        Source source = gson.fromJson(s, Source.class);
-        setListPrefCurrencyEntries(listPreferenceCurrencySettings, source.currencies());
-
-        return true;
-    }
-
-    private boolean myValueSettingsOnChange(Object object) {
+    /**
+     * Checking if input is valid number less then 0
+     * @param object User input
+     * @return If input is invalid return false and don't save changes
+     */
+    private boolean numberInputIsValid(Object object) {
         try {
-            Double.parseDouble((String) object);
+            double d = Double.parseDouble((String) object);
+            if(d <= 0){
+                return false;
+            }
         } catch (Exception ex) {
             return false;
         }
@@ -154,22 +143,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat
 
         boolean status = (boolean) object;
 
-        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0,
-                intent, 0);
 
-        AlarmManager alarmManager = (AlarmManager)
-                getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        int waitInterval = Integer.parseInt(listPreferenceCheckInterval.getValue());
 
         if (status) {
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                    Calendar.getInstance().getTimeInMillis() + waitInterval,
-                    waitInterval, pendingIntent);
+            // start
 
         } else {
-            alarmManager.cancel(pendingIntent);
+            // cancel
         }
 
         return true;
@@ -197,55 +177,54 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         return true;
     }
 
-    private boolean minmaxValueOnChange(Object object) {
-        try {
-            Double.parseDouble((String) object);
-        } catch (Exception ex) {
-            return false;
-        }
 
-        return true;
-    }
-
-
-    public void setListPrefSourceEntries(List<Source> sources) {
-
-        List<String> tmp = new ArrayList<>();
-        List<String> tmp2 = new ArrayList<>();
+    /**
+     * Populating ListPreference with sources
+     *
+     * @param sources Sources downloaded via API
+     */
+    private void setListPrefSourceEntries(List<Source> sources) {
+        List<String> entries = new ArrayList<>();
+        List<String> entryValue = new ArrayList<>();
 
         for (Source source : sources) {
-            tmp.add(source.site());
-            tmp2.add(new GsonBuilder()
-                    .registerTypeAdapterFactory(new AutoValueAdapterFactory())
-                    .create()
-                    .toJson(source));
+            entries.add(source.site());
+            entryValue.add(gson.toJson(source));
         }
 
-        CharSequence[] csEntries = tmp.toArray(new CharSequence[tmp.size()]);
-        CharSequence[] csEntryVals = tmp2.toArray(new CharSequence[tmp2.size()]);
+        CharSequence[] csEntries = entries.toArray(new CharSequence[entries.size()]);
+        CharSequence[] csEntryVals = entryValue.toArray(new CharSequence[entryValue.size()]);
 
         listPreferenceSourceSettings.setEntries(csEntries);
         listPreferenceSourceSettings.setEntryValues(csEntryVals);
 
 
         if (listPreferenceSourceSettings.getValue() == null) {
-            listPreferenceSourceSettings.setValue(tmp2.get(0));
+            listPreferenceSourceSettings.setValue(entryValue.get(0));
         }
 
-//        setListPrefCurrencyEntries(listPreferenceCurrencySettings,
-//                new Gson().fromJson(listPreferenceSourceSettings.getValue(), ProfileOld.class).getCurrencies());
+        setListPrefCurrencyEntries(gson
+                .fromJson(listPreferenceSourceSettings.getValue(), Source.class)
+                .currencies());
     }
 
-    private void setListPrefCurrencyEntries(ListPreference lp, List<String> values) {
-        CharSequence[] cs = values.toArray(new CharSequence[values.size()]);
-        lp.setEntries(cs);
-        lp.setEntryValues(cs);
+    /**
+     * Populating currencies for selected Source object
+     *
+     * @param currencies Currencies from Source object
+     */
+    private void setListPrefCurrencyEntries(List<String> currencies) {
+        CharSequence[] cs = currencies.toArray(new CharSequence[currencies.size()]);
+        listPreferenceCurrencySettings.setEntries(cs);
+        listPreferenceCurrencySettings.setEntryValues(cs);
 
-        if (lp.getValue() == null || !values.contains(lp.getValue())) {
-            lp.setValue(values.get(0));
+        if (listPreferenceCurrencySettings.getValue() == null ||
+                !currencies.contains(listPreferenceCurrencySettings.getValue())) {
+            listPreferenceCurrencySettings.setValue(currencies.get(0));
         }
 
     }
+
 
     private int calculate10Percent(int value) {
         return value * 10 / 100;
