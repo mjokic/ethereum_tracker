@@ -1,11 +1,8 @@
 package com.wifi.ethereumtracker.ui.fragments.preferences;
 
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,13 +16,11 @@ import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
 import com.wifi.ethereumtracker.app.model.Source;
-import com.wifi.ethereumtracker.broadcastReceivers.AlarmReceiver;
 import com.wifi.ethereumtracker.ui.fragments.preferences.di.DaggerPreferencesFragmentComponent;
 import com.wifi.ethereumtracker.ui.fragments.preferences.mvp.PreferencesFragmentPresenter;
 import com.wifi.ethereumtracker.widgets.AppWidget;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -158,21 +153,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     private boolean intervalSettOnChange(Object object) {
         // when interval changes cancel alarm manger and start new one,
         // so new interval gets applied
-
-        int waitInterval = Integer.parseInt((String) object);
-
-        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0,
-                intent, 0);
-
-        AlarmManager alarmManager = (AlarmManager)
-                getActivity().getSystemService(Context.ALARM_SERVICE);
-
-        alarmManager.cancel(pendingIntent);
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-                Calendar.getInstance().getTimeInMillis() + waitInterval,
-                waitInterval, pendingIntent);
 
         return true;
     }

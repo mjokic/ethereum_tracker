@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.model.RetrofitTask;
-import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
 
 
 public class WidgetService extends Service {
@@ -28,10 +26,11 @@ public class WidgetService extends Service {
                 String currency = intent.getStringExtra("currency");
                 String myValue = intent.getStringExtra("myValue");
 
-                RetrofitTask rt = new RetrofitTask(source, currency, getApplicationContext());
-                ResponsePojo rp = rt.runSync();
-
-                String price = Double.toString(rp.getCurrentPrice() * Double.parseDouble(myValue));
+//                RetrofitTask rt = new RetrofitTask(source, currency, getApplicationContext());
+//                ResponsePojo rp = rt.runSync();
+//
+//                String price = Double.toString(rp.getCurrentPrice() * Double.parseDouble(myValue));
+                String price = "1337";
 
                 RemoteViews remoteViews = new RemoteViews("com.wifi.ethereumtracker", R.layout.app_widget);
                 remoteViews.setTextViewText(R.id.textViewEthPrice, price);

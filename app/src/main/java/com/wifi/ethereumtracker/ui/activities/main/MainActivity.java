@@ -14,8 +14,8 @@ import com.google.gson.Gson;
 import com.lb.auto_fit_textview.AutoResizeTextView;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.App;
-import com.wifi.ethereumtracker.model.ProfileOld;
-import com.wifi.ethereumtracker.model.RetrofitTask;
+import com.wifi.ethereumtracker.app.di.modules.GsonModule;
+import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.ui.activities.main.di.DaggerMainComponent;
 import com.wifi.ethereumtracker.ui.activities.main.di.MainModule;
@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     MainView view;
+
+    @Inject
+    Gson gson;
 
 
     private SharedPreferences sharedPreferences;
@@ -104,13 +107,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String loadSourcePrefs() {
         String p = sharedPreferences.getString("sourceSettings", "null");
-        ProfileOld profileOld = new Gson().fromJson(p, ProfileOld.class);
+        Source source = gson.fromJson(p, Source.class);
 
         if (p.equals("null")) {
             return "cex";
         }
 
-        return profileOld.getSite();
+        return source.site();
     }
 
     private String loadCurrencyPrefs() {
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         String source = loadSourcePrefs();
         String currency = loadCurrencyPrefs();
 
-        RetrofitTask retrofitTask = new RetrofitTask(source, currency, this);
+//        RetrofitTask retrofitTask = new RetrofitTask(source, currency, this);
 //        retrofitTask.runAsync(myValue, currency, textViewEtherValue, textView24HrChange, refreshImageView);
 
     }

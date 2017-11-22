@@ -13,7 +13,7 @@ import android.widget.RemoteViews;
 
 import com.google.gson.Gson;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.model.ProfileOld;
+import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.services.WidgetService;
 
@@ -34,13 +34,14 @@ public class AppWidget extends AppWidgetProvider {
         String myValue = sharedPreferences.getString("myValue", "1");
 
         String p = sharedPreferences.getString("sourceSettings", null);
-        ProfileOld profileOld = new Gson().fromJson(p, ProfileOld.class);
+//        ProfileOld profileOld = new Gson().fromJson(p, ProfileOld.class);
+        Source source = new Gson().fromJson(p, Source.class); // change this!
 
-        String source;
-        if (profileOld == null) {
-            source = "cex";
+        String sourceS;
+        if (source == null) {
+            sourceS = "cex";
         } else {
-            source = profileOld.getSite();
+            sourceS = source.site();
         }
 
         String currency = sharedPreferences.getString("currencySettings", "usd");
@@ -50,7 +51,7 @@ public class AppWidget extends AppWidgetProvider {
 
         Intent intent = new Intent(context.getApplicationContext(), WidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        intent.putExtra("source", source);
+        intent.putExtra("source", sourceS);
         intent.putExtra("currency", currency);
         intent.putExtra("myValue", myValue);
         context.startService(intent);
