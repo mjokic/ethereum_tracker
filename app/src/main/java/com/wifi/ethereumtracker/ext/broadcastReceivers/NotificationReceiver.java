@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.broadcastReceivers;
+package com.wifi.ethereumtracker.ext.broadcastReceivers;
 
 
 import android.app.Notification;
@@ -20,7 +20,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock =
-                powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "myTag");
+                powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK |
+                        PowerManager.ACQUIRE_CAUSES_WAKEUP, "myTag");
         wakeLock.acquire();
 
         Notification.Builder nBuilder = new Notification.Builder(context)
@@ -32,10 +33,9 @@ public class NotificationReceiver extends BroadcastReceiver {
         NotificationManager manager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-
-        manager.notify(0, nBuilder.build());
+        if (manager != null)
+            manager.notify(0, nBuilder.build());
 
         wakeLock.release();
-
     }
 }

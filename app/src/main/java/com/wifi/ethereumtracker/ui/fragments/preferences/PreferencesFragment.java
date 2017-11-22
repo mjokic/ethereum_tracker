@@ -3,6 +3,7 @@ package com.wifi.ethereumtracker.ui.fragments.preferences;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
 import com.wifi.ethereumtracker.app.model.Source;
+import com.wifi.ethereumtracker.ext.Util;
 import com.wifi.ethereumtracker.ui.fragments.preferences.di.DaggerPreferencesFragmentComponent;
 import com.wifi.ethereumtracker.ui.fragments.preferences.mvp.PreferencesFragmentPresenter;
 import com.wifi.ethereumtracker.widgets.AppWidget;
@@ -37,14 +39,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     private ListPreference listPreferenceCurrencySettings;
     private EditTextPreference minNotifyValueEditTextPref;
     private EditTextPreference maxNotifyValueEditTextPref;
-    private ListPreference listPreferenceCheckInterval;
+    private Context context;
 
     @Override
     public void onCreatePreferencesFix(@Nullable Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
+        this.context = getContext();
 
         DaggerPreferencesFragmentComponent.builder()
-                .databaseModule(new DatabaseModule(getContext()))
+                .databaseModule(new DatabaseModule(context))
                 .build()
                 .inject(this);
 
@@ -63,7 +66,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         switchPreferenceEnableNotifications.setOnPreferenceChangeListener(this);
 
 
-        listPreferenceCheckInterval = (ListPreference) findPreference("checkInterval");
+        ListPreference listPreferenceCheckInterval = (ListPreference) findPreference("checkInterval");
         listPreferenceCheckInterval.setOnPreferenceChangeListener(this);
 
 
@@ -111,13 +114,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat
 
     /**
      * Checking if input is valid number less then 0
+     *
      * @param object User input
      * @return If input is invalid return false and don't save changes
      */
     private boolean numberInputIsValid(Object object) {
         try {
             double d = Double.parseDouble((String) object);
-            if(d <= 0){
+            if (d <= 0) {
                 return false;
             }
         } catch (Exception ex) {
@@ -130,7 +134,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     private boolean enableNotfOnChange(Object object) {
         int currentPrice = getPreferenceManager()
                 .getSharedPreferences().getInt("currentPrice", 0);
-        int tenPercent = calculate10Percent(currentPrice);
+        int tenPercent = Util.calculate10Percent(currentPrice);
 
         // set default values
         minNotifyValueEditTextPref.setText(String.valueOf(currentPrice - tenPercent));
@@ -138,13 +142,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat
 
         boolean status = (boolean) object;
 
-
-
         if (status) {
             // start
+            Util.schedule(context, 30000);
 
         } else {
             // cancel
+            Util.stop(1);
         }
 
         return true;
@@ -153,7 +157,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     private boolean intervalSettOnChange(Object object) {
         // when interval changes cancel alarm manger and start new one,
         // so new interval gets applied
+        int interval = Integer.parseInt((String) object);
 
+        Util.stop(1);
+        Util.schedule(context, interval);
         return true;
     }
 
@@ -203,11 +210,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat
             listPreferenceCurrencySettings.setValue(currencies.get(0));
         }
 
-    }
-
-
-    private int calculate10Percent(int value) {
-        return value * 10 / 100;
     }
 
 

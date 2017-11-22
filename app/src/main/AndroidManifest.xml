@@ -26,11 +26,16 @@
         <activity android:name=".ui.activities.preferences.PreferencesActivity"
             android:theme="@style/PreferencesFragmentStyle"/>
 
-        <service android:name=".services.BackgroundCheckService"
+        <service android:name=".services.jobService.BackgroundCheckService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:name=".services.WidgetService"/>
 
-        <receiver android:name=".broadcastReceivers.NotificationReceiver" />
+        <receiver android:name=".ext.broadcastReceivers.BootCompleted">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".ext.broadcastReceivers.NotificationReceiver" />
         <receiver android:name=".widgets.AppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
