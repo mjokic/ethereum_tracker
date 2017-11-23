@@ -16,7 +16,10 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.wifi.ethereumtracker.R;
+import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
+
+import java.text.DecimalFormat;
 
 import butterknife.BindColor;
 import butterknife.BindView;
@@ -33,6 +36,9 @@ public class MainView extends FrameLayout {
 
     @BindView(R.id.imageViewRefresh)
     ImageView imageViewRefresh;
+
+    @BindView(R.id.textViewCurrencySign)
+    TextView textViewCurrencySign;
 
     @BindView(R.id.textViewEtherValue)
     TextView textViewEtherValue;
@@ -83,11 +89,18 @@ public class MainView extends FrameLayout {
     }
 
 
-    public void setTextViewValues(Double value, Double change) {
+    public void setTextViewValues(Double myValue, Double ethValue, Double change) {
         String changeStr = change + "%";
-        textViewEtherValue.setText(String.valueOf(value));
+        textViewMyValue.setText(new DecimalFormat("0.######").format(myValue));
+        textViewEtherValue.setText(String.valueOf(ethValue));
         textView24HrChange.setText(changeStr);
-        textView24HrChange.setTextColor(positiveColor);
+//        textViewCurrencySign.setText(CurrencyEnum.getSign()); // get the sign from the object
+
+        if (change <= 0){
+            textView24HrChange.setTextColor(negativeColor);
+        }else {
+            textView24HrChange.setTextColor(positiveColor);
+        }
     }
 
 

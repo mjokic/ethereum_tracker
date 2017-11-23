@@ -23,7 +23,6 @@ public class MainPresenter {
 
     public void onCreate() {
         compositeDisposable.add(refreshButtonClick());
-        Timber.d("Sharedprefs in MainActivity == null? %s", model.sharedPrefsNull());
     }
 
     public void onResume(){
@@ -36,21 +35,23 @@ public class MainPresenter {
 
     
     private Disposable refreshButtonClick(){
-        Observable<ResponsePojo> o = getPriceObservable();
         return view.onRefreshButtonClick()
                 .switchMap(__ -> {
                     view.startAnimation();
-                    return o;
+                    return getPriceObservable();
                 })
                 .subscribe(rp -> {
                             view.stopAnimation();
-                            view.setTextViewValues(rp.getCurrentPrice(), rp.getChange24hour());
+                            double myValue = model.getMyValue();
+                            view.setTextViewValues(myValue,
+                                    rp.getCurrentPrice() * myValue,
+                                    rp.getChange24hour());
                         },
                         Timber::d);
     }
 
     private Observable<ResponsePojo> getPriceObservable(){
-        return model.getPrice("cex", "usd") // load these values from shared preferences
+        return model.getPrice() // load these values from shared preferences
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -30,8 +30,9 @@ public class MainModule {
 
     @MainScope
     @Provides
-    MainModel providesMainModel(ApiService apiService, SharedPreferences sharedPreferences) {
-        return new MainModel(apiService, sharedPreferences);
+    MainModel providesMainModel(ApiService apiService,
+                                SharedPreferences sharedPreferences, Gson gson) {
+        return new MainModel(apiService, sharedPreferences, gson);
     }
 
     @MainScope
