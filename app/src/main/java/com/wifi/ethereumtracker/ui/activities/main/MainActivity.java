@@ -5,22 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.lb.auto_fit_textview.AutoResizeTextView;
-import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.App;
-import com.wifi.ethereumtracker.app.model.Source;
-import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.ui.activities.main.di.DaggerMainComponent;
 import com.wifi.ethereumtracker.ui.activities.main.di.MainModule;
 import com.wifi.ethereumtracker.ui.activities.main.mvp.MainPresenter;
 import com.wifi.ethereumtracker.ui.activities.main.mvp.MainView;
-
-import java.text.DecimalFormat;
 
 import javax.inject.Inject;
 
@@ -58,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         presenter.onResume();
-
-        loadMyValuePrefs();
     }
 
 
@@ -73,14 +62,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         view.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
-    }
-
-    private void loadMyValuePrefs() {
-//        this.myValue = Double.parseDouble(sharedPreferences.getString("myValue", "1"));
-
-//        DecimalFormat format = new DecimalFormat("0.######");
-//        textViewMyValue.setText(String.valueOf(format.format(myValue)));
-
     }
 
 

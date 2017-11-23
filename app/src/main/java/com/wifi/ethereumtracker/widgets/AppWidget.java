@@ -14,7 +14,6 @@ import android.widget.RemoteViews;
 import com.google.gson.Gson;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.model.Source;
-import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.ext.services.WidgetService;
 
 /**
@@ -47,7 +46,7 @@ public class AppWidget extends AppWidgetProvider {
         String currency = sharedPreferences.getString("currencySettings", "usd");
 
         views.setTextViewText(R.id.textViewEthValue, myValue);
-        views.setTextViewText(R.id.textViewCurrencySign, CurrencyEnum.getSign(currency));
+//        views.setTextViewText(R.id.textViewCurrencySign, CurrencyEnum.getSign(currency));
 
         Intent intent = new Intent(context.getApplicationContext(), WidgetService.class);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);

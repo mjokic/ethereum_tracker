@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.wifi.ethereumtracker.R;
-import com.wifi.ethereumtracker.model.enumerations.CurrencyEnum;
 import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
 
 import java.text.DecimalFormat;

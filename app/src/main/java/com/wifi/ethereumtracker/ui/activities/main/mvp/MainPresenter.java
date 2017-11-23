@@ -1,6 +1,6 @@
 package com.wifi.ethereumtracker.ui.activities.main.mvp;
 
-import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
+import com.wifi.ethereumtracker.app.model.Price;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,7 +25,7 @@ public class MainPresenter {
         compositeDisposable.add(refreshButtonClick());
     }
 
-    public void onResume(){
+    public void onResume() {
         view.clickRefreshButton();
     }
 
@@ -33,8 +33,8 @@ public class MainPresenter {
         compositeDisposable.clear();
     }
 
-    
-    private Disposable refreshButtonClick(){
+
+    private Disposable refreshButtonClick() {
         return view.onRefreshButtonClick()
                 .switchMap(__ -> {
                     view.startAnimation();
@@ -50,7 +50,7 @@ public class MainPresenter {
                         Timber::d);
     }
 
-    private Observable<ResponsePojo> getPriceObservable(){
+    private Observable<Price> getPriceObservable() {
         return model.getPrice() // load these values from shared preferences
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

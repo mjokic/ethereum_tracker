@@ -2,7 +2,7 @@ package com.wifi.ethereumtracker.app.network;
 
 
 import com.wifi.ethereumtracker.app.model.Source;
-import com.wifi.ethereumtracker.model.pojo.ResponsePojo;
+import com.wifi.ethereumtracker.app.model.Price;
 
 import java.util.List;
 
@@ -16,6 +16,6 @@ public interface ApiService {
     Observable<List<Source>> getSources();
 
     @GET("{source}/{currency}")
-    Observable<ResponsePojo> getPrice(@Path("source") String source, @Path("currency") String currency);
+    Observable<Price> getPrice(@Path("source") String source, @Path("currency") String currency);
 
 }

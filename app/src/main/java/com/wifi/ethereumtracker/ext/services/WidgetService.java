@@ -27,7 +27,7 @@ public class WidgetService extends Service {
                 String myValue = intent.getStringExtra("myValue");
 
 //                RetrofitTask rt = new RetrofitTask(source, currency, getApplicationContext());
-//                ResponsePojo rp = rt.runSync();
+//                Price rp = rt.runSync();
 //
 //                String price = Double.toString(rp.getCurrentPrice() * Double.parseDouble(myValue));
                 String price = "1337";

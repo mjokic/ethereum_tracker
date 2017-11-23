@@ -1,7 +1,7 @@
-package com.wifi.ethereumtracker.model.pojo;
+package com.wifi.ethereumtracker.app.model;
 
 
-public class ResponsePojo {
+public class Price {
     /**
         This class represents price response on API
      */
@@ -9,7 +9,7 @@ public class ResponsePojo {
     private double currentPrice;
     private double change24hour;
 
-    public ResponsePojo() {
+    public Price() {
     }
 
     public double getCurrentPrice() {
