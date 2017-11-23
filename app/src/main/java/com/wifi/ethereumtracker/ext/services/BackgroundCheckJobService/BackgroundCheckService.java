@@ -42,6 +42,7 @@ public class BackgroundCheckService extends JobService {
 
         String p = sharedPreferences.getString("sourceSettings", "cex");
         String currency = sharedPreferences.getString("currencySettings", "usd");
+        String myValue = sharedPreferences.getString("myValue", "1");
         double valueMin = Double.parseDouble(sharedPreferences.getString("valueMinNotify", "0"));
         double valueMax = Double.parseDouble(sharedPreferences.getString("valueMaxNotify", "0"));
 
@@ -53,7 +54,7 @@ public class BackgroundCheckService extends JobService {
                 .subscribe(rp -> {
                     if (rp == null) return;
 
-                    double value = rp.getCurrentPrice();
+                    double value = rp.getCurrentPrice() * Double.parseDouble(myValue);
 
                     String title;
                     String message;

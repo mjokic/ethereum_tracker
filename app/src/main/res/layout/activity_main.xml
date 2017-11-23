@@ -28,7 +28,6 @@
         android:textSize="30sp"
         android:textColor="#fff"
         android:layout_above="@+id/textViewEtherValue"
-        android:layout_toRightOf="@+id/textViewMyValue"
         android:layout_toEndOf="@+id/textViewMyValue"
         />
 
@@ -40,7 +39,6 @@
         android:textSize="90sp"
         android:layout_centerInParent="true"
         android:text=""
-        android:layout_toRightOf="@+id/textViewCurrencySign"
         android:layout_toEndOf="@+id/textViewCurrencySign"
         />
 

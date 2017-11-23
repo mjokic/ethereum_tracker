@@ -41,10 +41,13 @@ public class MainPresenter {
                     return getPriceObservable();
                 })
                 .subscribe(rp -> {
-                            view.stopAnimation();
                             double myValue = model.getMyValue();
+                            double price = rp.getCurrentPrice();
+                            double finalPrice = price * myValue;
+                            view.stopAnimation();
+                            model.savePrice(finalPrice);
                             view.setTextViewValues(myValue,
-                                    rp.getCurrentPrice() * myValue,
+                                    finalPrice,
                                     rp.getChange24hour());
                         },
                         Timber::d);

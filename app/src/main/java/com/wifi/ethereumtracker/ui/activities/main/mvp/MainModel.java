@@ -35,8 +35,12 @@ public class MainModel {
         return sharedPreferences.getString("currencySettings", "usd");
     }
 
-    public double getMyValue() {
+    double getMyValue() {
         return Double.parseDouble(sharedPreferences.getString("myValue", "1"));
+    }
+
+    void savePrice(Double price){
+        sharedPreferences.edit().putInt("currentPrice", price.intValue()).apply();
     }
 
 }
