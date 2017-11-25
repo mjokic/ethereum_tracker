@@ -21,6 +21,7 @@ import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
 import java.text.DecimalFormat;
 
 import butterknife.BindColor;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -53,6 +54,12 @@ public class MainView extends FrameLayout {
 
     @BindColor(R.color.negative)
     int negativeColor;
+
+    @BindString(R.string.defaultSource)
+    String defaultSource;
+
+    @BindString(R.string.defaultCurrency)
+    String defaultCurrency;
 
 
     public MainView(AppCompatActivity activity) {
@@ -117,5 +124,14 @@ public class MainView extends FrameLayout {
     private void openSettingsActivity() {
         Intent intent = new Intent(getContext(), PreferencesActivity.class);
         getContext().startActivity(intent);
+    }
+
+
+    public String getDefaultSource(){
+        return this.defaultSource;
+    }
+
+    public String getDefaultCurrency(){
+        return this.defaultCurrency;
     }
 }

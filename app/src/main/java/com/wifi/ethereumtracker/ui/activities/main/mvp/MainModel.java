@@ -22,17 +22,17 @@ public class MainModel {
     }
 
 
-    Observable<Price> getPrice() {
-        return apiService.getPrice(getSource(), getCurrency());
+    Observable<Price> getPrice(String defaultSource, String defaultCurrency) {
+        return apiService.getPrice(getSource(defaultSource), getCurrency(defaultCurrency));
     }
 
-    private String getSource() {
-        String sourceStr = sharedPreferences.getString("sourceSettings", "cex");
+    private String getSource(String defaultSource) {
+        String sourceStr = sharedPreferences.getString("sourceSettings", defaultSource);
         return gson.fromJson(sourceStr, Source.class).site();
     }
 
-    private String getCurrency() {
-        return sharedPreferences.getString("currencySettings", "usd");
+    private String getCurrency(String defaultCurrency) {
+        return sharedPreferences.getString("currencySettings", defaultCurrency);
     }
 
     double getMyValue() {

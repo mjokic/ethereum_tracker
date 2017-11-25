@@ -10,8 +10,8 @@
     </string-array>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="defaultSource">https://cex.io/</string>
-    <string name="defaultCurrency">USD</string>
+    <string name="defaultSource">{"site":"cex","currencies":["usd","eur","gbp","btc"]}</string>
+    <string name="defaultCurrency">usd</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 

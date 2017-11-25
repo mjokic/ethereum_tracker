@@ -54,7 +54,7 @@ public class MainPresenter {
     }
 
     private Observable<Price> getPriceObservable() {
-        return model.getPrice() // load these values from shared preferences
+        return model.getPrice(view.getDefaultSource(), view.getDefaultCurrency()) // load these values from shared preferences
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
