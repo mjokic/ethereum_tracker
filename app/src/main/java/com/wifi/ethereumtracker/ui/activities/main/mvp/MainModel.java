@@ -3,6 +3,7 @@ package com.wifi.ethereumtracker.ui.activities.main.mvp;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.wifi.ethereumtracker.app.model.Currency;
 import com.wifi.ethereumtracker.app.model.Price;
 import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.app.network.ApiService;
@@ -32,7 +33,8 @@ public class MainModel {
     }
 
     private String getCurrency(String defaultCurrency) {
-        return sharedPreferences.getString("currencySettings", defaultCurrency);
+        String currencyStr = sharedPreferences.getString("currencySettings", defaultCurrency);
+        return gson.fromJson(currencyStr, Currency.class).getName();
     }
 
     double getMyValue() {
@@ -40,7 +42,7 @@ public class MainModel {
     }
 
     void savePrice(Double price){
-        sharedPreferences.edit().putInt("currentPrice", price.intValue()).apply();
+        sharedPreferences.edit().putString("currentPrice", String.valueOf(price)).apply();
     }
 
 }

@@ -15,18 +15,18 @@ import java.util.List;
 @AutoValue @AutoGson
 public abstract class Source implements SourceModel {
 
-    private static final ColumnAdapter<List<String>, byte[]> COLUMN_ADAPTER =
-            new ColumnAdapter<List<String>, byte[]>() {
+    private static final ColumnAdapter<List<Currency>, byte[]> COLUMN_ADAPTER =
+            new ColumnAdapter<List<Currency>, byte[]>() {
                 @NonNull
                 @Override
-                public List<String> decode(byte[] databaseValue) {
+                public List<Currency> decode(byte[] databaseValue) {
                     return new Gson().fromJson(new String(databaseValue),
-                            new TypeToken<ArrayList<String>>() {
+                            new TypeToken<ArrayList<Currency>>() {
                             }.getType());
                 }
 
                 @Override
-                public byte[] encode(@NonNull List<String> value) {
+                public byte[] encode(@NonNull List<Currency> value) {
                     return new Gson().toJson(value).getBytes();
                 }
             };

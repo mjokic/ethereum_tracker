@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.wifi.ethereumtracker.ext.services.BackgroundCheckJobService.BackgroundCheckService;
 
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class Util {
@@ -45,7 +46,7 @@ public class Util {
             jobScheduler.cancel(jobId);
     }
 
-    public static int calculate10Percent(int value) {
+    public static double calculate10Percent(double value) {
         return value * 10 / 100;
     }
 }

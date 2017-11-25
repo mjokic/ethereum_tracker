@@ -25,4 +25,8 @@ public class Currency {
         this.sign = sign;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Currency && this.name.equals(((Currency) obj).name);
+    }
 }

@@ -1,30 +1,51 @@
 package com.wifi.ethereumtracker.app.model;
 
 
+import java.util.Date;
+
 public class Price {
     /**
         This class represents price response on API
      */
 
-    private double currentPrice;
-    private double change24hour;
+    private Date date;
+    private double price;
+    private Currency currency;
+    private double change24hr;
 
     public Price() {
     }
 
-    public double getCurrentPrice() {
-        return currentPrice;
+
+    public Date getDate() {
+        return date;
     }
 
-    public void setCurrentPrice(double currentPrice) {
-        this.currentPrice = currentPrice;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public double getChange24hour() {
-        return change24hour;
+    public double getPrice() {
+        return price;
     }
 
-    public void setChange24hour(double change24hour) {
-        this.change24hour = change24hour;
+    public void setPrice(double currentPrice) {
+        this.price = currentPrice;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public double getChange24hr() {
+        return change24hr;
+    }
+
+    public void setChange24hr(double change24hour) {
+        this.change24hr = change24hour;
     }
 }

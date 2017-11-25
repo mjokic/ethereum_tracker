@@ -56,6 +56,7 @@ public class NetworkModule {
     Gson providesGson() {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(RetrofitGsonTypeAdapterFactory.create())
+                .setDateFormat("dd-MM-yyyy")
                 .create();
     }
 

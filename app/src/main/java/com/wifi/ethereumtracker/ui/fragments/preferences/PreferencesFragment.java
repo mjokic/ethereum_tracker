@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.di.modules.DatabaseModule;
+import com.wifi.ethereumtracker.app.model.Currency;
 import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.ext.Util;
 import com.wifi.ethereumtracker.ui.fragments.preferences.di.DaggerPreferencesFragmentComponent;
@@ -23,6 +24,7 @@ import com.wifi.ethereumtracker.ui.fragments.preferences.mvp.PreferencesFragment
 import com.wifi.ethereumtracker.widgets.AppWidget;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -132,9 +134,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat
     }
 
     private boolean enableNotfOnChange(Object object) {
-        int currentPrice = getPreferenceManager()
-                .getSharedPreferences().getInt("currentPrice", 0);
-        int tenPercent = Util.calculate10Percent(currentPrice);
+        double currentPrice = Double.parseDouble(getPreferenceManager()
+                .getSharedPreferences().getString("currentPrice", "0"));
+        double tenPercent = Util.calculate10Percent(currentPrice);
 
         // set default values
         minNotifyValueEditTextPref.setText(String.valueOf(currentPrice - tenPercent));
@@ -200,14 +202,23 @@ public class PreferencesFragment extends PreferenceFragmentCompat
      *
      * @param currencies Currencies from Source object
      */
-    private void setListPrefCurrencyEntries(List<String> currencies) {
-        CharSequence[] cs = currencies.toArray(new CharSequence[currencies.size()]);
-        listPreferenceCurrencySettings.setEntries(cs);
-        listPreferenceCurrencySettings.setEntryValues(cs);
+    private void setListPrefCurrencyEntries(List<Currency> currencies) {
+        CharSequence[] csEntries = new CharSequence[currencies.size()];
+        CharSequence[] csValues = new CharSequence[currencies.size()];
 
-        if (listPreferenceCurrencySettings.getValue() == null ||
-                !currencies.contains(listPreferenceCurrencySettings.getValue())) {
-            listPreferenceCurrencySettings.setValue(currencies.get(0));
+        for (int i = 0; i < currencies.size(); i++){
+            csEntries[i] = currencies.get(i).getName();
+            csValues[i] = gson.toJson(currencies.get(i));
+        }
+
+
+        listPreferenceCurrencySettings.setEntries(csEntries);
+        listPreferenceCurrencySettings.setEntryValues(csValues);
+
+        Currency c = gson.fromJson(listPreferenceCurrencySettings.getValue(), Currency.class);
+
+        if (listPreferenceCurrencySettings.getValue() == null || !currencies.contains(c)) {
+            listPreferenceCurrencySettings.setValue(csValues[0].toString());
         }
 
     }

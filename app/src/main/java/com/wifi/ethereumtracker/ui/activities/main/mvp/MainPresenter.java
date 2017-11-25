@@ -42,13 +42,14 @@ public class MainPresenter {
                 })
                 .subscribe(rp -> {
                             double myValue = model.getMyValue();
-                            double price = rp.getCurrentPrice();
+                            double price = rp.getPrice();
                             double finalPrice = price * myValue;
                             view.stopAnimation();
                             model.savePrice(finalPrice);
                             view.setTextViewValues(myValue,
                                     finalPrice,
-                                    rp.getChange24hour());
+                                    rp.getChange24hr(),
+                                    rp.getCurrency());
                         },
                         Timber::d);
     }
