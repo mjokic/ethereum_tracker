@@ -45,12 +45,6 @@ public class MainActivity extends AppCompatActivity {
         presenter.onCreate();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.onResume();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

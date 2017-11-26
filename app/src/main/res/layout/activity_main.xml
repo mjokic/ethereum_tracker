@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.activities.main.MainActivity"
     android:orientation="vertical">
 
@@ -31,15 +32,17 @@
         android:layout_toEndOf="@+id/textViewMyValue"
         />
 
-    <com.lb.auto_fit_textview.AutoResizeTextView
+    <me.grantland.widget.AutofitTextView
         android:id="@+id/textViewEtherValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#fff"
         android:textSize="90sp"
         android:layout_centerInParent="true"
-        android:text=""
         android:layout_toEndOf="@+id/textViewCurrencySign"
+        android:singleLine="true"
+        android:maxLines="2"
+        app:minTextSize="20sp"
         />
 
     <TextView

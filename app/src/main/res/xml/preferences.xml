@@ -10,7 +10,8 @@
         <ListPreference
             android:key="currencySettings"
             android:summary="Currency to display"
-            android:title="Currency" />
+            android:title="Currency"
+            android:defaultValue="@string/defaultCurrency" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Personal">

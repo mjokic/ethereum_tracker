@@ -24,7 +24,6 @@ import com.wifi.ethereumtracker.ui.fragments.preferences.mvp.PreferencesFragment
 import com.wifi.ethereumtracker.widgets.AppWidget;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -206,7 +205,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat
         CharSequence[] csEntries = new CharSequence[currencies.size()];
         CharSequence[] csValues = new CharSequence[currencies.size()];
 
-        for (int i = 0; i < currencies.size(); i++){
+        for (int i = 0; i < currencies.size(); i++) {
             csEntries[i] = currencies.get(i).getName();
             csValues[i] = gson.toJson(currencies.get(i));
         }
@@ -219,6 +218,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat
 
         if (listPreferenceCurrencySettings.getValue() == null || !currencies.contains(c)) {
             listPreferenceCurrencySettings.setValue(csValues[0].toString());
+        } else {
+            listPreferenceCurrencySettings.setValue(gson.toJson(c));
         }
 
     }

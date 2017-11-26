@@ -26,6 +26,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
+import me.grantland.widget.AutofitHelper;
 
 @SuppressLint("ViewConstructor")
 public class MainView extends FrameLayout {
@@ -69,9 +70,10 @@ public class MainView extends FrameLayout {
         inflate(activity, R.layout.activity_main, this);
         ButterKnife.bind(this);
 
-
         toolbar.setTitle("");
         activity.setSupportActionBar(toolbar);
+
+        AutofitHelper.create(textViewEtherValue);
     }
 
 
@@ -91,7 +93,7 @@ public class MainView extends FrameLayout {
         return RxView.clicks(imageViewRefresh);
     }
 
-    public void clickRefreshButton(){
+    public void clickRefreshButton() {
         imageViewRefresh.performClick();
     }
 
@@ -106,9 +108,9 @@ public class MainView extends FrameLayout {
         textView24HrChange.setText(changeStr);
         textViewCurrencySign.setText(currency.getSign()); // get the sign from the object
 
-        if (change <= 0){
+        if (change <= 0) {
             textView24HrChange.setTextColor(negativeColor);
-        }else {
+        } else {
             textView24HrChange.setTextColor(positiveColor);
         }
     }
@@ -124,18 +126,17 @@ public class MainView extends FrameLayout {
     }
 
 
-
     private void openSettingsActivity() {
         Intent intent = new Intent(getContext(), PreferencesActivity.class);
         getContext().startActivity(intent);
     }
 
 
-    public String getDefaultSource(){
+    public String getDefaultSource() {
         return this.defaultSource;
     }
 
-    public String getDefaultCurrency(){
+    public String getDefaultCurrency() {
         return this.defaultCurrency;
     }
 }

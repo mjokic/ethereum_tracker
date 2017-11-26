@@ -23,10 +23,7 @@ public class MainPresenter {
 
     public void onCreate() {
         compositeDisposable.add(refreshButtonClick());
-    }
-
-    public void onResume() {
-        view.clickRefreshButton();
+        compositeDisposable.add(update());
     }
 
     public void onDestroy() {
@@ -58,6 +55,12 @@ public class MainPresenter {
         return model.getPrice(view.getDefaultSource(), view.getDefaultCurrency()) // load these values from shared preferences
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    private Disposable update() {
+        return Observable.merge(model.getSourcePreferenceObservable(), model.getCurrencyPreferenceObservable())
+                .subscribe(__ -> view.clickRefreshButton());
     }
 
 }
