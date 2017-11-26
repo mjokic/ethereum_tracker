@@ -12,10 +12,10 @@ import retrofit2.http.Path;
 
 public interface ApiService {
 
-    @GET("/api/info")
+    @GET("/info")
     Observable<List<Source>> getSources();
 
-    @GET("/api/{source}/{currency}")
+    @GET("/{source}/{currency}")
     Observable<Price> getPrice(@Path("source") String source, @Path("currency") String currency);
 
 }

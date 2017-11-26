@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Ethereum Tracker</string>
 
-    <string name="base_url">http://192.168.0.14:8080</string>
+    <string name="base_url">https://api.coinvalue.live</string>
 
     <string-array name="cert_pinner_keys">
         <item>sha256/OhfxxAo+3duMtfTAMgnPhh5N42+aoPAU9+mwTZQfdTc=</item>
