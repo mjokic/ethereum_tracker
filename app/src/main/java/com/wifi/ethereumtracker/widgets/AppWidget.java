@@ -22,7 +22,6 @@ import javax.inject.Inject;
 
 import butterknife.BindString;
 import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * Implementation of App Widget functionality.
@@ -72,10 +71,6 @@ public class AppWidget extends AppWidgetProvider {
 
         // butterknife injection
         new AppWidget_ViewBinding(this, context);
-
-        Timber.d("Gson je null? %s", gson == null);
-        Timber.d("SP je null? %s", sharedPreferences == null);
-        Timber.d("API je null? %s", apiService == null);
 
         String sourceJson = sharedPreferences.getString("sourceSettings", defaultSource);
         Source source = gson.fromJson(sourceJson, Source.class);
