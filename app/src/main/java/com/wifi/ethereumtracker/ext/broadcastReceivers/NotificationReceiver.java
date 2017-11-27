@@ -14,7 +14,6 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         String title = intent.getStringExtra("title");
         String message = intent.getStringExtra("message");
 
@@ -27,7 +26,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         Notification.Builder nBuilder = new Notification.Builder(context)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setSmallIcon(R.drawable.app_icon)
+                .setSmallIcon(R.drawable.logo_round)
                 .setVibrate(new long[]{100, 500, 300, 500, 800, 500, 300, 500});
 
         NotificationManager manager = (NotificationManager)
