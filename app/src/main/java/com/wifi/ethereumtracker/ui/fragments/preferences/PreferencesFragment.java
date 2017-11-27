@@ -1,6 +1,7 @@
 package com.wifi.ethereumtracker.ui.fragments.preferences;
 
 
+import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -21,6 +22,7 @@ import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.ext.Util;
 import com.wifi.ethereumtracker.ui.fragments.preferences.di.DaggerPreferencesFragmentComponent;
 import com.wifi.ethereumtracker.ui.fragments.preferences.mvp.PreferencesFragmentPresenter;
+import com.wifi.ethereumtracker.widgets.AppWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -225,18 +227,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat
 
 
     private void updateWidget() {
-//        Intent intent = new Intent(getActivity().getApplicationContext(), AppWidget.class);
-//        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-//        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
-//        // since it seems the onUpdate() is only fired on that:
-//
-//        // have no idea what this does, i've just c+p from SO
-//        int ids[] =
-//                AppWidgetManager
-//                        .getInstance(getActivity().getApplication()).getAppWidgetIds(new ComponentName(getActivity().getApplication(), AppWidget.class));
-//
-//        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-//        getActivity().sendBroadcast(intent);
+        Activity activity = getActivity();
+        if (activity != null) {
+            Context context = activity.getApplication();
+
+            Intent intent = new Intent(getActivity().getApplicationContext(), AppWidget.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+            // since it seems the onUpdate() is only fired on that:
+
+            // have no idea what this does, i've just c+p from SO
+            int ids[] = AppWidgetManager.getInstance(context)
+                    .getAppWidgetIds(new ComponentName(context, AppWidget.class));
+
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            getActivity().sendBroadcast(intent);
+        }
     }
 
 }

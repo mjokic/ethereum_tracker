@@ -16,11 +16,13 @@ public class MainModel {
     private final ApiService apiService;
     private final SharedPreferences sharedPreferences;
     private final Gson gson;
+    private final RxSharedPreferences rxSharedPreferences;
 
     public MainModel(ApiService apiService, SharedPreferences sharedPreferences, Gson gson) {
         this.apiService = apiService;
         this.sharedPreferences = sharedPreferences;
         this.gson = gson;
+        rxSharedPreferences = RxSharedPreferences.create(sharedPreferences);
     }
 
 
@@ -48,14 +50,16 @@ public class MainModel {
 
 
     Observable<String> getSourcePreferenceObservable() {
-        RxSharedPreferences rxSharedPreferences = RxSharedPreferences.create(sharedPreferences);
         return rxSharedPreferences.getString("sourceSettings").asObservable();
     }
 
 
     Observable<String> getCurrencyPreferenceObservable() {
-        RxSharedPreferences rxSharedPreferences = RxSharedPreferences.create(sharedPreferences);
         return rxSharedPreferences.getString("currencySettings").asObservable();
+    }
+
+    Observable<String> getMyValuePreferenceObservable(){
+        return rxSharedPreferences.getString("myValue").asObservable();
     }
 
 }

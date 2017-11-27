@@ -1,21 +1,59 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#09C"
-    android:padding="@dimen/widget_margin">
+    android:layout_height="40dp"
+    android:background="@color/colorWidgetBackground"
+    android:padding="10dp"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal"
+    android:id="@+id/widgetLayout"
+    android:clickable="true"
+    android:focusable="true">
+
 
     <TextView
-        android:id="@+id/appwidget_text"
+        android:id="@+id/textViewMyValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:background="#09C"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+        android:text="@string/default_val_1"
+        android:textSize="15sp"
+        android:textColor="#fff"
+        android:clickable="false"
+        android:duplicateParentState="true"
+        />
 
-</RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/eth_eq"
+        android:textSize="15sp"
+        android:textColor="#fff"
+        android:clickable="false"
+        android:duplicateParentState="true"
+        />
+
+
+    <TextView
+        android:id="@+id/textViewCurrencySign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dollar_sign"
+        android:textSize="15sp"
+        android:textColor="#fff"
+        android:clickable="false"
+        android:duplicateParentState="true"
+        />
+
+    <TextView
+        android:id="@+id/textViewEthPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tilda"
+        android:textSize="15sp"
+        android:textColor="#fff"
+        android:clickable="false"
+        android:duplicateParentState="true"
+        android:maxLength="15"
+        />
+
+
+</LinearLayout>

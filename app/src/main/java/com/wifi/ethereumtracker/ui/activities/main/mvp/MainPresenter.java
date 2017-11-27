@@ -59,7 +59,9 @@ public class MainPresenter {
 
 
     private Disposable update() {
-        return Observable.merge(model.getSourcePreferenceObservable(), model.getCurrencyPreferenceObservable())
+        return Observable.merge(model.getSourcePreferenceObservable(),
+                model.getCurrencyPreferenceObservable(),
+                model.getMyValuePreferenceObservable())
                 .subscribe(__ -> view.clickRefreshButton());
     }
 
