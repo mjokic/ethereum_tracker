@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ext.services.BackgroundCheckJobService.di;
+package com.wifi.ethereumtracker.ext.services.backgroundCheckJobService.di;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
