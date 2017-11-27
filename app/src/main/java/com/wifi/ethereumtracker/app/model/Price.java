@@ -48,4 +48,14 @@ public class Price {
     public void setChange24hr(double change24hour) {
         this.change24hr = change24hour;
     }
+
+    @Override
+    public String toString() {
+        return "Price{" +
+                "date=" + date +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", change24hr=" + change24hr +
+                '}';
+    }
 }

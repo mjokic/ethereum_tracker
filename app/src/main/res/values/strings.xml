@@ -23,5 +23,6 @@
     <string name="settings">Settings</string>
 
     <string name="refresh_button_desc">Refresh Button</string>
+    <string name="configure">Configure</string>
 
 </resources>

@@ -1,53 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/widgetLayout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="@color/colorWidgetBackground"
-    android:clickable="true"
-    android:gravity="center_horizontal"
-    android:orientation="horizontal"
-    android:padding="10dp">
-
+    android:layout_height="match_parent"
+    android:background="#09C"
+    android:padding="@dimen/widget_margin">
 
     <TextView
-        android:id="@+id/textViewEthValue"
+        android:id="@+id/appwidget_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:duplicateParentState="true"
-        android:text="@string/default_val_1"
-        android:textColor="#fff"
-        android:textSize="15sp" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:background="#09C"
+        android:contentDescription="@string/appwidget_text"
+        android:text="@string/appwidget_text"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:duplicateParentState="true"
-        android:text="@string/eth_eq"
-        android:textColor="#fff"
-        android:textSize="15sp" />
-
-
-    <TextView
-        android:id="@+id/textViewCurrencySign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:duplicateParentState="true"
-        android:text="@string/dollar_sign"
-        android:textColor="#fff"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/textViewEthPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:duplicateParentState="true"
-        android:text="@string/tilda"
-        android:textColor="#fff"
-        android:textSize="15sp" />
-
-
-</LinearLayout>
+</RelativeLayout>
