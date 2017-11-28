@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.model.Currency;
+import com.wifi.ethereumtracker.ext.Util;
 import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
 
 import java.text.DecimalFormat;
@@ -138,5 +139,10 @@ public class MainView extends FrameLayout {
 
     public String getDefaultCurrency() {
         return this.defaultCurrency;
+    }
+
+
+    public void displayErrorDialog(){
+        Util.displayErrorDialog(getContext());
     }
 }

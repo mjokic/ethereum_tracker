@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.App;
 import com.wifi.ethereumtracker.app.model.Currency;
@@ -73,22 +74,30 @@ public class AppWidget extends AppWidgetProvider {
         // butterknife injection
         new AppWidget_ViewBinding(this, context);
 
-        String sourceJson = sharedPreferences.getString("sourceSettings", defaultSource);
-        Source source = gson.fromJson(sourceJson, Source.class);
+        try {
+            String sourceJson = sharedPreferences.getString("sourceSettings", defaultSource);
+            Source source = gson.fromJson(sourceJson, Source.class);
 
-        String currencyJson = sharedPreferences.getString("currencySettings", defaultCurrency);
-        Currency currency = gson.fromJson(currencyJson, Currency.class);
+            String currencyJson = sharedPreferences.getString("currencySettings", defaultCurrency);
+            Currency currency = gson.fromJson(currencyJson, Currency.class);
 
-        double myValue = Double.parseDouble(sharedPreferences.getString("myValue", "1"));
+            double myValue = Double.parseDouble(sharedPreferences.getString("myValue", "1"));
 
-        apiService.getPrice(source.site(), currency.getName())
-                .subscribeOn(Schedulers.io())
-                .subscribe(price -> {
-                    // There may be multiple widgets active, so update all of them
-                    for (int appWidgetId : appWidgetIds) {
-                        updateAppWidget(context, appWidgetManager, appWidgetId, myValue, price);
-                    }
-                }, Timber::d);
+            apiService.getPrice(source.site(), currency.getName())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(price -> {
+                        // There may be multiple widgets active, so update all of them
+                        for (int appWidgetId : appWidgetIds) {
+                            updateAppWidget(context, appWidgetManager, appWidgetId, myValue, price);
+                        }
+                    }, Timber::d);
+
+        }catch (JsonSyntaxException ex){
+            // catching exception which occurs in 7.0 & 8.0 versions
+            // not sure why, yet
+            Timber.d(ex);
+            return;
+        }
 
         RemoteViews remoteViews;
         ComponentName watchWidget;

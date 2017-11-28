@@ -48,7 +48,11 @@ public class MainPresenter {
                                     rp.getChange24hr(),
                                     rp.getCurrency());
                         },
-                        Timber::d);
+                        throwable -> {
+                            view.stopAnimation();
+                            view.displayErrorDialog();
+                            Timber.d(throwable);
+                        });
     }
 
     private Observable<Price> getPriceObservable() {
