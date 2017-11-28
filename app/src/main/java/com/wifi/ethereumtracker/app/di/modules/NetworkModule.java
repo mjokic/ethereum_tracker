@@ -4,17 +4,12 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.di.AppScope;
 import com.wifi.ethereumtracker.app.network.ApiService;
 import com.wifi.ethereumtracker.ext.adapterFactories.RetrofitGsonTypeAdapterFactory;
 
-import java.lang.reflect.Type;
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 

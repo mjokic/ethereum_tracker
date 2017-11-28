@@ -52,7 +52,10 @@ public class SplashPresenter {
                         model.insertSourcesToDb(updateList);
                         view.startMainActivity();
                     }
-                }, throwable -> Timber.d(throwable.getMessage()));
+                }, throwable -> {
+                    Timber.d(throwable);
+                    view.displayErrorDialog();
+                });
         compositeDisposable.add(s);
     }
 

@@ -22,6 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindString;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Implementation of App Widget functionality.
@@ -87,7 +88,7 @@ public class AppWidget extends AppWidgetProvider {
                     for (int appWidgetId : appWidgetIds) {
                         updateAppWidget(context, appWidgetManager, appWidgetId, myValue, price);
                     }
-                });
+                }, Timber::d);
 
         RemoteViews remoteViews;
         ComponentName watchWidget;

@@ -25,4 +25,7 @@
     <string name="refresh_button_desc">Refresh Button</string>
     <string name="configure">Configure</string>
 
+    <string name="error_dialog_title">Error!</string>
+    <string name="error_dialog_msg">Error occurred while connecting to backend service.\nPlease check your connection or try again later!</string>
+
 </resources>
