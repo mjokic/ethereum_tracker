@@ -1,7 +1,6 @@
 package com.wifi.ethereumtracker.ui.activities.main;
 
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -72,12 +71,4 @@ public class MainActivity extends AppCompatActivity {
         presenter.onDestroy();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
-            // open graph activity
-            presenter.openGraphActivity();
-        }
-    }
 }

@@ -69,9 +69,4 @@ public class MainPresenter {
                 .subscribe(__ -> view.clickRefreshButton());
     }
 
-
-    public void openGraphActivity(){
-        view.openGraphActivity();
-    }
-
 }

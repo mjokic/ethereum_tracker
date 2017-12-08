@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Ethereum Tracker</string>
 
-    <string name="base_url">http://192.168.0.14:8080</string>
+    <string name="base_url">https://api.coinvalue.live</string>
 
     <string-array name="cert_pinner_keys">
         <item>sha256/OhfxxAo+3duMtfTAMgnPhh5N42+aoPAU9+mwTZQfdTc=</item>
@@ -34,5 +34,6 @@
 
     <string name="error_dialog_title">Error!</string>
     <string name="error_dialog_msg">Error occurred while connecting to backend service.\nPlease check your connection or try again later!</string>
+    <string name="chart">Chart</string>
 
 </resources>

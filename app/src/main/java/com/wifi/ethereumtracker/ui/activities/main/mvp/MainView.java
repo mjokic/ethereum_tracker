@@ -85,8 +85,13 @@ public class MainView extends FrameLayout {
     }
 
     public void onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.toolbarSettingsBtn) {
-            openSettingsActivity();
+        switch (item.getItemId()) {
+            case R.id.toolbarSettingsBtn:
+                openSettingsActivity();
+                break;
+            case R.id.toolbarChartBtn:
+                openGraphActivity();
+                break;
         }
     }
 
@@ -143,11 +148,11 @@ public class MainView extends FrameLayout {
     }
 
 
-    public void displayErrorDialog(){
+    public void displayErrorDialog() {
         Util.displayErrorDialog(getContext());
     }
 
-    public void openGraphActivity(){
+    private void openGraphActivity() {
         Intent intent = new Intent(getContext(), GraphActivity.class);
         getContext().startActivity(intent);
     }

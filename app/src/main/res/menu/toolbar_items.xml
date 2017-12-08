@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/toolbarChartBtn"
+        android:icon="@drawable/ic_show_chart_black_24dp"
+        android:title="@string/chart"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/toolbarSettingsBtn"
         android:icon="@drawable/ic_settings_white"
         android:title="@string/settings"
