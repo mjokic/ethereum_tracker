@@ -26,8 +26,8 @@ public class GraphModel {
         this.gson = gson;
     }
 
-    Observable<List<Price>> getPrices(Source source, Currency currency) {
-        return apiService.getPrices(source.site(), currency.getName(), 1)
+    Observable<List<Price>> getPrices(Source source, Currency currency, int time) {
+        return apiService.getPrices(source.site(), currency.getName(), time)
                 .subscribeOn(Schedulers.io());
     }
 

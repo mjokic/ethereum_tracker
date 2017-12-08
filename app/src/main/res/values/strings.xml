@@ -9,6 +9,13 @@
         <item>sha256/58qRu/uxh4gFezqAcERupSkRYBlBAvfcw7mEjGPLnNU=</item>
     </string-array>
 
+    <string-array name="graph_times">
+        <item>1 MINUTE</item>
+        <item>1 DAY</item>
+        <item>1 WEEK</item>
+        <item>1 MONTH</item>
+    </string-array>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="defaultSource">{"id":1,"site":"cex","currencies":[{"name":"BTC","sign":"฿"},{"name":"EUR","sign":"€"},{"name":"GBP","sign":"£"},{"name":"USD","sign":"$"}]}</string>
     <string name="defaultCurrency">{"name":"USD","sign":"$"}</string>

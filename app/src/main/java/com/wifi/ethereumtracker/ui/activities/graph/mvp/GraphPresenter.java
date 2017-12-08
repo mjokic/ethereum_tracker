@@ -16,15 +16,32 @@ public class GraphPresenter {
 
 
     public void onCreate() {
-        getPrices();
+        onSpinnerItemSelected();
     }
 
-    private void getPrices(){
-        model.getPrices(model.getSourcePreference(), model.getCurrencyPreference())
+    private void getPrices(int time) {
+        model.getPrices(model.getSourcePreference(), model.getCurrencyPreference(), time)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(view::setupGraph,
                         Timber::d);
     }
 
+
+    private void onSpinnerItemSelected() {
+        view.getSpinnerObservable()
+                .map(o -> {
+                    switch (Integer.valueOf(o.toString())) {
+                        case 1:
+                            return 24;
+                        case 2:
+                            return 7;
+                        case 3:
+                            return 30;
+                        default:
+                            return 1;
+                    }
+                })
+                .subscribe(this::getPrices);
+    }
 }

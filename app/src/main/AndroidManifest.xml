@@ -28,7 +28,9 @@
         <activity
             android:name=".ui.activities.preferences.PreferencesActivity"
             android:theme="@style/PreferencesFragmentStyle" />
-        <activity android:name=".ui.activities.graph.GraphActivity" />
+        <activity
+            android:name=".ui.activities.graph.GraphActivity"
+            android:theme="@style/GraphTheme"/>
 
         <service
             android:name=".ext.services.backgroundCheckJobService.BackgroundCheckService"

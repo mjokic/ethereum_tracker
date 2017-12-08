@@ -2,8 +2,8 @@ package com.wifi.ethereumtracker.ui.activities.graph.mvp;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -11,8 +11,8 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.utils.EntryXComparator;
+import com.jakewharton.rxbinding2.widget.RxAdapterView;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.model.Price;
 import com.wifi.ethereumtracker.ext.graphFormatters.CustomXAxisRenderer;
@@ -25,6 +25,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 
 @SuppressLint("ViewConstructor")
 public class GraphView extends FrameLayout {
@@ -32,8 +33,8 @@ public class GraphView extends FrameLayout {
     @BindView(R.id.lineChart)
     LineChart lineChart;
 
-    @BindView(R.id.recyclerViewTimeButtons)
-    RecyclerView recyclerViewTimeButtons;
+    @BindView(R.id.spinner)
+    Spinner spinner;
 
 
     public GraphView(Activity activity) {
@@ -43,13 +44,13 @@ public class GraphView extends FrameLayout {
     }
 
 
-    public void setupGraph(List<Price> prices){
+    public void setupGraph(List<Price> prices) {
         float reference = prices.get(0).getDate().getTime();
 
         List<Entry> list = new ArrayList<>();
-        for (Price price : prices){
+        for (Price price : prices) {
             Timestamp timestamp = price.getDate();
-            list.add(new Entry(timestamp.getTime() - reference, (float)price.getPrice()));
+            list.add(new Entry(timestamp.getTime() - reference, (float) price.getPrice()));
         }
 
         Collections.sort(list, new EntryXComparator());
@@ -80,6 +81,12 @@ public class GraphView extends FrameLayout {
         LineData lineData = new LineData(dataSet);
         lineChart.setData(lineData);
         lineChart.invalidate();
+    }
+
+
+    public Observable<?> getSpinnerObservable(){
+        return RxAdapterView.itemSelections(spinner)
+                .skipInitialValue();
     }
 
 }

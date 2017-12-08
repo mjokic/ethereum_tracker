@@ -6,10 +6,12 @@
     android:orientation="vertical"
     tools:context="com.wifi.ethereumtracker.ui.activities.graph.GraphActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewTimeButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/graph_times"
+        android:layout_margin="10sp"/>
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
