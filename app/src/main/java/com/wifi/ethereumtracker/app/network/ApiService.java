@@ -1,8 +1,8 @@
 package com.wifi.ethereumtracker.app.network;
 
 
-import com.wifi.ethereumtracker.app.model.Source;
 import com.wifi.ethereumtracker.app.model.Price;
+import com.wifi.ethereumtracker.app.model.Source;
 
 import java.util.List;
 
@@ -18,4 +18,8 @@ public interface ApiService {
     @GET("/{source}/{currency}")
     Observable<Price> getPrice(@Path("source") String source, @Path("currency") String currency);
 
+    @GET("/graph/{source}/{currency}/{days}")
+    Observable<List<Price>> getPrices(@Path("source") String source,
+                                      @Path("currency") String currency,
+                                      @Path("days") int days);
 }

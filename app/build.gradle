@@ -37,11 +37,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // support libraries
-    compile 'com.android.support:appcompat-v7:27.0.1'
-    compile 'com.android.support:appcompat-v7:27.0.1'
+    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:support-v4:27.0.1'
-    compile 'com.android.support:preference-v7:27.0.1'
+    compile 'com.android.support:support-v4:27.0.2'
+    compile 'com.android.support:preference-v7:27.0.2'
     compile 'com.takisoft.fix:preference-v7:27.0.1.0' // PreferencesFragmentCompat fix
 
     // retrofit
@@ -95,6 +95,9 @@ dependencies {
     // autofittextview (https://github.com/grantland/android-autofittextview)
     compile 'me.grantland:autofittextview:0.2.1'
 
-    compile 'com.google.android.gms:play-services-auth:11.6.0'
+    // graph
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+    compile 'com.google.android.gms:play-services-auth:11.6.2'
     testCompile 'junit:junit:4.12'
 }

@@ -1,6 +1,7 @@
 package com.wifi.ethereumtracker.app.model;
 
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Price {
@@ -8,7 +9,7 @@ public class Price {
         This class represents price response on API
      */
 
-    private Date date;
+    private Timestamp date;
     private double price;
     private Currency currency;
     private double change24hr;
@@ -17,11 +18,11 @@ public class Price {
     }
 
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

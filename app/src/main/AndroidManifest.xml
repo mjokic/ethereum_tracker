@@ -22,10 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.main.MainActivity" />
+        <activity
+            android:name=".ui.activities.main.MainActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.activities.preferences.PreferencesActivity"
             android:theme="@style/PreferencesFragmentStyle" />
+        <activity android:name=".ui.activities.graph.GraphActivity" />
 
         <service
             android:name=".ext.services.backgroundCheckJobService.BackgroundCheckService"
@@ -46,6 +49,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_info" />
         </receiver>
+
     </application>
 
 </manifest>

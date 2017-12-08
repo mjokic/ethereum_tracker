@@ -18,6 +18,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.model.Currency;
 import com.wifi.ethereumtracker.ext.Util;
+import com.wifi.ethereumtracker.ui.activities.graph.GraphActivity;
 import com.wifi.ethereumtracker.ui.activities.preferences.PreferencesActivity;
 
 import java.text.DecimalFormat;
@@ -145,4 +146,10 @@ public class MainView extends FrameLayout {
     public void displayErrorDialog(){
         Util.displayErrorDialog(getContext());
     }
+
+    public void openGraphActivity(){
+        Intent intent = new Intent(getContext(), GraphActivity.class);
+        getContext().startActivity(intent);
+    }
+
 }
