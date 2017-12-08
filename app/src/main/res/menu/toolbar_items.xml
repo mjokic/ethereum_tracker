@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/toolbarChartBtn"
-        android:icon="@drawable/ic_show_chart_black_24dp"
+        android:icon="@drawable/ic_show_chart_white_24dp"
         android:title="@string/chart"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/toolbarSettingsBtn"
-        android:icon="@drawable/ic_settings_white"
+        android:icon="@drawable/ic_settings_white_24dp"
         android:title="@string/settings"
         app:showAsAction="always" />
 

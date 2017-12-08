@@ -10,6 +10,6 @@
         android:contentDescription="@string/refresh_button_desc"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_refresh_white" />
+        android:src="@drawable/ic_refresh_white_24dp" />
 
 </android.support.v7.widget.Toolbar>
