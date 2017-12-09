@@ -44,7 +44,7 @@ public class GraphView extends FrameLayout {
     @BindColor(R.color.positive)
     int positive;
 
-    private long reference;
+    private long reference = 0;
 
 
     public GraphView(Activity activity) {
@@ -99,6 +99,7 @@ public class GraphView extends FrameLayout {
         dataSet.setDrawCircles(false);
         dataSet.setDrawFilled(true);
         dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        dataSet.setDrawHighlightIndicators(false);
 
         for (Price price : prices) {
             Timestamp timestamp = price.getDate();
@@ -112,7 +113,8 @@ public class GraphView extends FrameLayout {
     }
 
     private void setupMarker() {
-        CustomChartMarker marker = new CustomChartMarker(getContext(), R.layout.custom_graph_marker, reference);
+        CustomChartMarker marker = new CustomChartMarker(getContext().getApplicationContext(),
+                R.layout.custom_graph_marker, reference);
         lineChart.setMarker(marker);
     }
 
