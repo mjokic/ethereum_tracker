@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ext;
+package com.wifi.ethereumtracker.ext.graphAccessories;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @SuppressLint("ViewConstructor")
-public class MyMarker extends MarkerView {
+public class CustomChartMarker extends MarkerView {
 
     @BindView(R.id.textViewMarkerPrice)
     TextView textViewMarkerPrice;
@@ -36,7 +36,7 @@ public class MyMarker extends MarkerView {
      * @param layoutResource the layout resource to use for the MarkerView
      * @param reference      reference to original timestamp
      */
-    public MyMarker(Context context, int layoutResource, Long reference) {
+    public CustomChartMarker(Context context, int layoutResource, Long reference) {
         super(context, layoutResource);
         this.reference = reference;
         ButterKnife.bind(this);

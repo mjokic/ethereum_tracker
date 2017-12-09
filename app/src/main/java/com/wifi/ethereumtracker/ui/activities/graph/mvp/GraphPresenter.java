@@ -23,7 +23,7 @@ public class GraphPresenter {
         model.getPrices(model.getSourcePreference(), model.getCurrencyPreference(), time)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view::setupGraph,
+                .subscribe(view::dataSetSetup,
                         Timber::d);
     }
 

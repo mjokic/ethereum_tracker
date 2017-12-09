@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ext.graphFormatters;
+package com.wifi.ethereumtracker.ext.graphAccessories;
 
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;

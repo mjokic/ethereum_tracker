@@ -25,7 +25,7 @@ public class GraphModule {
     @GraphScope
     @Provides
     GraphModel providesGraphModel(ApiService apiService, SharedPreferences sharedPreferences, Gson gson) {
-        return new GraphModel(apiService, sharedPreferences, gson);
+        return new GraphModel(apiService, sharedPreferences, gson, activity);
     }
 
 

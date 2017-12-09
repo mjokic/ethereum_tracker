@@ -1,4 +1,4 @@
-package com.wifi.ethereumtracker.ext.graphFormatters;
+package com.wifi.ethereumtracker.ext.graphAccessories;
 
 import android.graphics.Canvas;
 
