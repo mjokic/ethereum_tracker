@@ -10,15 +10,17 @@ import java.util.Locale;
 
 public class DateXAxisValueFormatter implements IAxisValueFormatter {
 
-    private float reference;
+    private Long reference;
 
-    public DateXAxisValueFormatter(float reference){
+    public DateXAxisValueFormatter(Long reference){
         this.reference = reference;
     }
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        Date date = new Date(new Timestamp((long)(value + reference)).getTime());
+        Float time = value + reference.floatValue();
+        Timestamp timestamp = new Timestamp(time.longValue());
+        Date date = new Date(timestamp.getTime());
         return new SimpleDateFormat("HH:mm\nyyyy-MM-dd", Locale.getDefault()).format(date);
     }
 

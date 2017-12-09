@@ -10,7 +10,7 @@
     </string-array>
 
     <string-array name="graph_times">
-        <item>1 MINUTE</item>
+        <item>1 HOUR</item>
         <item>1 DAY</item>
         <item>1 WEEK</item>
         <item>1 MONTH</item>
@@ -35,5 +35,6 @@
     <string name="error_dialog_title">Error!</string>
     <string name="error_dialog_msg">Error occurred while connecting to backend service.\nPlease check your connection or try again later!</string>
     <string name="chart">Chart</string>
+    <string name="chart_no_data_text">Loading…</string>
 
 </resources>

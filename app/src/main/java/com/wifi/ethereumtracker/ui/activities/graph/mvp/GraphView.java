@@ -15,6 +15,7 @@ import com.github.mikephil.charting.utils.EntryXComparator;
 import com.jakewharton.rxbinding2.widget.RxAdapterView;
 import com.wifi.ethereumtracker.R;
 import com.wifi.ethereumtracker.app.model.Price;
+import com.wifi.ethereumtracker.ext.MyMarker;
 import com.wifi.ethereumtracker.ext.graphFormatters.CustomXAxisRenderer;
 import com.wifi.ethereumtracker.ext.graphFormatters.DateXAxisValueFormatter;
 
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindColor;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -36,26 +39,50 @@ public class GraphView extends FrameLayout {
     @BindView(R.id.spinner)
     Spinner spinner;
 
+    @BindString(R.string.chart_no_data_text)
+    String chartNoDataText;
+
+    @BindColor(R.color.positive)
+    int positive;
 
     public GraphView(Activity activity) {
         super(activity);
         inflate(activity, R.layout.activity_graph, this);
         ButterKnife.bind(this);
+
+        lineChart.setNoDataText(chartNoDataText);
+//        lineChart.setAutoScaleMinMaxEnabled(true);
+        lineChart.setKeepPositionOnRotation(true);
     }
 
 
     public void setupGraph(List<Price> prices) {
-        float reference = prices.get(0).getDate().getTime();
+        Collections.reverse(prices);
+        long reference = prices.get(0).getDate().getTime();
+
+
+        lineChart.setMarker(new MyMarker(getContext(), R.layout.custom_graph_marker, reference));
+
 
         List<Entry> list = new ArrayList<>();
         for (Price price : prices) {
             Timestamp timestamp = price.getDate();
-            list.add(new Entry(timestamp.getTime() - reference, (float) price.getPrice()));
+            Long value = timestamp.getTime() - reference;
+            list.add(new Entry(value.floatValue(), (float) price.getPrice()));
         }
+
 
         Collections.sort(list, new EntryXComparator());
 
         LineDataSet dataSet = new LineDataSet(list, null);
+        dataSet.setColor(positive);
+        dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSet.setDrawValues(false);
+        dataSet.setDrawCircles(false);
+        dataSet.setFillColor(positive);
+        dataSet.setDrawFilled(true);
+        dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
 
         lineChart.setXAxisRenderer(new CustomXAxisRenderer(lineChart.getViewPortHandler(),
                 lineChart.getXAxis(), lineChart.getTransformer(YAxis.AxisDependency.LEFT)));
@@ -67,6 +94,7 @@ public class GraphView extends FrameLayout {
         xAxis.setValueFormatter(new DateXAxisValueFormatter(reference));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelRotationAngle(330);
+        xAxis.setGranularity(1f);
 
         YAxis yAxisLeft = lineChart.getAxisLeft();
         YAxis yAxisRight = lineChart.getAxisRight();
@@ -76,7 +104,8 @@ public class GraphView extends FrameLayout {
 
         lineChart.getLegend().setEnabled(false);
         lineChart.setExtraBottomOffset(10);
-        lineChart.setExtraRightOffset(50);
+        lineChart.setExtraRightOffset(20);
+
 
         LineData lineData = new LineData(dataSet);
         lineChart.setData(lineData);
@@ -84,9 +113,13 @@ public class GraphView extends FrameLayout {
     }
 
 
-    public Observable<?> getSpinnerObservable(){
+    public void dataSetSetup(){
+
+    }
+
+
+    public Observable<?> getSpinnerObservable() {
         return RxAdapterView.itemSelections(spinner)
                 .skipInitialValue();
     }
-
 }
