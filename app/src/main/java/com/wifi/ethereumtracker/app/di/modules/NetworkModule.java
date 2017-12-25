@@ -68,9 +68,6 @@ public class NetworkModule {
     @Provides
     OkHttpClient providesOkHttpClient(CertificatePinner certificatePinner) {
         return new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .writeTimeout(10, TimeUnit.SECONDS)
                 .certificatePinner(certificatePinner)
                 .build();
     }
