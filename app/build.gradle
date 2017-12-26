@@ -10,8 +10,8 @@ android {
         applicationId "com.wifi.ethereumtracker"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 5
-        versionName "1.2.1"
+        versionCode 6
+        versionName "1.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -42,7 +42,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:27.0.2'
     compile 'com.android.support:preference-v7:27.0.2'
-    compile 'com.takisoft.fix:preference-v7:27.0.1.0' // PreferencesFragmentCompat fix
+    compile 'com.takisoft.fix:preference-v7:27.0.2.0' // PreferencesFragmentCompat fix
 
     // retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -98,6 +98,6 @@ dependencies {
     // graph
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 
-    compile 'com.google.android.gms:play-services-auth:11.6.2'
+    compile 'com.google.android.gms:play-services-auth:11.8.0'
     testCompile 'junit:junit:4.12'
 }
